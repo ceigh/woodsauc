@@ -4,23 +4,22 @@
     <meta charset="UTF-8">
     <title>Аукцион</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <link href="{% static 'maple.png' %}" rel="icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
-    <link rel="icon" href="{% static 'maple.png' %}">
-    <script async src="https://cdn.rawgit.com/briangonzalez/rgbaster.js/b2fb235b/rgbaster.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
+    <script defer src="{% static 'script.js' %}"></script>
 </head>
 <body>
 <div id="blind"></div>
-
 <div class="grid">
     <div class="col-2-3">
         <div id="candidates-area" class="flex">
             <div class="block">
                 <label>
-                    <input class="name" type="text" placeholder="Фильм" tabindex="1" onchange="createLink(this)">
+                    <input class="name" type="text" placeholder="Фильм" onchange="createLink(this)">
                     <input class="cost" type="number" min="0" placeholder="₽">
                 </label>
 
@@ -31,10 +30,9 @@
                 </button>
             </div>
 
-            <button id="add-btn" type="button" tabindex="2">
+            <button id="add-btn" type="button">
                 <i class="material-icons md-36">add_box</i>
             </button>
-
         </div>
     </div>
 
@@ -66,22 +64,18 @@
                 <button id="save-bg-url-btn" class="settings-btn" type="button">
                     <i class="material-icons">save</i>
                 </button>
-                <button id="clear-bg-url-btn" class="settings-btn" type="button">
+                <button id="clear-bg-url-btn" class="settings-btn" type="button" title="Сбросить">
                     <i class="material-icons">clear</i>
                 </button>
             </div>
         </div>
     </div>
-
 </div>
 
-<div id="settings-icon">
-    <i class="material-icons">settings</i>
-</div>
+<div id="settings-icon"><i class="material-icons">settings</i></div>
 
 <div id="modal" class="closed"><p></p></div>
 <div id="modal-overlay" class="closed"></div>
-
-<script src="{% static 'script.js' %}"></script>
+<img id="color-extractor" crossOrigin="anonymous" alt="Задний фон" src="">
 </body>
 </html>
