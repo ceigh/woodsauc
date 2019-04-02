@@ -262,7 +262,7 @@ body {
     text-align: center;
 
     opacity: 1;
-    transition: .3s;
+    transition: .2s;
 }
 
 #modal p {
@@ -273,7 +273,7 @@ body {
 
 #modal.closed {
     opacity: 0;
-    transition: .3s;
+    transition: .2s;
 }
 
 #modal-overlay {

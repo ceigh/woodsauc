@@ -265,6 +265,7 @@ function changeBG(url) {
 const showSettingsBtn = document.getElementById('settings-icon').children[0];
 const settingsWindow = document.getElementById('settings');
 const saveBGURLBtn = document.getElementById('save-bg-url-btn');
+const clearBGURLBtn = document.getElementById('clear-bg-url-btn');
 const bgURLInput = document.getElementById('bg-url');
 let bgURL = getCookie('bg-url');
 
@@ -275,6 +276,11 @@ showSettingsBtn.onclick = function () {
 saveBGURLBtn.onclick = function () {
     setCookie('bg-url', bgURLInput.value);
     changeBG(getCookie('bg-url'));
+};
+
+clearBGURLBtn.onclick = function () {
+    bgURLInput.value = '';
+    saveBGURLBtn.click();
 };
 
 changeBG(bgURL);
