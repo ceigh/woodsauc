@@ -94,17 +94,60 @@ function startTimer() {
 // DonationAlerts
 let started = false;
 const socket = io('socket.donationalerts.ru:3001', {'reconnection': false});
-const token = getCookie('token') ? getCookie('token') : prompt("Введите токен DA: ", undefined);
-setCookie('token', token);
+const token = getCookie('token');
 if (token) socket.emit('add-user', {'token': token, 'type': 'minor'});
-
 socket.on('donation', function (msg) {
     if (started) {
         let msgJSON = JSON.parse(msg);
         if (msgJSON['alert_type'] === '1') {
-            console.log(msgJSON)
-        } else {
-            console.log(msgJSON['alert_type']);
+            // console.log(msgJSON);
+            let message = msgJSON['message'];
+            let amount = msgJSON['amount'];
+            // let currency = msgJSON['currency'];
+            // console.log(message, amount, currency);
+
+            let names = document.getElementsByClassName('name');
+            let costs = document.getElementsByClassName('cost');
+
+            let inserted = false;
+            for (let i = 0; i < Math.min(names.length, costs.length); i++) {
+                let name = names[i].value;
+                let cost = +costs[i].value;
+
+                if (name && message.toLowerCase().includes(name.toLowerCase())) {
+                    // console.log(`${name} in ${message}`);
+                    costs[i].value = amount + cost;
+                    inserted = true;
+                    break;
+                }
+            }
+
+            if (!inserted) {
+                let div = document.createElement('div');
+                div.className = 'block';
+
+                div.innerHTML =
+                    `<label>
+                       <input class="name" type="text" placeholder="Позиция" 
+                         onchange="createLink(this)" title="Фильм, игра, etc" value="${message}" autocomplete="off"> 
+                       <input class="cost" type="number" min="0" 
+                         onchange="sortCandidates()" placeholder="₽" title="Сумма" value="${amount}" autocomplete="off">
+                     </label>
+                     <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
+                       title="Ссылка на кинопоиск">
+                       <i class="material-icons">video_library</i></a>
+                     <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
+                       <i class="material-icons">delete</i>
+                     </button>`;
+
+                candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
+
+                sortCandidates();
+
+                for (let i = 0; i < names.length; i++) {
+                    createLink(names[i]);
+                }
+            }
         }
     }
 });
@@ -182,7 +225,7 @@ function sortCandidates() {
         return e1.cost - e2.cost;
     }).reverse();
 
-    console.log(total);
+    // console.log(total);
 
     for (let i = 0; i < Math.min(names.length, costs.length); i++) {
         names[i].value = total[i].name;
@@ -210,8 +253,13 @@ function removeRow(delBtn) {
 
 function createLink(nameElement) {
     let name = nameElement.value;
-    nameElement.parentNode.parentNode.children[1].href =
-        `https://www.kinopoisk.ru/s/type/all/find/${name}/`
+    if (name) {
+        nameElement.parentNode.parentNode.children[1].href =
+            `https://www.kinopoisk.ru/s/type/all/find/${name}/`
+    } else {
+        nameElement.parentNode.parentNode.children[1].href =
+            'https://www.kinopoisk.ru'
+    }
 }
 
 
@@ -224,9 +272,9 @@ addBtn.onclick = function () {
 
     div.innerHTML = `<label>
                        <input class="name" type="text" placeholder="Позиция" 
-                         onchange="createLink(this)" title="Фильм, игра, etc"> 
+                         onchange="createLink(this)" title="Фильм, игра, etc" autocomplete="off"> 
                        <input class="cost" type="number" min="0" 
-                         onchange="sortCandidates()" placeholder="₽" title="Сумма">
+                         onchange="sortCandidates()" placeholder="₽" title="Сумма" autocomplete="off">
                      </label>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
                        title="Ссылка на кинопоиск">
@@ -361,9 +409,9 @@ showSettingsBtn.onclick = function () {
 
 let colorCookie = getCookie('accent');
 if (colorCookie && colorCookie !== '') {
-    styleElement = sheet(`.name,.cost,#bg-url,.danger{color:${colorCookie}!important}`);
+    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:${colorCookie}!important}`);
 } else {
-    styleElement = sheet(`.name,.cost,#bg-url,.danger{color:#f39727!important}`);
+    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}`);
 }
 
 saveBGURLBtn.onclick = function () {
@@ -381,7 +429,7 @@ saveBGURLBtn.onclick = function () {
     //     }
 
     let dominantRGB = swatches['Vibrant'].getHex();
-    styleElement.innerText = `.name,.cost,#bg-url,.danger{color:${dominantRGB}!important}`;
+    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}`;
     setCookie('accent', dominantRGB);
     });
 };
@@ -389,9 +437,31 @@ saveBGURLBtn.onclick = function () {
 clearBGURLBtn.onclick = function () {
     bgURLInput.value = '';
     saveBGURLBtn.click();
-    styleElement.innerText = `.name,.cost,#bg-url,.danger{color:#f39727!important}`;
+    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}`;
     setCookie('accent', '');
 };
 
 changeBG(bgURL);
 bgURLInput.value = bgURL ? bgURL : '';
+
+//DA URL
+const daURL = document.getElementById('da-url');
+const saveDAURLBtn = document.getElementById('save-da-url-btn');
+const clearDAURLBtn = document.getElementById('clear-da-url-btn');
+const tokenCookie = getCookie('token');
+
+daURL.value = tokenCookie ? tokenCookie : '';
+
+saveDAURLBtn.onclick = function () {
+    let token = daURL.value;
+    token = token.substr(token.lastIndexOf('token=') + 6);
+    setCookie('token', token);
+    alert('Токен сохранен');
+    location.reload();
+};
+
+clearDAURLBtn.onclick = function () {
+    daURL.value = '';
+    setCookie('token', '');
+    location.reload();
+};

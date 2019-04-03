@@ -21,8 +21,8 @@
         <div id="candidates-area" class="flex">
             <div class="block">
                 <label>
-                    <input class="name" type="text" placeholder="Позиция" onchange="createLink(this)" title="Фильм, игра, etc">
-                    <input class="cost" type="number" min="0" placeholder="₽" title="Сумма" onchange="sortCandidates()">
+                    <input class="name" type="text" placeholder="Позиция" onchange="createLink(this)" title="Фильм, игра, etc" autocomplete="off">
+                    <input class="cost" type="number" min="0" placeholder="₽" title="Сумма" onchange="sortCandidates()" autocomplete="off">
                 </label>
 
                 <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" title="Ссылка на кинопоиск">
@@ -61,12 +61,26 @@
         <div id="settings" class="closed">
             <div>
                 <label for="bg-url">URL фона:</label><br><br>
-                <input type="url" id="bg-url" placeholder="URL фона" title="Ссылка на фотографию">
+                <input type="url" id="bg-url" placeholder="URL фона" title="Ссылка на фотографию" autocomplete="off">
 
-                <button id="save-bg-url-btn" class="settings-btn" type="button"title="Сохранить">
+                <button id="save-bg-url-btn" class="settings-btn" type="button" title="Сохранить">
                     <i class="material-icons">save</i>
                 </button>
                 <button id="clear-bg-url-btn" class="settings-btn" type="button" title="Сбросить">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+
+            <div>
+                <label for="da-url">DonationAlerts:</label><br><br>
+                <input type="password" id="da-url" placeholder="Ссылка для встраивания"
+                       title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле ссылку на встривание которая находится в разделе
+"Виджеты"->"Оповещения" DonationAlerts' autocomplete="off">
+
+                <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
+                    <i class="material-icons">save</i>
+                </button>
+                <button id="clear-da-url-btn" class="settings-btn" type="button" title="Сбросить">
                     <i class="material-icons">clear</i>
                 </button>
             </div>
@@ -74,7 +88,7 @@
     </div>
 </div>
 
-<div id="settings-icon" title="Настройки"><i class="material-icons">settings</i></div>
+<div id="settings-icon"><i class="material-icons" title="Настройки">settings</i></div>
 
 <div id="modal" class="closed"><p></p></div>
 <div id="modal-overlay" class="closed"></div>

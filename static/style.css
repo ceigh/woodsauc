@@ -205,7 +205,7 @@ body {
 }
 
 .name:focus, .cost:focus, #add-btn:focus,
-.btn:focus, .timer-btn, #bg-url, .settings-btn {
+.btn:focus, .timer-btn, #bg-url, #da-url, .settings-btn {
     outline: none;
 }
 
@@ -301,13 +301,17 @@ body {
 #settings {
     opacity: 1;
     transition: .3s;
-    margin-top: 50vh;
+    margin-top: 35vh;
     margin-right: 20px;
-    padding-top: 30px;
+    padding-top: 1px;
     background: rgba(0, 0, 0, .5);
     border-radius: 5px;
 
-    height: 20vh;
+    height: 35vh;
+}
+
+#settings div {
+    margin-top: 20px;
 }
 
 #settings.closed {
@@ -332,7 +336,7 @@ body {
     transition: .3s;
 }
 
-#bg-url {
+#bg-url, #da-url {
     width: 70%;
     height: 40px;
 
