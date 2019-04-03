@@ -21,6 +21,7 @@ function returnWinner() {
 
 
 function startTimer() {
+    started = true;
     startBtn.onclick = undefined;
 
     const timer = document.getElementById('timer');
@@ -36,7 +37,7 @@ function startTimer() {
                 //Modal
                 const modal = document.querySelector('#modal');
                 const modalOverlay = document.querySelector('#modal-overlay');
-
+                started = false;
                 timer.classList.remove('danger');
 
                 modalOverlay.onclick = function() {
@@ -88,6 +89,25 @@ function startTimer() {
     timer.innerHTML = `${m}:${s}:${ms}`;
     setTimeout(startTimer, 10);
 }
+
+
+// DonationAlerts
+let started = false;
+const socket = io('socket.donationalerts.ru:3001', {'reconnection': false});
+const token = getCookie('token') ? getCookie('token') : prompt("Введите токен DA: ", undefined);
+setCookie('token', token);
+if (token) socket.emit('add-user', {'token': token, 'type': 'minor'});
+
+socket.on('donation', function (msg) {
+    if (started) {
+        let msgJSON = JSON.parse(msg);
+        if (msgJSON['alert_type'] === '1') {
+            console.log(msgJSON)
+        } else {
+            console.log(msgJSON['alert_type']);
+        }
+    }
+});
 
 const startBtn = document.getElementById('start-btn');
 const resetBtn = document.getElementById('stop-btn');
