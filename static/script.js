@@ -34,12 +34,14 @@ function startTimer() {
         if (s == 0) {
             if (m == 0) {
                 //Modal
-                const modal = document.querySelector("#modal");
-                const modalOverlay = document.querySelector("#modal-overlay");
+                const modal = document.querySelector('#modal');
+                const modalOverlay = document.querySelector('#modal-overlay');
+
+                timer.classList.remove('danger');
 
                 modalOverlay.onclick = function() {
-                    modal.classList.toggle("closed");
-                    modalOverlay.classList.toggle("closed");
+                    modal.classList.toggle('closed');
+                    modalOverlay.classList.toggle('closed');
                     document.title = "Аукцион";
                 };
 
@@ -47,8 +49,8 @@ function startTimer() {
 
                 modal.children[0].innerText = `${winner} победил!`;
 
-                modal.classList.toggle("closed");
-                modalOverlay.classList.toggle("closed");
+                modal.classList.toggle('closed');
+                modalOverlay.classList.toggle('closed');
 
                 document.title = `${winner} победил!`;
 
@@ -67,6 +69,11 @@ function startTimer() {
         }
 
         s--;
+
+        if (s < 30 && m == 0) {
+            timer.className = ('danger')
+        } else timer.classList.remove('danger');
+
         if (s < 10) s = `0${s}`;
 
         let winner = returnWinner();
@@ -155,11 +162,12 @@ function sortCandidates() {
         return e1.cost - e2.cost;
     }).reverse();
 
-    // console.log(total);
+    console.log(total);
 
     for (let i = 0; i < Math.min(names.length, costs.length); i++) {
         names[i].value = total[i].name;
-        costs[i].value = total[i].cost;
+        let cost = total[i].cost;
+        costs[i].value = cost == 0 ? '' : cost;
     }
 }
 
@@ -195,13 +203,15 @@ addBtn.onclick = function () {
     div.className = 'block';
 
     div.innerHTML = `<label>
-                       <input class="name" type="text" placeholder="Фильм" onchange="createLink(this)"> 
+                       <input class="name" type="text" placeholder="Позиция" 
+                         onchange="createLink(this)" title="Фильм, игра, etc"> 
                        <input class="cost" type="number" min="0" 
-                       onchange="sortCandidates()" placeholder="₽">
+                         onchange="sortCandidates()" placeholder="₽" title="Сумма">
                      </label>
-                     <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link">
+                     <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
+                       title="Ссылка на кинопоиск">
                        <i class="material-icons">video_library</i></a>
-                     <button type="button" class="btn" onclick="removeRow(this)">
+                     <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
                        <i class="material-icons">delete</i>
                      </button>`;
 
@@ -225,7 +235,7 @@ function setCookie(name, value, options) {
 
     let expires = options.expires;
 
-    if (typeof expires == "number" && expires) {
+    if (typeof expires == 'number' && expires) {
         const d = new Date();
         d.setTime(d.getTime() + expires * 1000);
         expires = options.expires = d;
@@ -237,7 +247,7 @@ function setCookie(name, value, options) {
 
     value = encodeURIComponent(value);
 
-    let updatedCookie = name + "=" + value;
+    let updatedCookie = `${name}=${value}`;
 
     for (const propName in options) {
         updatedCookie += "; " + propName;
@@ -331,9 +341,9 @@ showSettingsBtn.onclick = function () {
 
 let colorCookie = getCookie('accent');
 if (colorCookie && colorCookie !== '') {
-    styleElement = sheet(`.name,.cost,#bg-url{color:${colorCookie}!important}`);
+    styleElement = sheet(`.name,.cost,#bg-url,.danger{color:${colorCookie}!important}`);
 } else {
-    styleElement = sheet(`.name,.cost,#bg-url{color:#f39727!important}`);
+    styleElement = sheet(`.name,.cost,#bg-url,.danger{color:#f39727!important}`);
 }
 
 saveBGURLBtn.onclick = function () {
@@ -351,7 +361,7 @@ saveBGURLBtn.onclick = function () {
     //     }
 
     let dominantRGB = swatches['Vibrant'].getHex();
-    styleElement.innerText = `.name,.cost,#bg-url{color:${dominantRGB}!important}`;
+    styleElement.innerText = `.name,.cost,#bg-url,.danger{color:${dominantRGB}!important}`;
     setCookie('accent', dominantRGB);
     });
 };
@@ -359,7 +369,7 @@ saveBGURLBtn.onclick = function () {
 clearBGURLBtn.onclick = function () {
     bgURLInput.value = '';
     saveBGURLBtn.click();
-    styleElement.innerText = `.name,.cost,#bg-url{color:#f39727!important}`;
+    styleElement.innerText = `.name,.cost,#bg-url,.danger{color:#f39727!important}`;
     setCookie('accent', '');
 };
 

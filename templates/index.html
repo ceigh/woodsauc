@@ -19,18 +19,18 @@
         <div id="candidates-area" class="flex">
             <div class="block">
                 <label>
-                    <input class="name" type="text" placeholder="Фильм" onchange="createLink(this)">
-                    <input class="cost" type="number" min="0" placeholder="₽">
+                    <input class="name" type="text" placeholder="Позиция" onchange="createLink(this)" title="Фильм, игра, etc">
+                    <input class="cost" type="number" min="0" placeholder="₽" title="Сумма" onchange="sortCandidates()">
                 </label>
 
-                <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link">
+                <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" title="Ссылка на кинопоиск">
                     <i class="material-icons">video_library</i></a>
-                <button type="button" class="btn" onclick="clearRow()">
+                <button type="button" class="btn" onclick="clearRow()" title="Очистить">
                     <i class="material-icons">delete</i>
                 </button>
             </div>
 
-            <button id="add-btn" type="button">
+            <button id="add-btn" type="button" title="Добавить">
                 <i class="material-icons md-36">add_box</i>
             </button>
         </div>
@@ -38,20 +38,20 @@
 
     <div class="col-1-3">
         <div id="timer-area">
-            <div id="timer">10:00:00</div>
-            <button autofocus id="start-btn" class="timer-btn" type="button">
+            <div id="timer" title="Таймер">10:00:00</div>
+            <button autofocus id="start-btn" class="timer-btn" type="button" title="Старт">
                 <i class="material-icons md-48">play_arrow</i>
             </button>
-            <button id="stop-btn" class="timer-btn" type="button">
+            <button id="stop-btn" class="timer-btn" type="button" title="Стоп">
                 <i class="material-icons md-48">stop</i>
             </button>
-            <button id="minus-btn" class="timer-btn" type="button">
+            <button id="minus-btn" class="timer-btn" type="button" title="Минус минута">
                 <i class="material-icons md-48">keyboard_arrow_down</i>
             </button>
-            <button id="plus-btn" class="timer-btn" type="button">
+            <button id="plus-btn" class="timer-btn" type="button" title="Плюс минута">
                 <i class="material-icons md-48">keyboard_arrow_up</i>
             </button>
-            <button id="plus-two-btn" class="timer-btn" type="button">
+            <button id="plus-two-btn" class="timer-btn" type="button" title="Плюс две минуты">
                 <i class="material-icons md-48">keyboard_capslock</i>
             </button>
         </div>
@@ -59,9 +59,9 @@
         <div id="settings" class="closed">
             <div>
                 <label for="bg-url">URL фона:</label><br><br>
-                <input type="url" id="bg-url" placeholder="URL фона">
+                <input type="url" id="bg-url" placeholder="URL фона" title="Ссылка на фотографию">
 
-                <button id="save-bg-url-btn" class="settings-btn" type="button">
+                <button id="save-bg-url-btn" class="settings-btn" type="button"title="Сохранить">
                     <i class="material-icons">save</i>
                 </button>
                 <button id="clear-bg-url-btn" class="settings-btn" type="button" title="Сбросить">
@@ -72,7 +72,7 @@
     </div>
 </div>
 
-<div id="settings-icon"><i class="material-icons">settings</i></div>
+<div id="settings-icon" title="Настройки"><i class="material-icons">settings</i></div>
 
 <div id="modal" class="closed"><p></p></div>
 <div id="modal-overlay" class="closed"></div>
