@@ -43,7 +43,7 @@ function startTimer() {
                 modalOverlay.onclick = function() {
                     modal.classList.toggle('closed');
                     modalOverlay.classList.toggle('closed');
-                    document.title = "Аукцион";
+                    document.title = "Аукцион β";
                 };
 
                 let winner = returnWinner();
@@ -415,7 +415,7 @@ if (colorCookie && colorCookie !== '') {
 }
 
 saveBGURLBtn.onclick = function () {
-    setCookie('bg-url', bgURLInput.value);
+    setCookie('bg-url', bgURLInput.value, {'expires': 31622400});
     changeBG(getCookie('bg-url'));
 
     // Change Accent color
@@ -430,7 +430,7 @@ saveBGURLBtn.onclick = function () {
 
     let dominantRGB = swatches['Vibrant'].getHex();
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}`;
-    setCookie('accent', dominantRGB);
+    setCookie('accent', dominantRGB, {'expires': 31622400});
     });
 };
 
@@ -438,7 +438,7 @@ clearBGURLBtn.onclick = function () {
     bgURLInput.value = '';
     saveBGURLBtn.click();
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}`;
-    setCookie('accent', '');
+    setCookie('accent', '', {'expires': 31622400});
 };
 
 changeBG(bgURL);
@@ -455,13 +455,13 @@ daURL.value = tokenCookie ? tokenCookie : '';
 saveDAURLBtn.onclick = function () {
     let token = daURL.value;
     token = token.substr(token.lastIndexOf('token=') + 6);
-    setCookie('token', token);
+    setCookie('token', token, {'expires': 31622400});
     alert('Токен сохранен');
     location.reload();
 };
 
 clearDAURLBtn.onclick = function () {
     daURL.value = '';
-    setCookie('token', '');
+    setCookie('token', '', {'expires': 31622400});
     location.reload();
 };

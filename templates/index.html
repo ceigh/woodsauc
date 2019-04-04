@@ -2,9 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Аукцион</title>
+    <title>Аукцион β</title>
     {% load static %}
-    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <link href="{% static 'style.min.css' %}" rel="stylesheet">
     <link href="{% static 'maple.png' %}" rel="icon">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
@@ -72,10 +72,14 @@
             </div>
 
             <div>
-                <label for="da-url">DonationAlerts:</label><br><br>
+                <label for="da-url">
+                    <a href="https://www.donationalerts.com/dashboard/alert-widget" target="_blank">
+                        DonationAlerts:
+                    </a>
+                </label><br><br>
                 <input type="password" id="da-url" placeholder="Ссылка для встраивания"
-                       title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле ссылку на встривание которая находится в разделе
-"Виджеты"->"Оповещения" DonationAlerts' autocomplete="off">
+                       title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле ссылку на встраивание которая находится в разделе
+"Виджеты" -> "Оповещения" DonationAlerts' autocomplete="off">
 
                 <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
                     <i class="material-icons">save</i>
@@ -83,6 +87,10 @@
                 <button id="clear-da-url-btn" class="settings-btn" type="button" title="Сбросить">
                     <i class="material-icons">clear</i>
                 </button>
+            </div>
+
+            <div>
+                <a href="mailto:woodsauc@pm.me?subject=Насчет аукциона">Вопросы? Баг?</a>
             </div>
         </div>
     </div>

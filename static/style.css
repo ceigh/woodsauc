@@ -50,7 +50,7 @@ body {
 #timer {
     font-family: 'Inconsolata', monospace;
     color: #fff;
-    font-size: 500%;
+    font-size: 450%;
     /*font-weight: bold;*/
 }
 
@@ -271,6 +271,7 @@ body {
     text-align: center;
 
     opacity: 1;
+    visibility: visible;
     transition: .4s;
 }
 
@@ -281,7 +282,9 @@ body {
 }
 
 #modal.closed {
+    visibility: hidden;
     opacity: 0;
+    transition: .4s;
 }
 
 #modal-overlay {
@@ -350,6 +353,10 @@ body {
     text-overflow: ellipsis;
 
     border-radius: 5px;
+}
+
+#settings a:visited, #settings a {
+    color: #fff;
 }
 
 #settings-icon {
