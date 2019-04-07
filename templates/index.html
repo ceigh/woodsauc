@@ -26,14 +26,15 @@
                 </label>
 
                 <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" title="Ссылка на кинопоиск">
-                    <i class="material-icons">video_library</i></a>
+                    <img src="{% static 'icons/round-video_library-24px.svg' %}" alt="Иконка ссылки на кинопоиск">
+                </a>
                 <button type="button" class="btn" onclick="clearRow()" title="Очистить">
-                    <i class="material-icons">delete</i>
+                    <img src="{% static 'icons/round-clear-24px.svg' %}" alt="Иконка очистки">
                 </button>
             </div>
 
             <button id="add-btn" type="button" title="Добавить">
-                <i class="material-icons md-36">add_box</i>
+                <img src="{% static 'icons/round-add_box-24px.svg' %}" alt="Иконка добавления">
             </button>
         </div>
     </div>
@@ -43,19 +44,19 @@
             <div id="timer" title="Таймер">10:00:00</div>
             <div id="timer-btns">
                 <button autofocus id="start-btn" class="timer-btn" type="button" title="Старт">
-                    <i class="material-icons md-48">play_arrow</i>
+                    <img src="{% static 'icons/round-play_arrow-24px.svg' %}" alt="Иконка старта">
                 </button>
                 <button id="stop-btn" class="timer-btn" type="button" title="Стоп">
-                    <i class="material-icons md-48">stop</i>
+                    <img src="{% static 'icons/round-stop-24px.svg' %}" alt="Иконка остановки">
                 </button>
                 <button id="minus-btn" class="timer-btn" type="button" title="Минус минута">
-                    <i class="material-icons md-48">keyboard_arrow_down</i>
+                    <img src="{% static 'icons/round-keyboard_arrow_down-24px.svg' %}" alt="Иконка минус минуты">
                 </button>
                 <button id="plus-btn" class="timer-btn" type="button" title="Плюс минута">
-                    <i class="material-icons md-48">keyboard_arrow_up</i>
+                    <img src="{% static 'icons/round-keyboard_arrow_up-24px.svg' %}" alt="Иконка плюс минуты">
                 </button>
                 <button id="plus-two-btn" class="timer-btn" type="button" title="Плюс две минуты">
-                    <i class="material-icons md-48">keyboard_capslock</i>
+                    <img src="{% static 'icons/round-keyboard_capslock-24px.svg' %}" alt="Иконка плюс двух минут">
                 </button>
             </div>
         </div>
@@ -66,10 +67,10 @@
                 <input type="url" id="bg-url" placeholder="URL фона" title="Ссылка на фотографию" autocomplete="off">
 
                 <button id="save-bg-url-btn" class="settings-btn" type="button" title="Сохранить">
-                    <i class="material-icons">save</i>
+                    <img src="{% static 'icons/round-save-24px.svg' %}" alt="Иконка сохранения">
                 </button>
                 <button id="clear-bg-url-btn" class="settings-btn" type="button" title="Сбросить">
-                    <i class="material-icons">clear</i>
+                    <img src="{% static 'icons/round-clear-24px.svg' %}" alt="Иконка очистки">
                 </button>
             </div>
 
@@ -84,10 +85,10 @@
 "Виджеты" -> "Оповещения" DonationAlerts' autocomplete="off">
 
                 <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
-                    <i class="material-icons">save</i>
+                    <img src="{% static 'icons/round-save-24px.svg' %}" alt="Иконка сохранения">
                 </button>
                 <button id="clear-da-url-btn" class="settings-btn" type="button" title="Сбросить">
-                    <i class="material-icons">clear</i>
+                    <img src="{% static 'icons/round-clear-24px.svg' %}" alt="Иконка очистки">
                 </button>
             </div>
 
@@ -98,7 +99,9 @@
     </div>
 </div>
 
-<div id="settings-icon"><i class="material-icons" title="Настройки">settings</i></div>
+<div id="settings-icon">
+    <img src="{% static 'icons/round-settings-24px.svg' %}" alt="Иконка настроек">
+</div>
 
 <div id="modal" class="closed"><p></p></div>
 <div id="modal-overlay" class="closed"></div>

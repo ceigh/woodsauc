@@ -135,9 +135,9 @@ socket.on('donation', function (msg) {
                      </label>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
                        title="Ссылка на кинопоиск">
-                       <i class="material-icons">video_library</i></a>
+                       <img src="static/icons/round-video_library-24px.svg" alt="Иконка ссылки на кинопоиск"></a>
                      <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
-                       <i class="material-icons">delete</i>
+                       <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
                      </button>`;
 
                 candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
@@ -270,6 +270,7 @@ addBtn.onclick = function () {
     let div = document.createElement('div');
     div.className = 'block';
 
+    // noinspection HtmlUnknownTarget
     div.innerHTML = `<label>
                        <input class="name" type="text" placeholder="Позиция" 
                          onchange="createLink(this)" title="Фильм, игра, etc" autocomplete="off"> 
@@ -278,9 +279,9 @@ addBtn.onclick = function () {
                      </label>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
                        title="Ссылка на кинопоиск">
-                       <i class="material-icons">video_library</i></a>
+                       <img src="static/icons/round-video_library-24px.svg" alt="Иконка ссылки на кинопоиск"></a>
                      <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
-                       <i class="material-icons">delete</i>
+                       <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
                      </button>`;
 
     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
