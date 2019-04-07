@@ -133,7 +133,7 @@ body {
 .flex {
     /*width: 50%;*/
     max-width: inherit;
-    height: 89vh;
+    height: 86vh;
 
     display: flex;
     flex-direction: column;
@@ -142,9 +142,9 @@ body {
 
 
 .block {
-    width: 50%;
+    /*width: 52%;*/
     height: 4vw;
-    margin-right: 20px;
+    /*margin-right: 20px;*/
     font-size: 1.7vw;
     margin-bottom: 1vw;
 }

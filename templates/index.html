@@ -6,7 +6,6 @@
     {% load static %}
     <link href="{% static 'style.css' %}" rel="stylesheet">
     <link href="{% static 'maple.png' %}" rel="icon">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
@@ -25,9 +24,9 @@
                     <input class="cost" type="number" min="0" placeholder="₽" title="Сумма" onchange="sortCandidates()" autocomplete="off">
                 </label>
 
-                <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" title="Ссылка на кинопоиск">
-                    <img src="{% static 'icons/round-video_library-24px.svg' %}" alt="Иконка ссылки на кинопоиск">
-                </a>
+                <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
+                   title="Ссылка на кинопоиск"><img src="{% static 'icons/round-video_library-24px.svg' %}"
+                                                    alt="Иконка ссылки на кинопоиск"></a>
                 <button type="button" class="btn" onclick="clearRow()" title="Очистить">
                     <img src="{% static 'icons/round-clear-24px.svg' %}" alt="Иконка очистки">
                 </button>

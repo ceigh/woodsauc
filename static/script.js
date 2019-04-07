@@ -134,8 +134,8 @@ socket.on('donation', function (msg) {
                          onchange="sortCandidates()" placeholder="₽" title="Сумма" value="${amount}" autocomplete="off">
                      </label>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
-                       title="Ссылка на кинопоиск">
-                       <img src="static/icons/round-video_library-24px.svg" alt="Иконка ссылки на кинопоиск"></a>
+                       title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
+                       alt="Иконка ссылки на кинопоиск"></a>
                      <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
                        <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
                      </button>`;
@@ -278,8 +278,8 @@ addBtn.onclick = function () {
                          onchange="sortCandidates()" placeholder="₽" title="Сумма" autocomplete="off">
                      </label>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
-                       title="Ссылка на кинопоиск">
-                       <img src="static/icons/round-video_library-24px.svg" alt="Иконка ссылки на кинопоиск"></a>
+                       title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
+                       alt="Иконка ссылки на кинопоиск"></a>
                      <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
                        <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
                      </button>`;
