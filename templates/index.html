@@ -23,15 +23,16 @@
                     <input class="name" type="text" placeholder="Позиция"
                            onchange="createLink(this)" title="Фильм, игра, etc" autocomplete="off">
                     <input class="cost" type="number" min="0" placeholder="₽" title="Сумма"
-                           onchange="sortCandidates()" autocomplete="off">
+                           onchange="sortCandidates();changeTitle(this)" autocomplete="off">
                 </label>
-
+                <span>
                 <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
                    title="Ссылка на кинопоиск"><img src="{% static 'icons/round-video_library-24px.svg' %}"
                                                     alt="Иконка ссылки на кинопоиск"></a>
                 <button type="button" class="btn" onclick="clearRow()" title="Очистить">
                     <img src="{% static 'icons/round-clear-24px.svg' %}" alt="Иконка очистки">
                 </button>
+                </span>
             </div>
 
             <button id="add-btn" type="button" title="Добавить">

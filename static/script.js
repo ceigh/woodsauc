@@ -131,14 +131,16 @@ socket.on('donation', function (msg) {
                        <input class="name" type="text" placeholder="Позиция" 
                          onchange="createLink(this)" title="Фильм, игра, etc" value="${message}" autocomplete="off"> 
                        <input class="cost" type="number" min="0" 
-                         onchange="sortCandidates()" placeholder="₽" title="Сумма" value="${amount}" autocomplete="off">
+                         onchange="sortCandidates();changeTitle(this)" placeholder="₽" title="Сумма" value="${amount}" autocomplete="off">
                      </label>
+                     <span>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
                        title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
                        alt="Иконка ссылки на кинопоиск"></a>
                      <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
                        <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
-                     </button>`;
+                     </button>
+                     </span>`;
 
                 candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
 
@@ -242,12 +244,13 @@ function clearRow() {
 
     label.children[0].value = '';
     label.children[1].value = '';
+    label.children[1].setAttribute('title', 'Сумма');
     link.href = 'https://www.kinopoisk.ru';
 }
 
 
 function removeRow(delBtn) {
-    delBtn.parentNode.parentNode.removeChild(delBtn.parentNode);
+    delBtn.parentNode.parentNode.parentNode.removeChild(delBtn.parentNode.parentNode);
 }
 
 
@@ -277,14 +280,16 @@ addBtn.onclick = function () {
                        <input class="name" type="text" placeholder="Позиция" 
                          onchange="createLink(this)" title="Фильм, игра, etc" autocomplete="off"> 
                        <input class="cost" type="number" min="0" 
-                         onchange="sortCandidates()" placeholder="₽" title="Сумма" autocomplete="off">
+                         onchange="sortCandidates();changeTitle(this)" placeholder="₽" title="Сумма" autocomplete="off">
                      </label>
+                     <span>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
                        title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
                        alt="Иконка ссылки на кинопоиск"></a>
                      <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
                        <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
-                     </button>`;
+                     </button>
+                    </span>`;
 
     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
 
@@ -480,3 +485,10 @@ document.onkeydown = function(e) {
         modalOverlay.className = ('closed');
     }
 };
+
+
+// Change title on cost
+function changeTitle(costInput) {
+    const cost = costInput.value ? `: ${costInput.value} ₽` : '';
+    costInput.setAttribute('title', `Сумма${cost}`);
+}

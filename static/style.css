@@ -43,6 +43,11 @@ body {
     /*padding-left: 30px;*/
 }
 
+#timer-area:hover #timer-btns {
+    opacity: 1;
+    transition: .3s;
+}
+
 #timer-area:hover .timer-btn {
     visibility: visible;
 }
@@ -55,6 +60,8 @@ body {
 }
 
 #timer-btns {
+    opacity: 0;
+    transition: .3s;
     zoom: 88%;
 }
 
@@ -112,7 +119,7 @@ body {
 
     transition: .3s;
 
-    visibility: hidden;
+    /*visibility: hidden;*/
     opacity: .3;
 }
 
@@ -122,7 +129,7 @@ body {
 }
 
 .kp-link {
-    visibility: hidden;
+    /*visibility: hidden;*/
     transition: .3s;
 }
 
@@ -142,11 +149,21 @@ body {
 
 
 .block {
-    /*width: 52%;*/
+    width: 52%;
     height: 4vw;
     /*margin-right: 20px;*/
     font-size: 1.7vw;
     margin-bottom: 1vw;
+}
+
+.block:hover span {
+    opacity: 1;
+    transition: .3s;
+}
+
+span {
+    opacity: 0;
+    transition: .3s;
 }
 
 .block label {
@@ -157,15 +174,15 @@ body {
     width: 2vw;
 }
 
-.block:hover .btn {
-    visibility: visible;
-    transition: .3s;
-}
+/*.block:hover .btn {*/
+/*    visibility: visible;*/
+/*    transition: .3s;*/
+/*}*/
 
-.block:hover .kp-link {
-    visibility: visible;
-    transition: .3s;
-}
+/*.block:hover .kp-link {*/
+/*    visibility: visible;*/
+/*    transition: .3s;*/
+/*}*/
 
 .block a {
     opacity: .3;
@@ -324,7 +341,7 @@ body {
     width: 100%;
     opacity: 1;
     transition: .3s;
-    padding-left: 8%;
+    padding-left: 8%
     padding-right: 8%;
     padding-bottom: 8%;
     background: rgba(0, 0, 0, .5);
@@ -367,7 +384,7 @@ body {
 }
 
 #bg-url, #da-url {
-    width: 15vw;
+    width: 20vw;
     height: 3vw;
 
     font-size: 1.3vw;
@@ -408,7 +425,6 @@ body {
     border: 0;
 }
 
-
 #color-extractor {
     display: none;
 }
@@ -417,4 +433,10 @@ body {
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
