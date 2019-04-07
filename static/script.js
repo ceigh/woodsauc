@@ -255,10 +255,12 @@ function createLink(nameElement) {
     let name = nameElement.value;
     if (name) {
         nameElement.parentNode.parentNode.children[1].href =
-            `https://www.kinopoisk.ru/s/type/all/find/${name}/`
+            `https://www.kinopoisk.ru/s/type/all/find/${name}/`;
+        nameElement.setAttribute('title', name);
     } else {
         nameElement.parentNode.parentNode.children[1].href =
-            'https://www.kinopoisk.ru'
+            'https://www.kinopoisk.ru';
+        nameElement.setAttribute('title', "Фильм, игра, etc");
     }
 }
 
@@ -465,4 +467,16 @@ clearDAURLBtn.onclick = function () {
     daURL.value = '';
     setCookie('token', '', {'expires': 31622400});
     location.reload();
+};
+
+
+// Close modal on keydown
+document.onkeydown = function(e) {
+    const modal = document.querySelector('#modal');
+    const modalOverlay = document.querySelector('#modal-overlay');
+
+    if(e.key === "Escape" || e.key === "Enter") {
+        modal.className = ('closed');
+        modalOverlay.className = ('closed');
+    }
 };
