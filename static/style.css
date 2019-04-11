@@ -422,6 +422,24 @@ span {
     opacity: 1;
 }
 
+#reset-icon {
+    position: fixed;
+    bottom: 2vw;
+    right: 5vw;
+    text-align: right;
+    /*margin-right: 20px;*/
+    width: 2vw;
+}
+
+#reset-icon img {
+    opacity: .3;
+    cursor: pointer;
+}
+
+#reset-icon img:hover {
+    opacity: 1;
+}
+
 ::-moz-focus-inner {
     border: 0;
 }

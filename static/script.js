@@ -500,3 +500,13 @@ function changeTitle(costInput) {
     const cost = costInput.value ? `: ${costInput.value} ₽` : '';
     costInput.setAttribute('title', `Сумма${cost}`);
 }
+
+// Reset button
+const resetButton = document.getElementById('reset-icon');
+
+resetButton.onclick = function () {
+    let candidatesArea = document.getElementById('candidates-area');
+    while (candidatesArea.children.length > 2) {
+        candidatesArea.removeChild(candidatesArea.children[candidatesArea.children.length-2]);
+    }
+};
