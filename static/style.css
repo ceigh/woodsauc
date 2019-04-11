@@ -87,6 +87,7 @@ body {
 }
 
 #add-btn {
+    max-width: 59vw;
     width: 26vw;
     height: 4vw;
 
@@ -147,10 +148,11 @@ body {
 
 
 .block {
-    width: 52%;
+    /*width: 52%;*/
     height: 4vw;
     font-size: 1.7vw;
     margin-bottom: 1vw;
+    /*margin-right: 2vw;*/
 }
 
 .block:hover span {
@@ -161,6 +163,7 @@ body {
 span {
     opacity: 0;
     transition: .3s;
+    margin-right: 1.7vw;
 }
 
 .block label {
@@ -210,7 +213,8 @@ span {
 }
 
 .name {
-    width: 16.2vw;
+    /*width: 16.2vw;*/
+    max-width: 49vw;
     margin-right: 5px;
 }
 

@@ -9,8 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
-            integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
     <script defer src="{% static 'script.js' %}"></script>
 </head>
 <body>
@@ -20,17 +19,17 @@
         <div id="candidates-area" class="flex">
             <div class="block">
                 <label>
-                    <input class="name" type="text" placeholder="Позиция"
-                           onchange="createLink(this)" title="Фильм, игра, etc" autocomplete="off">
+                    <input class="name" type="text" onkeyup="changeSize(this);createLink(this)"
+                           title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция">
                     <input class="cost" type="number" min="0" placeholder="₽" title="Сумма"
-                           onchange="sortCandidates();changeTitle(this)" autocomplete="off">
+                           onkeyup="changeTitle(this)" onchange="sortCandidates()" autocomplete="off">
                 </label>
                 <span>
                 <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
                    title="Ссылка на кинопоиск"><img src="{% static 'icons/round-video_library-24px.svg' %}"
                                                     alt="Иконка ссылки на кинопоиск"></a>
                 <button type="button" class="btn" onclick="clearRow()" title="Очистить">
-                    <img src="{% static 'icons/round-clear-24px.svg' %}" alt="Иконка очистки">
+                    <img src="{% static 'icons/round-delete_outline-24px.svg' %}" alt="Иконка очистки">
                 </button>
                 </span>
             </div>

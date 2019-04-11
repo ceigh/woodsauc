@@ -1,3 +1,31 @@
+//Dynamic inputs
+const defaultSize = 16.2;
+let maxSize = defaultSize;
+
+let styleForSize = document.createElement('style');
+styleForSize.appendChild(document.createTextNode(
+    `.name{width:${defaultSize}vw}`));
+document.head.appendChild(styleForSize);
+
+function changeSize(nameElement) {
+    let width;
+    let delta = nameElement.value.length - 12;
+    let names = document.getElementsByClassName('name');
+
+    if (delta > 0) {
+        width = 16.2 + delta * 1.2;
+    } else if (names.length === 1) {
+        maxSize = defaultSize;
+        styleForSize.innerText =
+            `.name{width:${defaultSize}vw}#add-btn{width:${defaultSize + 10}vw}`;
+    }
+
+    if (width && width > maxSize) {
+        maxSize = width;
+        styleForSize.innerText = `.name{width:${width}vw}#add-btn{width:${width + 10}vw}`;
+    }
+}
+
 // Timer
 function returnWinner() {
     let winner = "Никто не ";
@@ -129,10 +157,11 @@ try {
 
                 div.innerHTML =
                     `<label>
-                       <input class="name" type="text" placeholder="Позиция" 
-                         onchange="createLink(this)" title="Фильм, игра, etc" value="${message}" autocomplete="off"> 
+                       <input class="name" type="text" onkeyup="changeSize(this);createLink(this)"
+                         title="Фильм, игра, etc" value="${message}" autocomplete="off" placeholder="Позиция">
                        <input class="cost" type="number" min="0" 
-                         onchange="sortCandidates();changeTitle(this)" placeholder="₽" title="Сумма" value="${amount}" autocomplete="off">
+                         onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" 
+                         value="${amount}" autocomplete="off">
                      </label>
                      <span>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
@@ -220,10 +249,16 @@ function sortCandidates() {
     for (let i = 0; i < Math.min(names.length, costs.length); i++) {
         let name = names[i].value;
         let cost = +costs[i].value;
+        let titleName = names[i].getAttribute('title');
+        let titleCost = costs[i].getAttribute('title');
+        let link = names[i].parentNode.parentNode.children[1].children[0].href;
 
         total.push({
             'name': name,
-            'cost': cost
+            'cost': cost,
+            'titleName': titleName,
+            'titleCost': titleCost,
+            'link': link
         });
     }
 
@@ -234,9 +269,12 @@ function sortCandidates() {
     // console.log(total);
 
     for (let i = 0; i < Math.min(names.length, costs.length); i++) {
-        names[i].value = total[i].name;
         let cost = total[i].cost;
         costs[i].value = cost == 0 ? '' : cost;
+        names[i].value = total[i].name;
+        names[i].setAttribute('title', total[i].titleName);
+        costs[i].setAttribute('title', total[i].titleCost);
+        names[i].parentNode.parentNode.children[1].children[0].href = total[i].link;
     }
 }
 
@@ -251,11 +289,21 @@ function clearRow() {
     label.children[0].setAttribute('title', 'Фильм, игра, etc');
     label.children[1].setAttribute('title', 'Сумма');
     link.href = 'https://www.kinopoisk.ru';
+
+    changeSize(label.children[0]);
 }
 
 
 function removeRow(delBtn) {
     delBtn.parentNode.parentNode.parentNode.removeChild(delBtn.parentNode.parentNode);
+    // Get back to default size after delete last non-empty row
+    let names = document.getElementsByClassName('name');
+
+    if (names.length === 1 && !names[0].value) {
+        maxSize = defaultSize;
+        styleForSize.innerText =
+            `.name{width:${defaultSize}vw}#add-btn{width:${defaultSize + 10}vw}`;
+    }
 }
 
 
@@ -282,10 +330,10 @@ addBtn.onclick = function () {
 
     // noinspection HtmlUnknownTarget
     div.innerHTML = `<label>
-                       <input class="name" type="text" placeholder="Позиция" 
-                         onchange="createLink(this)" title="Фильм, игра, etc" autocomplete="off"> 
+                       <input class="name" type="text" onkeyup="changeSize(this);createLink(this)" 
+                         title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция">
                        <input class="cost" type="number" min="0" 
-                         onchange="sortCandidates();changeTitle(this)" placeholder="₽" title="Сумма" autocomplete="off">
+                         onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" autocomplete="off">
                      </label>
                      <span>
                      <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
@@ -367,6 +415,7 @@ const saveBGURLBtn = document.getElementById('save-bg-url-btn');
 const clearBGURLBtn = document.getElementById('clear-bg-url-btn');
 const bgURLInput = document.getElementById('bg-url');
 const colorExctractor = document.getElementById('color-extractor');
+const year = 31622400;
 let bgURL = getCookie('bg-url');
 let styleElement;
 
@@ -382,7 +431,7 @@ if (colorCookie && colorCookie !== '') {
 }
 
 saveBGURLBtn.onclick = function () {
-    setCookie('bg-url', bgURLInput.value, {'expires': 31622400});
+    setCookie('bg-url', bgURLInput.value, {'expires': year});
     changeBG(getCookie('bg-url'));
 
     // Change Accent color
@@ -397,7 +446,7 @@ saveBGURLBtn.onclick = function () {
 
     let dominantRGB = swatches['Vibrant'].getHex();
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}`;
-    setCookie('accent', dominantRGB, {'expires': 31622400});
+    setCookie('accent', dominantRGB, {'expires': year});
     });
 };
 
@@ -405,7 +454,7 @@ clearBGURLBtn.onclick = function () {
     bgURLInput.value = '';
     saveBGURLBtn.click();
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}`;
-    setCookie('accent', '', {'expires': 31622400});
+    setCookie('accent', '', {'expires': year});
 };
 
 changeBG(bgURL);
@@ -422,14 +471,14 @@ daURL.value = tokenCookie ? tokenCookie : '';
 saveDAURLBtn.onclick = function () {
     let token = daURL.value;
     token = token.substr(token.lastIndexOf('token=') + 6);
-    setCookie('token', token, {'expires': 31622400});
+    setCookie('token', token, {'expires': year});
     alert('Токен сохранен');
     location.reload();
 };
 
 clearDAURLBtn.onclick = function () {
     daURL.value = '';
-    setCookie('token', '', {'expires': 31622400});
+    setCookie('token', '', {'expires': year});
     location.reload();
 };
 
