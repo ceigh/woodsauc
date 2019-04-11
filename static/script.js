@@ -93,10 +93,11 @@ function startTimer() {
 
 // DonationAlerts
 let started = false;
-const socket = io('socket.donationalerts.ru:3001', {'reconnection': false});
-const token = getCookie('token');
-if (token) socket.emit('add-user', {'token': token, 'type': 'minor'});
-socket.on('donation', function (msg) {
+try {
+    const socket = io('socket.donationalerts.ru:3001', {'reconnection': false});
+    const token = getCookie('token');
+    if (token) socket.emit('add-user', {'token': token, 'type': 'minor'});
+    socket.on('donation', function (msg) {
     if (started) {
         let msgJSON = JSON.parse(msg);
         if (msgJSON['alert_type'] === '1') {
@@ -153,6 +154,9 @@ socket.on('donation', function (msg) {
         }
     }
 });
+} catch (e) {
+    console.log("Нет подключения, автодобавление не будет работать.");
+}
 
 const startBtn = document.getElementById('start-btn');
 const resetBtn = document.getElementById('stop-btn');
@@ -240,10 +244,11 @@ function sortCandidates() {
 function clearRow() {
     let candidateArea = document.getElementById('candidates-area');
     let label = candidateArea.children[0].children[0];
-    let link = candidateArea.children[0].children[1];
+    let link = candidateArea.children[0].children[1].children[0];
 
     label.children[0].value = '';
     label.children[1].value = '';
+    label.children[0].setAttribute('title', 'Фильм, игра, etc');
     label.children[1].setAttribute('title', 'Сумма');
     link.href = 'https://www.kinopoisk.ru';
 }
@@ -257,11 +262,11 @@ function removeRow(delBtn) {
 function createLink(nameElement) {
     let name = nameElement.value;
     if (name) {
-        nameElement.parentNode.parentNode.children[1].href =
+        nameElement.parentNode.parentNode.children[1].children[0].href =
             `https://www.kinopoisk.ru/s/type/all/find/${name}/`;
         nameElement.setAttribute('title', name);
     } else {
-        nameElement.parentNode.parentNode.children[1].href =
+        nameElement.parentNode.parentNode.children[1].children[0].href =
             'https://www.kinopoisk.ru';
         nameElement.setAttribute('title', "Фильм, игра, etc");
     }
@@ -346,52 +351,6 @@ function changeBG(url) {
         body.style.backgroundImage = "url('static/38263.jpg')";
     }
 }
-
-
-// function componentToHex(c) {
-//     var hex = c.toString(16);
-//     return hex.length == 1 ? "0" + hex : hex;
-// }
-//
-// function rgbToHex(r, g, b) {
-//     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-// }
-//
-//
-// function padZero(str, len) {
-//     len = len || 2;
-//     var zeros = new Array(len).join('0');
-//     return (zeros + str).slice(-len);
-// }
-
-
-// function invertColor(hex, bw) {
-//     if (hex.indexOf('#') === 0) {
-//         hex = hex.slice(1);
-//     }
-//     // convert 3-digit hex to 6-digits.
-//     if (hex.length === 3) {
-//         hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-//     }
-//     if (hex.length !== 6) {
-//         throw new Error('Invalid HEX color.');
-//     }
-//     var r = parseInt(hex.slice(0, 2), 16),
-//         g = parseInt(hex.slice(2, 4), 16),
-//         b = parseInt(hex.slice(4, 6), 16);
-//     if (bw) {
-//         // http://stackoverflow.com/a/3943023/112731
-//         return (r * 0.299 + g * 0.587 + b * 0.114) > 186
-//             ? '#000000'
-//             : '#FFFFFF';
-//     }
-//     // invert color components
-//     r = (255 - r).toString(16);
-//     g = (255 - g).toString(16);
-//     b = (255 - b).toString(16);
-//     // pad each with zeros and return
-//     return "#" + padZero(r) + padZero(g) + padZero(b);
-// }
 
 
 function sheet(css) {
