@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>Аукцион β</title>
     {% load static %}
-    <link href="{% static 'style.css' %}" rel="stylesheet">
-    <link href="{% static 'maple.png' %}" rel="icon">
+    <link href="{% static 'style.min.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <script defer src="{% static 'script.js' %}"></script>
+    <link href="{% static 'maple.png' %}" rel="icon">
 </head>
 <body>
 <div id="blind"></div>
@@ -84,8 +81,6 @@
                 <input type="password" id="da-url" placeholder="Ссылка DA"
                        title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле ссылку на встраивание которая находится в разделе
 "Виджеты" -> "Оповещения" DonationAlerts' autocomplete="off">
-{#                <input type="password" id="da-url" placeholder="Ссылка DA"#}
-{#                       title='Временно недоступно' autocomplete="off" disabled>#}
 
                 <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
                     <img src="{% static 'icons/round-save-24px.svg' %}" alt="Иконка сохранения">
@@ -115,5 +110,9 @@
 <div id="modal" class="closed"><p></p></div>
 <div id="modal-overlay" class="closed"></div>
 <img id="color-extractor" crossOrigin="anonymous" alt="Задний фон" src="">
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script defer src="{% static 'script.min.js' %}"></script>
 </body>
 </html>
