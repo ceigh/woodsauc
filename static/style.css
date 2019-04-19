@@ -448,7 +448,7 @@ span {
     display: none;
 }
 
-#timer-btns, #settings-icon, #add-btn, #settings, .block {
+#timer-btns, #settings-icon, #add-btn, #settings, .block, #reset-icon{
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -458,4 +458,20 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+#mail-url {
+    text-decoration: none;
+    font-size: 1.7vw;
+}
+
+#mail-url img {
+    width: 2vw;
+    opacity: .3;
+    transition: .3s;
+}
+
+#mail-url img:hover {
+    opacity: 1;
+    transition: .3s;
 }

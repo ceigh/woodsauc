@@ -84,6 +84,8 @@
                 <input type="password" id="da-url" placeholder="Ссылка DA"
                        title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле ссылку на встраивание которая находится в разделе
 "Виджеты" -> "Оповещения" DonationAlerts' autocomplete="off">
+{#                <input type="password" id="da-url" placeholder="Ссылка DA"#}
+{#                       title='Временно недоступно' autocomplete="off" disabled>#}
 
                 <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
                     <img src="{% static 'icons/round-save-24px.svg' %}" alt="Иконка сохранения">
@@ -94,7 +96,9 @@
             </div>
 
             <div>
-                <a href="mailto:woodsauc@pm.me?subject=Насчет аукциона">Вопросы? Баг?</a>
+                <a id="mail-url" href="mailto:woodsauc@pm.me?subject=БАГ">
+                    <img src="{% static 'icons/round-bug_report-24px.svg' %}" alt="Иконка багрепорта">
+                </a>
             </div>
         </div>
     </div>

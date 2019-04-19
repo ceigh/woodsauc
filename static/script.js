@@ -1,3 +1,70 @@
+// DonationAlerts
+let started = false;
+try {
+    const socket = io('https://socket.donationalerts.ru:443', {'reconnection': false});
+    const token = getCookie('token');
+    if (token) socket.emit('add-user', {'token': token, 'type': 'minor'});
+    socket.on('donation', function (msg) {
+    if (started) {
+        let msgJSON = JSON.parse(msg);
+        if (msgJSON['alert_type'] === 1) {
+            let message = msgJSON['message'];
+            let amount = msgJSON['amount'];
+            // let currency = msgJSON['currency'];
+            // console.log(message, amount, currency);
+
+            let names = document.getElementsByClassName('name');
+            let costs = document.getElementsByClassName('cost');
+
+            let inserted = false;
+            for (let i = 0; i < Math.min(names.length, costs.length); i++) {
+                let name = names[i].value;
+                let cost = +costs[i].value;
+
+                if (name && message.toLowerCase().includes(name.toLowerCase())) {
+                    // console.log(`${name} in ${message}`);
+                    costs[i].value = amount + cost;
+                    inserted = true;
+                    break;
+                }
+            }
+
+            if (!inserted) {
+                let div = document.createElement('div');
+                div.className = 'block';
+
+                div.innerHTML =
+                    `<label>
+                       <input class="name" type="text" onkeyup="changeSize(this);createLink(this)"
+                         title="Фильм, игра, etc" value="${message}" autocomplete="off" placeholder="Позиция">
+                       <input class="cost" type="number" min="0" 
+                         onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" 
+                         value="${amount}" autocomplete="off">
+                     </label>
+                     <span>
+                     <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
+                       title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
+                       alt="Иконка ссылки на кинопоиск"></a>
+                     <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
+                       <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
+                     </button>
+                     </span>`;
+
+                candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
+
+                sortCandidates();
+
+                for (let i = 0; i < names.length; i++) {
+                    createLink(names[i]);
+                }
+            }
+        }
+    }
+});
+} catch (e) {
+    console.log("Нет подключения, автодобавление не будет работать.");
+}
+
 //Dynamic inputs
 const defaultSize = 16.2;
 let maxSize = defaultSize;
@@ -118,74 +185,6 @@ function startTimer() {
     setTimeout(startTimer, 10);
 }
 
-
-// DonationAlerts
-let started = false;
-try {
-    const socket = io('socket.donationalerts.ru:3001', {'reconnection': false});
-    const token = getCookie('token');
-    if (token) socket.emit('add-user', {'token': token, 'type': 'minor'});
-    socket.on('donation', function (msg) {
-    if (started) {
-        let msgJSON = JSON.parse(msg);
-        if (msgJSON['alert_type'] === '1') {
-            // console.log(msgJSON);
-            let message = msgJSON['message'];
-            let amount = msgJSON['amount'];
-            // let currency = msgJSON['currency'];
-            // console.log(message, amount, currency);
-
-            let names = document.getElementsByClassName('name');
-            let costs = document.getElementsByClassName('cost');
-
-            let inserted = false;
-            for (let i = 0; i < Math.min(names.length, costs.length); i++) {
-                let name = names[i].value;
-                let cost = +costs[i].value;
-
-                if (name && message.toLowerCase().includes(name.toLowerCase())) {
-                    // console.log(`${name} in ${message}`);
-                    costs[i].value = amount + cost;
-                    inserted = true;
-                    break;
-                }
-            }
-
-            if (!inserted) {
-                let div = document.createElement('div');
-                div.className = 'block';
-
-                div.innerHTML =
-                    `<label>
-                       <input class="name" type="text" onkeyup="changeSize(this);createLink(this)"
-                         title="Фильм, игра, etc" value="${message}" autocomplete="off" placeholder="Позиция">
-                       <input class="cost" type="number" min="0" 
-                         onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" 
-                         value="${amount}" autocomplete="off">
-                     </label>
-                     <span>
-                     <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
-                       title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
-                       alt="Иконка ссылки на кинопоиск"></a>
-                     <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
-                       <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
-                     </button>
-                     </span>`;
-
-                candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
-
-                sortCandidates();
-
-                for (let i = 0; i < names.length; i++) {
-                    createLink(names[i]);
-                }
-            }
-        }
-    }
-});
-} catch (e) {
-    console.log("Нет подключения, автодобавление не будет работать.");
-}
 
 const startBtn = document.getElementById('start-btn');
 const resetBtn = document.getElementById('stop-btn');
@@ -509,4 +508,5 @@ resetButton.onclick = function () {
     while (candidatesArea.children.length > 2) {
         candidatesArea.removeChild(candidatesArea.children[candidatesArea.children.length-2]);
     }
+    clearRow();
 };
