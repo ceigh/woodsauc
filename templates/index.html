@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Аукцион β</title>
     {% load static %}
-    <link href="{% static 'style.min.css' %}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
     <link href="{% static 'maple.png' %}" rel="icon">
 </head>
 <body>
@@ -110,6 +107,10 @@
 <div id="modal" class="closed"><p></p></div>
 <div id="modal-overlay" class="closed"></div>
 <img id="color-extractor" crossOrigin="anonymous" alt="Задний фон" src="">
+
+<link href="{% static 'style.min.css' %}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
 
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>

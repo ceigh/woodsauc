@@ -395,7 +395,7 @@ function changeBG(url) {
     if (url && url !== '') {
         body.style.backgroundImage = `url(${url})`;
     } else {
-        body.style.backgroundImage = "url('static/38263.jpg')";
+        body.style.backgroundImage = "url('static/38263.webp')";
     }
 }
 
