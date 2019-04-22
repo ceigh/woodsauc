@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <title>Аукцион β</title>
     {% load static %}
+    <link href="{% static 'preloader.min.css' %}" rel="stylesheet">
     <link href="{% static 'maple.png' %}" rel="icon">
 </head>
 <body>
+<div id="preloader">
+    <div class="contpre">
+        <div class="🤚">
+            <div class="👉"></div>
+            <div class="👉"></div>
+            <div class="👉"></div>
+            <div class="👉"></div>
+            <div class="🌴"></div>
+            <div class="👍"></div>
+        </div>
+    </div>
+</div>
+<script>
+        window.onload=function(){document.getElementById('preloader').classList.add('hidden')}
+</script>
 <div id="blind"></div>
 <div class="grid">
     <div class="col-2-3">
@@ -113,7 +129,7 @@
 <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
 
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
 <script defer src="{% static 'script.min.js' %}"></script>
 </body>
 </html>
