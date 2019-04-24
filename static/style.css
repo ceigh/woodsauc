@@ -461,6 +461,10 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
 .special-url {
     text-decoration: none;
     font-size: 1.7vw;

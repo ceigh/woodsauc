@@ -21,7 +21,15 @@
     </div>
 </div>
 <script>
-        window.onload=function(){document.getElementById('preloader').classList.add('hidden')}
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + 'accent'.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    const accent = matches ? decodeURIComponent(matches[1]) : '#f39727';
+    let style = document.createElement('style');
+	style.appendChild(document.createTextNode(`.🤚{--skin-color:${accent}!important}`));
+	document.head.appendChild(style);
+
+    window.onload=function(){document.getElementById('preloader').classList.add('hidden')}
 </script>
 <div id="blind"></div>
 <div class="grid">
@@ -86,11 +94,7 @@
             </div>
 
             <div>
-                <label for="da-url">
-                    <a href="https://www.donationalerts.com/dashboard/alert-widget" target="_blank">
-                        DonationAlerts:
-                    </a>
-                </label><br><br>
+                <label for="da-url">DonationAlerts:</label><br><br>
                 <input type="password" id="da-url" placeholder="Ссылка DA"
                        title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле токен DonationAlerts из настроек' autocomplete="off">
 
@@ -115,10 +119,10 @@
                    class="special-url" title="Исходный код" target="_blank">
                     <img src="{% static 'icons/round-code-24px.svg' %}" alt="Иконка исходного кода">
                 </a>
-{#                <a href="https://www.donationalerts.com/r/hecig"#}
-{#                   class="special-url" title="W H OMEGALUL" target="_blank">#}
-{#                    <img src="{% static 'icons/round-attach_money-24px.svg' %}" alt="Донат">#}
-{#                </a>#}
+                <a href="https://www.donationalerts.com/r/hecig"
+                   class="special-url" title="Поддержать" target="_blank">
+                    <img src="{% static 'icons/round-attach_money-24px.svg' %}" alt="Иконка денег">
+                </a>
             </div>
         </div>
     </div>

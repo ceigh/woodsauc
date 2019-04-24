@@ -82,7 +82,7 @@ function changeSize(nameElement) {
     let names = document.getElementsByClassName('name');
 
     if (delta > 0) {
-        width = 16.2 + delta * 1.2;
+        width = Math.round(16.2 + delta * 1.2);
     } else if (names.length === 1) {
         maxSize = defaultSize;
         styleForSize.innerText =
@@ -91,7 +91,7 @@ function changeSize(nameElement) {
 
     if (width && width > maxSize) {
         maxSize = width;
-        styleForSize.innerText = `.name{width:${width}vw}#add-btn{width:${width + 10}vw}`;
+        styleForSize.innerText = `.name{width:${width}vw}#add-btn{width:${width + 10}vw!important}`;
     }
 }
 
