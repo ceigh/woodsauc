@@ -95,8 +95,8 @@
 
             <div>
                 <label for="da-url">DonationAlerts:</label><br><br>
-                <input type="password" id="da-url" placeholder="Ссылка DA"
-                       title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле токен DonationAlerts из настроек' autocomplete="off">
+                <input type="password" id="da-url" placeholder="Токен DA" autocomplete="off"
+                title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле токен DonationAlerts из настроек'>
 
                 <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
                     <img src="{% static 'icons/round-save-24px.svg' %}" alt="Иконка сохранения">
@@ -107,8 +107,8 @@
             </div>
 
             <div>
-                <a href="mailto:incoming+ceigh-auction-11633616-rwjsauv0b8z8yv37eoj8ad5r-issue@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы"
-                   class="special-url" title="Написать о проблеме">
+                <a class="special-url" title="Написать о проблеме"
+                   href="mailto:incoming+ceigh-auction-11633616-rwjsauv0b8z8yv37eoj8ad5r-issue@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы">
                     <img src="{% static 'icons/round-bug_report-24px.svg' %}" alt="Иконка багрепорта">
                 </a>
                 <a href="https://gitlab.com/ceigh/auction/releases"

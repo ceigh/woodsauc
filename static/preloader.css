@@ -137,7 +137,6 @@
     0%, 50%, 100% {
         transform: rotate(10deg) scale(0.4);
     }
-
     40% {
         transform: rotate(50deg) scale(0.4);
     }
@@ -147,7 +146,6 @@
     0%, 50%, 100% {
         transform: rotate(10deg) scale(0.6);
     }
-
     40% {
         transform: rotate(50deg) scale(0.6);
     }
@@ -157,7 +155,6 @@
     0%, 50%, 100% {
         transform: rotate(10deg) scale(0.8);
     }
-
     40% {
         transform: rotate(50deg) scale(0.8);
     }
@@ -167,7 +164,6 @@
     0%, 50%, 100% {
         transform: rotate(10deg) scale(1);
     }
-
     40% {
         transform: rotate(50deg) scale(1);
     }

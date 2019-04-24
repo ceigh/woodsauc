@@ -491,9 +491,9 @@ document.onkeydown = function(e) {
     if(e.key === "Escape" || e.key === "Enter") {
         modal.className = ('closed');
         modalOverlay.className = ('closed');
+        document.title = "Аукцион β";
     }
 };
-
 
 // Change title on cost
 function changeTitle(costInput) {
