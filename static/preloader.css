@@ -110,7 +110,7 @@
 }
 
 .👉:nth-child(1) {
-    animation-delay: 0;
+    animation-delay: 0ms;
     filter: brightness(70%);
     animation-name: tap-upper-1;
 }

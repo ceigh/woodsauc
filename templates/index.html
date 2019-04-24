@@ -92,8 +92,7 @@
                     </a>
                 </label><br><br>
                 <input type="password" id="da-url" placeholder="Ссылка DA"
-                       title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле ссылку на встраивание которая находится в разделе
-"Виджеты" -> "Оповещения" DonationAlerts' autocomplete="off">
+                       title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле токен DonationAlerts из настроек' autocomplete="off">
 
                 <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
                     <img src="{% static 'icons/round-save-24px.svg' %}" alt="Иконка сохранения">
@@ -103,10 +102,23 @@
                 </button>
             </div>
 
-            <div title="Написать о проблеме">
-                <a id="mail-url" href="mailto:incoming+ceigh-auction-11633616-rwjsauv0b8z8yv37eoj8ad5r-issue@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы">
+            <div>
+                <a href="mailto:incoming+ceigh-auction-11633616-rwjsauv0b8z8yv37eoj8ad5r-issue@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы"
+                   class="special-url" title="Написать о проблеме">
                     <img src="{% static 'icons/round-bug_report-24px.svg' %}" alt="Иконка багрепорта">
                 </a>
+                <a href="https://gitlab.com/ceigh/auction/releases"
+                   class="special-url" title="Новости" target="_blank">
+                    <img src="{% static 'icons/round-new_releases-24px.svg' %}" alt="Иконка новостей">
+                </a>
+                <a href="https://gitlab.com/ceigh/auction/tree/master"
+                   class="special-url" title="Исходный код" target="_blank">
+                    <img src="{% static 'icons/round-code-24px.svg' %}" alt="Иконка исходного кода">
+                </a>
+{#                <a href="https://www.donationalerts.com/r/hecig"#}
+{#                   class="special-url" title="W H OMEGALUL" target="_blank">#}
+{#                    <img src="{% static 'icons/round-attach_money-24px.svg' %}" alt="Донат">#}
+{#                </a>#}
             </div>
         </div>
     </div>

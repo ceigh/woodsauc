@@ -461,18 +461,19 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-#mail-url {
+.special-url {
     text-decoration: none;
     font-size: 1.7vw;
+    margin-left: .5vw;
 }
 
-#mail-url img {
+.special-url img {
     width: 2vw;
     opacity: .3;
     transition: .3s;
 }
 
-#mail-url img:hover {
+.special-url img:hover {
     opacity: 1;
     transition: .3s;
 }

@@ -23,13 +23,15 @@ try {
 
                 if (name && message.toLowerCase().includes(name.toLowerCase())) {
                     // console.log(`${name} in ${message}`);
-                    costs[i].value = amount + cost;
+                    if (confirm(`Добавить к "${name}" ${amount}р?`)) {
+                        costs[i].value = amount + cost;
+                    }
                     inserted = true;
                     break;
                 }
             }
 
-            if (!inserted) {
+            if (!inserted && confirm(`Создать "${message}" с ${amount}р?`)) {
                 let div = document.createElement('div');
                 div.className = 'block';
 
@@ -469,7 +471,6 @@ daURL.value = tokenCookie ? tokenCookie : '';
 
 saveDAURLBtn.onclick = function () {
     let token = daURL.value;
-    token = token.substr(token.lastIndexOf('token=') + 6);
     setCookie('token', token, {'expires': year});
     alert('Токен сохранен');
     location.reload();
