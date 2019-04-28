@@ -238,7 +238,8 @@ span {
 }
 
 .name:focus, .cost:focus, #add-btn:focus,
-.btn:focus, .timer-btn, #bg-url, #da-url, .settings-btn {
+.btn:focus, .timer-btn, #bg-url, #da-url,
+.settings-btn, .notification-btn {
     outline: none;
 }
 
@@ -363,7 +364,7 @@ span {
     transition: .3s;
 }
 
-.settings-btn {
+.settings-btn, .notification-btn {
     background: none;
     border: none;
 
@@ -375,11 +376,11 @@ span {
     opacity: .3;
 }
 
-.settings-btn img {
+.settings-btn img, .notification-btn img {
     width: 1.8vw;
 }
 
-.settings-btn:hover {
+.settings-btn:hover, .notification-btn:hover {
     opacity: 1;
     transition: .3s;
 }
@@ -480,4 +481,39 @@ input[type='number'] {
 .special-url img:hover {
     opacity: 1;
     transition: .3s;
+}
+
+#notifications-area {
+    font-size: 1vw;
+    position: fixed;
+    right: 4.1vw;
+    top: 12vw;
+    overflow: auto;
+    width: 22%;
+    height: 11vw;
+}
+
+.notification {
+    opacity: 1;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5vw;
+    background: rgba(0, 0, 0, .5);
+    border-radius: .5vw;
+    height: 4vw;
+    padding-right: .5vw;
+    padding-left: 1.5vw;
+}
+
+.notification.hidden {
+    opacity: 0;
+    transition: .3s;
+}
+
+.notification div:first-child {
+    width: 71%;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }

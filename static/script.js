@@ -7,14 +7,15 @@ try {
     socket.on('donation', function (msg) {
     if (started) {
         let msgJSON = JSON.parse(msg);
-        if (msgJSON['alert_type'] === 1) {
+        if (msgJSON['alert_type'] == 1) {
             let message = msgJSON['message'];
-            let amount = msgJSON['amount'];
+            let amount = +msgJSON['amount'];
             // let currency = msgJSON['currency'];
             // console.log(message, amount, currency);
 
             let names = document.getElementsByClassName('name');
             let costs = document.getElementsByClassName('cost');
+            const notificationArea = document.getElementById('notifications-area');
 
             let inserted = false;
             for (let i = 0; i < Math.min(names.length, costs.length); i++) {
@@ -23,42 +24,99 @@ try {
 
                 if (name && message.toLowerCase().includes(name.toLowerCase())) {
                     // console.log(`${name} in ${message}`);
-                    if (confirm(`Добавить к "${name}" ${amount}р?`)) {
+                    let notification = document.createElement('div');
+                    notification.className = 'notification';
+
+                    notification.innerHTML =
+                        `<div title="Добавить ${amount} к ${name}?">
+                            Добавить ${amount} к ${name}?</div>
+                        <button class="notification-btn" type="button" title="Подтвердить">
+                            <img src="static/icons/round-done-24px.svg" alt="Иконка подтверждения">
+                        </button>
+                        <button class="notification-btn" type="button" title="Отклонить">
+                            <img src="static/icons/round-clear-24px.svg" alt="Иконка очистки">
+                        </button>`;
+
+                    notification.children[1].onclick = function() {
                         costs[i].value = amount + cost;
-                    }
+                        sortCandidates();
+                        notification.classList.add('hidden');
+                        setTimeout(function () {
+                            notification.remove();
+                        }, 300);
+                    };
+
+                    notification.children[2].onclick = function() {
+                        notification.classList.add('hidden');
+                        setTimeout(function () {
+                            notification.remove();
+                        }, 300);
+                    };
+
+                    notificationArea.insertBefore(notification, notificationArea.firstElementChild);
+
                     inserted = true;
                     break;
                 }
             }
 
-            if (!inserted && confirm(`Создать "${message}" с ${amount}р?`)) {
-                let div = document.createElement('div');
-                div.className = 'block';
+            if (!inserted) {
+                let notification = document.createElement('div');
+                notification.className = 'notification';
 
-                div.innerHTML =
-                    `<label>
-                       <input class="name" type="text" onkeyup="changeSize(this);createLink(this)"
-                         title="Фильм, игра, etc" value="${message}" autocomplete="off" placeholder="Позиция">
-                       <input class="cost" type="number" min="0" 
-                         onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" 
-                         value="${amount}" autocomplete="off">
-                     </label>
-                     <span>
-                     <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
-                       title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
-                       alt="Иконка ссылки на кинопоиск"></a>
-                     <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
-                       <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
-                     </button>
-                     </span>`;
+                notification.innerHTML =
+                    `<div title="Создать ${message} с ${amount}?">
+                        Создать ${message} с ${amount}?</div>
+                    <button class="notification-btn" type="button" title="Подтвердить">
+                        <img src="static/icons/round-done-24px.svg" alt="Иконка подтверждения">
+                    </button>
+                    <button class="notification-btn" type="button" title="Отклонить">
+                        <img src="static/icons/round-clear-24px.svg" alt="Иконка очистки">
+                    </button>`;
 
-                candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
+                notification.children[1].onclick = function() {
+                    let div = document.createElement('div');
+                    div.className = 'block';
 
-                sortCandidates();
+                    div.innerHTML =
+                        `<label>
+                           <input class="name" type="text" onkeyup="changeSize(this);createLink(this)"
+                             title="Фильм, игра, etc" value="${message}" autocomplete="off" placeholder="Позиция">
+                           <input class="cost" type="number" min="0" 
+                             onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" 
+                             value="${amount}" autocomplete="off">
+                         </label>
+                         <span>
+                         <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
+                           title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
+                           alt="Иконка ссылки на кинопоиск"></a>
+                         <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
+                           <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
+                         </button>
+                         </span>`;
 
-                for (let i = 0; i < names.length; i++) {
-                    createLink(names[i]);
-                }
+                    candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
+
+                    sortCandidates();
+
+                    for (let i = 0; i < names.length; i++) {
+                        createLink(names[i]);
+                    }
+
+                    notification.classList.add('hidden');
+                    setTimeout(function () {
+                        notification.remove();
+                    }, 300);
+                };
+
+                notification.children[2].onclick = function() {
+                    notification.classList.add('hidden');
+                    setTimeout(function () {
+                        notification.remove();
+                    }, 300);
+                };
+
+                notificationArea.insertBefore(notification, notificationArea.firstElementChild);
             }
         }
     }
