@@ -1,3 +1,31 @@
+//Dynamic inputs
+const defaultSize = 16.2;
+let maxSize = defaultSize;
+
+let styleForSize = document.createElement('style');
+styleForSize.appendChild(document.createTextNode(
+    `.name{width:${defaultSize}vw}`));
+document.head.appendChild(styleForSize);
+
+function changeSize(nameElement) {
+    let width;
+    let delta = nameElement.value.length - 12;
+    let names = document.getElementsByClassName('name');
+
+    if (delta > 0) {
+        width = Math.round(16.2 + delta * 1.2);
+    } else if (names.length === 1) {
+        maxSize = defaultSize;
+        styleForSize.innerText =
+            `.name{width:${defaultSize}vw}#add-btn{width:${defaultSize + 10}vw}`;
+    }
+
+    if (width && width > maxSize) {
+        maxSize = width;
+        styleForSize.innerText = `.name{width:${width}vw}#add-btn{width:${width + 10}vw!important}`;
+    }
+}
+
 // DonationAlerts
 let started = false;
 try {
@@ -9,6 +37,7 @@ try {
         let msgJSON = JSON.parse(msg);
         if (msgJSON['alert_type'] == 1) {
             let message = msgJSON['message'];
+            message = message.replace(/\s+/g, ' ');
             let amount = +msgJSON['amount'];
             // let currency = msgJSON['currency'];
             // console.log(message, amount, currency);
@@ -28,14 +57,17 @@ try {
                     notification.className = 'notification';
 
                     notification.innerHTML =
-                        `<div title="Добавить ${amount} к ${name}?">
-                            Добавить ${amount} к ${name}?</div>
+                        `<p></p>
                         <button class="notification-btn" type="button" title="Подтвердить">
                             <img src="static/icons/round-done-24px.svg" alt="Иконка подтверждения">
                         </button>
                         <button class="notification-btn" type="button" title="Отклонить">
                             <img src="static/icons/round-clear-24px.svg" alt="Иконка очистки">
                         </button>`;
+
+                    notification.children[0].innerText = `Добавить ₽${amount} к ${name}?`;
+                    notification.children[0].setAttribute('title', `Добавить ₽${amount} к ${name}?`);
+
 
                     notification.children[1].onclick = function() {
                         costs[i].value = amount + cost;
@@ -65,14 +97,16 @@ try {
                 notification.className = 'notification';
 
                 notification.innerHTML =
-                    `<div title="Создать ${message} с ${amount}?">
-                        Создать ${message} с ${amount}?</div>
+                    `<p></p>
                     <button class="notification-btn" type="button" title="Подтвердить">
                         <img src="static/icons/round-done-24px.svg" alt="Иконка подтверждения">
                     </button>
                     <button class="notification-btn" type="button" title="Отклонить">
                         <img src="static/icons/round-clear-24px.svg" alt="Иконка очистки">
                     </button>`;
+
+                notification.children[0].innerText = `Создать ${message} с ₽${amount}?`;
+                notification.children[0].setAttribute('title', `Создать ${message} с ₽${amount}?`);
 
                 notification.children[1].onclick = function() {
                     let div = document.createElement('div');
@@ -81,7 +115,7 @@ try {
                     div.innerHTML =
                         `<label>
                            <input class="name" type="text" onkeyup="changeSize(this);createLink(this)"
-                             title="Фильм, игра, etc" value="${message}" autocomplete="off" placeholder="Позиция">
+                             title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция">
                            <input class="cost" type="number" min="0" 
                              onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" 
                              value="${amount}" autocomplete="off">
@@ -95,9 +129,11 @@ try {
                          </button>
                          </span>`;
 
+                    div.children[0].children[0].value = message;
                     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
 
                     sortCandidates();
+                    changeSize(div.children[0].children[0]);
 
                     for (let i = 0; i < names.length; i++) {
                         createLink(names[i]);
@@ -123,34 +159,6 @@ try {
 });
 } catch (e) {
     console.log("Нет подключения, автодобавление не будет работать.");
-}
-
-//Dynamic inputs
-const defaultSize = 16.2;
-let maxSize = defaultSize;
-
-let styleForSize = document.createElement('style');
-styleForSize.appendChild(document.createTextNode(
-    `.name{width:${defaultSize}vw}`));
-document.head.appendChild(styleForSize);
-
-function changeSize(nameElement) {
-    let width;
-    let delta = nameElement.value.length - 12;
-    let names = document.getElementsByClassName('name');
-
-    if (delta > 0) {
-        width = Math.round(16.2 + delta * 1.2);
-    } else if (names.length === 1) {
-        maxSize = defaultSize;
-        styleForSize.innerText =
-            `.name{width:${defaultSize}vw}#add-btn{width:${defaultSize + 10}vw}`;
-    }
-
-    if (width && width > maxSize) {
-        maxSize = width;
-        styleForSize.innerText = `.name{width:${width}vw}#add-btn{width:${width + 10}vw!important}`;
-    }
 }
 
 // Timer
@@ -258,6 +266,11 @@ startBtn.onclick = function () {
 
 resetBtn.onclick = function () {
     timer.innerHTML = '00:00:00';
+
+    let notificationArea = document.getElementById('notifications-area');
+    while (notificationArea.children.length > 0) {
+        notificationArea.removeChild(notificationArea.firstChild);
+    }
 };
 
 plusBtn.onclick = function () {
