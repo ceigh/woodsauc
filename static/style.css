@@ -433,15 +433,15 @@ span {
     text-align: right;
     /*margin-right: 20px;*/
     width: 2vw;
-}
 
-#settings-icon img {
     opacity: .3;
+    transition: .3s;
     cursor: pointer;
 }
 
-#settings-icon img:hover {
+#settings-icon:hover {
     opacity: 1;
+    transition: .3s;
 }
 
 #reset-icon {
@@ -451,15 +451,14 @@ span {
     text-align: right;
     /*margin-right: 20px;*/
     width: 2vw;
-}
-
-#reset-icon img {
-    opacity: .3;
     cursor: pointer;
+    opacity: .3;
+    transition: .3s;
 }
 
-#reset-icon img:hover {
+#reset-icon:hover {
     opacity: 1;
+    transition: .3s;
 }
 
 ::-moz-focus-inner {
@@ -545,3 +544,4 @@ input[type='number'] {
     line-height: 1.1vw;
     margin: 0;
 }
+
