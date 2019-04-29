@@ -79,6 +79,7 @@ try {
                     notification.children[1].onclick = function() {
                         costs[i].value = amount + cost;
                         sortCandidates();
+                        changeTitle(costs[i]);
                         notification.classList.add('hidden');
                         setTimeout(function () {
                             notification.remove();
@@ -122,10 +123,10 @@ try {
 
                     div.innerHTML =
                         `<label>
-                           <input class="name" type="text" onkeyup="changeSize(this);createLink(this)"
-                             title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция">
-                           <input class="cost" type="number" min="0" 
-                             onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" 
+                           <input class="name" type="text" onkeyup="changeSize(this);createLink(this)" 
+                           autocomplete="off" placeholder="Позиция">
+                           <input class="cost" type="number" min="1" 
+                             onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽"
                              value="${amount}" autocomplete="off">
                          </label>
                          <span>
@@ -138,6 +139,9 @@ try {
                          </span>`;
 
                     div.children[0].children[0].value = message;
+                    div.children[0].children[0].setAttribute('title', message);
+                    div.children[0].children[1].setAttribute('title', `Сумма: ${amount} ₽`);
+
                     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
 
                     sortCandidates();
@@ -413,7 +417,7 @@ addBtn.onclick = function () {
     div.innerHTML = `<label>
                        <input class="name" type="text" onkeyup="changeSize(this);createLink(this)" 
                          title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция">
-                       <input class="cost" type="number" min="0" 
+                       <input class="cost" type="number" min="1" 
                          onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" autocomplete="off">
                      </label>
                      <span>
