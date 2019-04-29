@@ -396,7 +396,7 @@ function createLink(nameElement) {
     let name = nameElement.value;
     if (name) {
         nameElement.parentNode.parentNode.children[1].children[0].href =
-            `https://www.kinopoisk.ru/s/type/all/find/${name}/`;
+            encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
         nameElement.setAttribute('title', name);
     } else {
         nameElement.parentNode.parentNode.children[1].children[0].href =
