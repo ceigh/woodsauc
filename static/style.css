@@ -393,6 +393,7 @@ span {
     transition: .3s;
 
     opacity: .3;
+    padding: .3vw;
 }
 
 .settings-btn img, .notification-btn img {

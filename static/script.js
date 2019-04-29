@@ -552,14 +552,47 @@ daURL.value = tokenCookie ? tokenCookie : '';
 saveDAURLBtn.onclick = function () {
     let token = daURL.value;
     setCookie('token', token, {'expires': year});
-    alert('Токен сохранен');
-    location.reload();
+
+    const notificationArea = document.getElementById('notifications-area');
+    let notification = document.createElement('div');
+    notification.className = 'notification';
+
+    notification.innerHTML =
+        `<p title="Токен сохранен">Токен сохранен</p>`;
+
+    notificationArea.insertBefore(notification, notificationArea.firstElementChild);
+    notificationSound();
+
+    setTimeout(function () {
+        notification.classList.add('hidden');
+        setTimeout(function () {
+            notification.remove();
+            location.reload();
+        }, 300);
+    }, 800);
 };
 
 clearDAURLBtn.onclick = function () {
     daURL.value = '';
     setCookie('token', '', {'expires': year});
-    location.reload();
+
+    const notificationArea = document.getElementById('notifications-area');
+    let notification = document.createElement('div');
+    notification.className = 'notification';
+
+    notification.innerHTML =
+        `<p title="Токен удален">Токен удален</p>`;
+
+    notificationArea.insertBefore(notification, notificationArea.firstElementChild);
+    notificationSound();
+
+    setTimeout(function () {
+        notification.classList.add('hidden');
+        setTimeout(function () {
+            notification.remove();
+            location.reload();
+        }, 300);
+    }, 800);
 };
 
 
