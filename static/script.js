@@ -1,3 +1,10 @@
+// Notification sound
+function notificationSound() {
+    const audio = new Audio();
+    audio.src = '/static/light.mp3';
+    audio.autoplay = true;
+}
+
 //Dynamic inputs
 const defaultSize = 16.2;
 let maxSize = defaultSize;
@@ -86,6 +93,7 @@ try {
                     };
 
                     notificationArea.insertBefore(notification, notificationArea.firstElementChild);
+                    notificationSound();
 
                     inserted = true;
                     break;
@@ -153,6 +161,7 @@ try {
                 };
 
                 notificationArea.insertBefore(notification, notificationArea.firstElementChild);
+                notificationSound();
             }
         }
     }
