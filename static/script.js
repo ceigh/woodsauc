@@ -123,7 +123,7 @@ try {
 
                     div.innerHTML =
                         `<label>
-                           <input class="name" type="text" onkeyup="changeSize(this);createLink(this)" 
+                           <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
                            autocomplete="off" placeholder="Позиция">
                            <input class="cost" type="number" min="1" 
                              onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽"
@@ -393,8 +393,12 @@ function removeRow(delBtn) {
     }
 }
 
+function trim(string) {
+    return string.replace(/^\s+/, '').replace(/\s{2,}$/, '').replace(/\s+/g, ' ')
+}
 
 function createLink(nameElement) {
+    nameElement.value = trim(nameElement.value);
     let name = nameElement.value;
     if (name) {
         nameElement.parentNode.parentNode.children[1].children[0].href =
@@ -417,7 +421,7 @@ addBtn.onclick = function () {
 
     // noinspection HtmlUnknownTarget
     div.innerHTML = `<label>
-                       <input class="name" type="text" onkeyup="changeSize(this);createLink(this)" 
+                       <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
                          title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция">
                        <input class="cost" type="number" min="1" 
                          onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" autocomplete="off">
