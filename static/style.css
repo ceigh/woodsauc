@@ -216,6 +216,7 @@ span {
     /*width: 16.2vw;*/
     max-width: 49vw;
     margin-right: 5px;
+    text-transform: capitalize;
 }
 
 .cost {
