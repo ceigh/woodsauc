@@ -368,10 +368,17 @@ span {
     height: 100%;
     background: rgba(0, 0, 0, .7);
     z-index: 1;
+
+    opacity: 1;
+    transition: .3s;
+
 }
 
 #modal-overlay.closed {
-    display: none;
+    opacity: 0;
+    transition: .3s;
+    /*display: none;*/
+    z-index: -1;
 }
 
 #settings {
