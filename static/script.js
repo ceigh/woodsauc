@@ -523,11 +523,25 @@ showSettingsBtn.onclick = function () {
     settingsWindow.classList.toggle("closed");
 };
 
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
 let colorCookie = getCookie('accent');
+
 if (colorCookie && colorCookie !== '') {
-    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:${colorCookie}!important}`);
+    let accentShadow = hexToRgb(colorCookie);
+    accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
+    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:${colorCookie}!important}
+.name:focus,.cost:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}`);
 } else {
-    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}`);
+    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}
+.name:focus,.cost:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}`);
 }
 
 saveBGURLBtn.onclick = function () {
@@ -545,7 +559,10 @@ saveBGURLBtn.onclick = function () {
     //    }
 
     let dominantRGB = swatches['Vibrant'].getHex();
-    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}`;
+    let accentShadow = hexToRgb(dominantRGB);
+    accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
+    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}
+.name:focus,.cost:focus{--accent:${dominantRGB}!important;--shadow:${accentShadow}!important}`;
     setCookie('accent', dominantRGB, {'expires': year});
     });
 };
@@ -553,7 +570,8 @@ saveBGURLBtn.onclick = function () {
 clearBGURLBtn.onclick = function () {
     bgURLInput.value = '';
     saveBGURLBtn.click();
-    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}`;
+    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}
+.name:focus,.cost:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
     setCookie('accent', '', {'expires': year});
 };
 

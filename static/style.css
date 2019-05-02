@@ -152,7 +152,7 @@ body {
     height: 4vw;
     font-size: 1.7vw;
     margin-bottom: 1vw;
-    /*margin-right: 2vw;*/
+    /*margin-left: .5vw;*/
     opacity: 0;
     -webkit-transition: .1s;
     -moz-transition: .1s;
@@ -251,9 +251,20 @@ span {
     text-overflow: ellipsis;
 
     border-radius: .5vw;
+
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.name:focus, .cost:focus, #add-btn:focus,
+.name:focus, .cost:focus {
+    --accent: #f39727;
+    --shadow: rgba(243, 151, 39, 0.7);
+
+    border-color: var(--accent);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--shadow);
+}
+
+#add-btn:focus,
 .btn:focus, .timer-btn, #bg-url, #da-url,
 .settings-btn, .notification-btn {
     outline: none;
@@ -306,6 +317,10 @@ span {
     padding-right: 0;
 }
 
+#candidates-area {
+    padding-top: .5vw;
+    padding-left: .5vw;
+}
 
 #modal {
     display: flex;
