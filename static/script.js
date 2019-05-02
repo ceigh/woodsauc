@@ -148,6 +148,10 @@ try {
 
                     sortCandidates();
 
+                    setTimeout(function () {
+                        div.classList.add('visible');
+                    }, 20);
+
                     for (let i = 0; i < names.length; i++) {
                         createLink(names[i]);
                     }
@@ -436,6 +440,9 @@ addBtn.onclick = function () {
                     </span>`;
 
     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
+    setTimeout(function () {
+        div.classList.add('visible');
+    }, 10);
 
     div.children[0].children[0].focus();
 
