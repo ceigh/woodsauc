@@ -437,6 +437,8 @@ addBtn.onclick = function () {
 
     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
 
+    div.children[0].children[0].focus();
+
     sortCandidates();
 };
 
