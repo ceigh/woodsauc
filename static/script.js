@@ -125,7 +125,7 @@ try {
                         `<label>
                            <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
                            autocomplete="off" placeholder="Позиция" spellcheck="false">
-                           <input class="cost" type="number" min="1" 
+                           <input class="cost" type="number" min="0" step="10" 
                              onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽"
                              value="${amount}" autocomplete="off">
                          </label>
@@ -140,7 +140,8 @@ try {
 
                     div.children[0].children[0].value = message;
                     div.children[0].children[0].setAttribute('title', message);
-                    div.children[0].children[1].setAttribute('title', `Сумма: ${amount} ₽`);
+                    div.children[0].children[1].setAttribute(
+                        'title', `Сумма: ${amount} ₽`);
 
                     changeSize(div.children[0].children[0]);
 
@@ -424,20 +425,21 @@ addBtn.onclick = function () {
     div.className = 'block';
 
     // noinspection HtmlUnknownTarget
-    div.innerHTML = `<label>
-                       <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
-                         title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
-                       <input class="cost" type="number" min="1" 
-                         onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" autocomplete="off">
-                     </label>
-                     <span>
-                     <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
-                       title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
-                       alt="Иконка ссылки на кинопоиск"></a>
-                     <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
-                       <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
-                     </button>
-                    </span>`;
+    div.innerHTML =
+        `<label>
+           <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
+             title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
+           <input class="cost" type="number" min="0" step="10" placeholder="₽" title="Сумма"
+             onkeyup="changeTitle(this)" onchange="sortCandidates()" autocomplete="off">
+         </label>
+         <span>
+         <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
+           title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
+           alt="Иконка ссылки на кинопоиск"></a>
+         <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
+           <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
+         </button>
+        </span>`;
 
     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
     setTimeout(function () {
