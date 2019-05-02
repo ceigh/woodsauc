@@ -142,10 +142,11 @@ try {
                     div.children[0].children[0].setAttribute('title', message);
                     div.children[0].children[1].setAttribute('title', `Сумма: ${amount} ₽`);
 
+                    changeSize(div.children[0].children[0]);
+
                     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
 
                     sortCandidates();
-                    changeSize(div.children[0].children[0]);
 
                     for (let i = 0; i < names.length; i++) {
                         createLink(names[i]);
