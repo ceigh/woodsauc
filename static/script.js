@@ -124,7 +124,7 @@ try {
                     div.innerHTML =
                         `<label>
                            <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
-                           autocomplete="off" placeholder="Позиция">
+                           autocomplete="off" placeholder="Позиция" spellcheck="false">
                            <input class="cost" type="number" min="1" 
                              onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽"
                              value="${amount}" autocomplete="off">
@@ -426,7 +426,7 @@ addBtn.onclick = function () {
     // noinspection HtmlUnknownTarget
     div.innerHTML = `<label>
                        <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
-                         title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция">
+                         title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
                        <input class="cost" type="number" min="1" 
                          onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽" title="Сумма" autocomplete="off">
                      </label>
