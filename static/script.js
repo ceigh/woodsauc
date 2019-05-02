@@ -538,10 +538,10 @@ if (colorCookie && colorCookie !== '') {
     let accentShadow = hexToRgb(colorCookie);
     accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
     styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:${colorCookie}!important}
-.name:focus,.cost:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}`);
+input:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}`);
 } else {
     styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}
-.name:focus,.cost:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}`);
+input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}`);
 }
 
 saveBGURLBtn.onclick = function () {
@@ -562,7 +562,7 @@ saveBGURLBtn.onclick = function () {
     let accentShadow = hexToRgb(dominantRGB);
     accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}
-.name:focus,.cost:focus{--accent:${dominantRGB}!important;--shadow:${accentShadow}!important}`;
+input:focus{--accent:${dominantRGB}!important;--shadow:${accentShadow}!important}`;
     setCookie('accent', dominantRGB, {'expires': year});
     });
 };
@@ -571,7 +571,7 @@ clearBGURLBtn.onclick = function () {
     bgURLInput.value = '';
     saveBGURLBtn.click();
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}
-.name:focus,.cost:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
+input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
     setCookie('accent', '', {'expires': year});
 };
 
