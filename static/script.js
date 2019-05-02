@@ -230,7 +230,7 @@ function startTimer() {
                 modal.classList.toggle('closed');
                 modalOverlay.classList.toggle('closed');
 
-                document.title = `${winner} победил!`;
+                document.title = winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
 
                 // Get back play button functional
                 startBtn.onclick = function () {
@@ -256,7 +256,8 @@ function startTimer() {
 
         let winner = returnWinner();
         winner = winner === "Никто не " ? '' : ` - ${winner}`;
-        document.title = `${m}:${s}${winner}`;
+        const title = `${m}:${s}${winner}`;
+        document.title = title.length > 50 ? `${title.substring(0, 50)}...` : title;
 
         ms = 99;
     } else ms--;
@@ -528,7 +529,7 @@ saveBGURLBtn.onclick = function () {
     // for (const swatch in swatches)
     //     if (swatches.hasOwnProperty(swatch) && swatches[swatch]) {
     //         console.log(swatch, swatches[swatch].getHex())
-    //     }
+    //    }
 
     let dominantRGB = swatches['Vibrant'].getHex();
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}`;
