@@ -1,6 +1,5 @@
 //TODO: timer animation
 //TODO: select from notification
-//TODO: buttons animation
 
 
 function notificationSound() {
@@ -36,6 +35,11 @@ function changeSize(nameElement) {
         styleForSize.innerText = `.name{width:${width}vw}#add-btn{width:${width + 10}vw!important}`;
     }
 }
+
+//Title case
+String.prototype.toTitle = function() {
+  return this.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
+};
 
 // DonationAlerts
 let started = false;
@@ -80,19 +84,30 @@ try {
                             <img src="static/icons/round-clear-24px.svg" alt="Иконка очистки">
                         </button>`;
 
-                    notification.children[0].innerText = `Добавить ₽${amount} к ${name}?`;
+                    notification.children[0].innerText =
+                        `Добавить ₽${amount} к "${name.toTitle().replace(/\s+$/, '')}"?`;
                     notification.children[0].setAttribute(
-                        'title', `Добавить ₽${amount} к ${name}?`);
+                        'title',
+                        `Добавить ₽${amount} к "${name.toTitle().replace(/\s+$/, '')}"?`);
 
 
                     notification.children[1].onclick = function() {
-                        costs[i].value = amount + cost;
-                        sortCandidates();
-                        changeTitle(costs[i]);
-                        notification.classList.add('hidden');
-                        setTimeout(function () {
-                            notification.remove();
-                        }, 300);
+                        costs = document.getElementsByClassName('cost');
+                        names = document.getElementsByClassName('name');
+                        for (let i = 0; i < Math.min(names.length, costs.length); i++) {
+                            let name = names[i].value;
+                            let cost = +costs[i].value;
+
+                            if (name && message.toLowerCase().includes(name.toLowerCase())) {
+                                costs[i].value = amount + cost;
+                                sortCandidates();
+                                changeTitle(costs[i]);
+                                notification.classList.add('hidden');
+                                setTimeout(function () {
+                                    notification.remove();
+                                }, 300);
+                            }
+                        }
                     };
 
                     notification.children[2].onclick = function() {
@@ -124,9 +139,11 @@ try {
                         <img src="static/icons/round-clear-24px.svg" alt="Иконка очистки">
                     </button>`;
 
-                notification.children[0].innerText = `Создать ${message} с ₽${amount}?`;
+                notification.children[0].innerText =
+                    `Создать "${message.toTitle().replace(/\s+$/, '')}" с ₽${amount}?`;
                 notification.children[0].setAttribute(
-                    'title', `Создать ${message} с ₽${amount}?`);
+                    'title',
+                    `Создать "${message.toTitle().replace(/\s+$/, '')}" с ₽${amount}?`);
 
                 notification.children[1].onclick = function() {
                     clickAnimation(this);
