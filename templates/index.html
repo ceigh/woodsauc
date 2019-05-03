@@ -38,10 +38,10 @@
         <div id="candidates-area" class="flex">
             <div class="block visible">
                 <label>
-                    <input class="name" type="text" onkeyup="createLink(this);changeSize(this)"
+                    <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" onchange="changeSize(this)"
                            title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
-                    <input class="cost" type="number" min="0" step="10" placeholder="₽" title="Сумма"
-                           onkeyup="changeTitle(this)" onchange="sortCandidates()" autocomplete="off">
+                    <input class="cost" type="text" min="0" step="10" placeholder="₽" title="Сумма"
+                           onchange="changeTitle(this);checksum(this);sortCandidates()" autocomplete="off">
                 </label>
                 <span>
                 <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"

@@ -19,11 +19,11 @@ document.head.appendChild(styleForSize);
 
 function changeSize(nameElement) {
     let width;
-    let delta = nameElement.value.length - 12;
+    let delta = nameElement.value.length - 10;
     let names = document.getElementsByClassName('name');
 
     if (delta > 0) {
-        width = Math.round(16.2 + delta * 1.2);
+        width = Math.round(16.2 + delta * 2.1);
     } else if (names.length === 1) {
         maxSize = defaultSize;
         styleForSize.innerText =
@@ -154,10 +154,10 @@ try {
                     div.innerHTML =
                         `<label>
                            <input class="name" type="text" autocomplete="off"
-                           onkeyup="createLink(this);changeSize(this)" 
+                           onkeyup="createLink(this);changeSize(this)" onchange="changeSize(this)"
                            placeholder="Позиция" spellcheck="false">
-                           <input class="cost" type="number" min="0" step="10" 
-                             onkeyup="changeTitle(this)" onchange="sortCandidates()" 
+                           <input class="cost" type="text" min="0" step="10" 
+                             onchange="changeTitle(this);checksum(this);sortCandidates()" 
                              placeholder="₽" value="${amount}" autocomplete="off">
                          </label>
                          <span>
@@ -479,10 +479,10 @@ addBtn.onclick = function () {
     // noinspection HtmlUnknownTarget
     div.innerHTML =
         `<label>
-           <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
+           <input class="name" type="text" onkeyup="createLink(this);changeSize(this)"  onchange="changeSize(this)"
              title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
-           <input class="cost" type="number" min="0" step="10" placeholder="₽" title="Сумма"
-             onkeyup="changeTitle(this)" onchange="sortCandidates()" autocomplete="off">
+           <input class="cost" type="text" min="0" step="10" placeholder="₽" title="Сумма"
+             onchange="changeTitle(this);checksum(this);sortCandidates()" autocomplete="off">
          </label>
          <span>
          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
@@ -745,5 +745,25 @@ const urlsBtns = document.getElementsByClassName('special-url');
 for (let i = 0; i < urlsBtns.length; i++) {
     urlsBtns[i].onclick = function () {
         clickAnimation(this);
+    }
+}
+
+//Summary cost
+function checksum(costElement) {
+    let calculated = costElement.value.replace(/[^\d+*/,.-]/g, '');
+    calculated = calculated.replace(/,/, '.');
+    try {
+        calculated = eval(calculated);
+        if (isNaN(calculated)) {
+            costElement.value = '';
+            costElement.setAttribute('title', 'Сумма');
+        } else {
+            calculated = isFinite(calculated) && calculated <= 0 ? '' : calculated.toFixed(2);
+            costElement.value = calculated;
+            costElement.setAttribute('title', `Сумма: ${costElement.value} ₽`);
+        }
+    } catch (e) {
+        costElement.value = '';
+        costElement.setAttribute('title', 'Сумма');
     }
 }
