@@ -754,13 +754,13 @@ function checksum(costElement) {
     calculated = calculated.replace(/,/, '.');
     try {
         calculated = eval(calculated);
-        if (isNaN(calculated)) {
+        if (isNaN(calculated) || !isFinite(calculated)) {
             costElement.value = '';
             costElement.setAttribute('title', 'Сумма');
         } else {
-            calculated = isFinite(calculated) && calculated <= 0 ? '' : calculated.toFixed(2);
+            calculated = calculated > 0 ? calculated.toFixed(2) : '';
             costElement.value = calculated;
-            costElement.setAttribute('title', `Сумма: ${costElement.value} ₽`);
+            costElement.setAttribute('title', `Сумма: ${calculated} ₽`);
         }
     } catch (e) {
         costElement.value = '';
