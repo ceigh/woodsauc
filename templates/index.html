@@ -45,9 +45,10 @@
                 </label>
                 <span>
                 <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
-                   title="Ссылка на кинопоиск"><img src="{% static 'icons/round-video_library-24px.svg' %}"
-                                                    alt="Иконка ссылки на кинопоиск"></a>
-                <button type="button" class="btn" onclick="clearRow()" title="Очистить">
+                   title="Ссылка на кинопоиск" onclick="clickAnimation(this)">
+                    <img src="{% static 'icons/round-video_library-24px.svg' %}"
+                    alt="Иконка ссылки на кинопоиск"></a>
+                <button type="button" class="btn" onclick="clickAnimation(this);clearRow()" title="Очистить">
                     <img src="{% static 'icons/round-delete_outline-24px.svg' %}" alt="Иконка очистки">
                 </button>
                 </span>

@@ -16,6 +16,7 @@
     border-radius: .5vw;
 }
 
+/*noinspection CssReplaceWithShorthandSafely*/
 body {
     color: #fff;
     background: #000;
@@ -346,7 +347,7 @@ input:focus {
 
     opacity: 1;
     visibility: visible;
-    transition: .4s;
+    transition: .2s;
 }
 
 #modal p {
@@ -374,7 +375,7 @@ input:focus {
 #modal.closed {
     visibility: hidden;
     opacity: 0;
-    transition: .4s;
+    transition: .2s;
 }
 
 #modal-overlay {
@@ -387,19 +388,16 @@ input:focus {
     z-index: 1;
 
     opacity: 1;
-    transition: .3s;
+    transition: .2s;
+    cursor: pointer;
 
 }
 
 #modal-overlay.closed {
     opacity: 0;
-    transition: .3s;
+    transition: .2s;
     /*display: none;*/
     z-index: -2;
-}
-
-#modal-overlay, #modal {
-    cursor: pointer;
 }
 
 #settings {
@@ -589,3 +587,146 @@ input[type='number'] {
     margin: 0;
 }
 
+/* Buttons animation */
+@-webkit-keyframes anim-effect-boris {
+    0% {
+        -webkit-transform: scale3d(0.3, 0.3, 1);
+        transform: scale3d(0.3, 0.3, 1);
+    }
+    25%, 50% {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        -webkit-transform: scale3d(1.2, 1.2, 1);
+        transform: scale3d(1.2, 1.2, 1);
+    }
+}
+
+@keyframes anim-effect-boris {
+    0% {
+        -webkit-transform: scale3d(0.3, 0.3, 1);
+        transform: scale3d(0.3, 0.3, 1);
+    }
+    25%, 50% {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        -webkit-transform: scale3d(1.2, 1.2, 1);
+        transform: scale3d(1.2, 1.2, 1);
+    }
+}
+
+.click::after {
+    -webkit-animation: anim-effect-boris .2s forwards;
+    animation: anim-effect-boris .2s forwards;
+}
+
+#settings-icon::after, #reset-icon::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -3.3vw 0 0 -3.1vw;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}
+
+.settings-btn::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -3vw 0 0 -2vw;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}
+
+.timer-btn::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -4.3vw 0 0 -2vw;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}
+
+#add-btn::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -0.5vw 0 0 -3.4vw;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}
+
+.kp-link::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -0.3vw 0 0 -3vw;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}
+
+.btn::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -3.1vw 0 0 -2vw;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}
+
+.special-url::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -0.95vw 0 0 -3.5vw;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}
+
+.special-url:last-of-type::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -0.95vw 0 0 -3.1vw;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}
+
+.notification-btn::after {
+    background: rgba(255, 255, 255, .3);
+    position: absolute;
+    margin: -2.6vw 0 0 -1.55vw;
+    width: 3vw;
+    height: 3vw;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+}

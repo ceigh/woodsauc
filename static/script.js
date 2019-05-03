@@ -129,22 +129,27 @@ try {
                     'title', `Создать ${message} с ₽${amount}?`);
 
                 notification.children[1].onclick = function() {
+                    clickAnimation(this);
+
                     let div = document.createElement('div');
                     div.className = 'block';
 
                     div.innerHTML =
                         `<label>
-                           <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" 
-                           autocomplete="off" placeholder="Позиция" spellcheck="false">
+                           <input class="name" type="text" autocomplete="off"
+                           onkeyup="createLink(this);changeSize(this)" 
+                           placeholder="Позиция" spellcheck="false">
                            <input class="cost" type="number" min="0" step="10" 
-                             onkeyup="changeTitle(this)" onchange="sortCandidates()" placeholder="₽"
-                             value="${amount}" autocomplete="off">
+                             onkeyup="changeTitle(this)" onchange="sortCandidates()" 
+                             placeholder="₽" value="${amount}" autocomplete="off">
                          </label>
                          <span>
-                         <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
-                           title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
+                         <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
+                           onclick="clickAnimation(this)" title="Ссылка на кинопоиск">
+                           <img src="static/icons/round-video_library-24px.svg" 
                            alt="Иконка ссылки на кинопоиск"></a>
-                         <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
+                         <button type="button" class="btn" 
+                         onclick="clickAnimation(this);removeRow(this)" title="Удалить">
                            <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
                          </button>
                          </span>`;
@@ -175,6 +180,8 @@ try {
                 };
 
                 notification.children[2].onclick = function() {
+                    clickAnimation(this);
+
                     notification.classList.add('hidden');
                     setTimeout(function () {
                         notification.remove();
@@ -215,7 +222,9 @@ function returnWinner() {
 
 function startTimer() {
     started = true;
-    startBtn.onclick = undefined;
+    startBtn.onclick = function () {
+        clickAnimation(this);
+    };
 
     const timer = document.getElementById('timer');
     let time = timer.innerHTML;
@@ -293,10 +302,14 @@ const plusTwoBtn = document.getElementById('plus-two-btn');
 const minusBtn = document.getElementById('minus-btn');
 
 startBtn.onclick = function () {
+    clickAnimation(this);
+
     startTimer();
 };
 
 resetBtn.onclick = function () {
+    clickAnimation(this);
+
     timer.innerHTML = '00:00:00';
 
     let notificationArea = document.getElementById('notifications-area');
@@ -306,6 +319,8 @@ resetBtn.onclick = function () {
 };
 
 plusBtn.onclick = function () {
+    clickAnimation(this);
+
     let time = timer.innerHTML;
     let arr = time.split(':');
     let m = arr[0];
@@ -317,6 +332,8 @@ plusBtn.onclick = function () {
 };
 
 plusTwoBtn.onclick = function () {
+    clickAnimation(this);
+
     let time = timer.innerHTML;
     let arr = time.split(':');
     let m = arr[0];
@@ -329,6 +346,8 @@ plusTwoBtn.onclick = function () {
 };
 
 minusBtn.onclick = function () {
+    clickAnimation(this);
+
     let time = timer.innerHTML;
     let arr = time.split(':');
     let m = arr[0];
@@ -399,15 +418,17 @@ function clearRow() {
 
 
 function removeRow(delBtn) {
-    delBtn.parentNode.parentNode.parentNode.removeChild(delBtn.parentNode.parentNode);
-    // Get back to default size after delete last non-empty row
-    let names = document.getElementsByClassName('name');
+    setTimeout(function () {
+        delBtn.parentNode.parentNode.parentNode.removeChild(delBtn.parentNode.parentNode);
+        // Get back to default size after delete last non-empty row
+        let names = document.getElementsByClassName('name');
 
-    if (names.length === 1 && !names[0].value) {
-        maxSize = defaultSize;
-        styleForSize.innerText =
-            `.name{width:${defaultSize}vw}#add-btn{width:${defaultSize + 10}vw}`;
-    }
+        if (names.length === 1 && !names[0].value) {
+            maxSize = defaultSize;
+            styleForSize.innerText =
+                `.name{width:${defaultSize}vw}#add-btn{width:${defaultSize + 10}vw}`;
+        }
+    }, 200);
 }
 
 function trim(string) {
@@ -433,6 +454,8 @@ const addBtn = document.getElementById('add-btn');
 let candidatesArea = document.getElementById('candidates-area');
 
 addBtn.onclick = function () {
+    clickAnimation(this);
+
     let div = document.createElement('div');
     div.className = 'block';
 
@@ -446,9 +469,10 @@ addBtn.onclick = function () {
          </label>
          <span>
          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
-           title="Ссылка на кинопоиск"><img src="static/icons/round-video_library-24px.svg" 
-           alt="Иконка ссылки на кинопоиск"></a>
-         <button type="button" class="btn" onclick="removeRow(this)" title="Удалить">
+           onclick="clickAnimation(this)" title="Ссылка на кинопоиск">
+           <img src="static/icons/round-video_library-24px.svg" alt="Иконка ссылки на кинопоиск"></a>
+         <button type="button" class="btn" 
+           onclick="clickAnimation(this);removeRow(this)" title="Удалить">
            <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
          </button>
         </span>`;
@@ -525,7 +549,7 @@ function sheet(css) {
 }
 
 
-const showSettingsBtn = document.getElementById('settings-icon').children[0];
+const showSettingsBtn = document.getElementById('settings-icon');
 const settingsWindow = document.getElementById('settings');
 const saveBGURLBtn = document.getElementById('save-bg-url-btn');
 const clearBGURLBtn = document.getElementById('clear-bg-url-btn');
@@ -536,6 +560,8 @@ let bgURL = getCookie('bg-url');
 let styleElement;
 
 showSettingsBtn.onclick = function () {
+    clickAnimation(this);
+
     settingsWindow.classList.toggle("closed");
 };
 
@@ -561,6 +587,8 @@ input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!importan
 }
 
 saveBGURLBtn.onclick = function () {
+    clickAnimation(this);
+
     setCookie('bg-url', bgURLInput.value, {'expires': year});
     changeBG(getCookie('bg-url'));
 
@@ -584,8 +612,12 @@ input:focus{--accent:${dominantRGB}!important;--shadow:${accentShadow}!important
 };
 
 clearBGURLBtn.onclick = function () {
+    clickAnimation(this);
+
     bgURLInput.value = '';
-    saveBGURLBtn.click();
+    setCookie('bg-url', '', {'expires': year});
+    changeBG('');
+
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}
 input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
     setCookie('accent', '', {'expires': year});
@@ -603,6 +635,8 @@ const tokenCookie = getCookie('token');
 daURL.value = tokenCookie ? tokenCookie : '';
 
 saveDAURLBtn.onclick = function () {
+    clickAnimation(this);
+
     let token = daURL.value;
     setCookie('token', token, {'expires': year});
 
@@ -626,6 +660,8 @@ saveDAURLBtn.onclick = function () {
 };
 
 clearDAURLBtn.onclick = function () {
+    clickAnimation(this);
+
     daURL.value = '';
     setCookie('token', '', {'expires': year});
 
@@ -671,9 +707,26 @@ function changeTitle(costInput) {
 const resetButton = document.getElementById('reset-icon');
 
 resetButton.onclick = function () {
+    clickAnimation(this);
+
     let candidatesArea = document.getElementById('candidates-area');
     while (candidatesArea.children.length > 2) {
         candidatesArea.removeChild(candidatesArea.children[candidatesArea.children.length-2]);
     }
     clearRow();
 };
+
+//Buttons animation
+function clickAnimation(elem) {
+    elem.classList.add('click');
+    setTimeout(function () {
+        elem.classList.remove('click');
+    }, 200);
+}
+
+const urlsBtns = document.getElementsByClassName('special-url');
+for (let i = 0; i < urlsBtns.length; i++) {
+    urlsBtns[i].onclick = function () {
+        clickAnimation(this);
+    }
+}
