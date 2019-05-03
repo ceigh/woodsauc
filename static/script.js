@@ -1,4 +1,8 @@
-// Notification sound
+//TODO: timer animation
+//TODO: select from notification
+//TODO: buttons animation
+
+
 function notificationSound() {
     const audio = new Audio();
     audio.src = '/static/light.mp3';
@@ -36,13 +40,16 @@ function changeSize(nameElement) {
 // DonationAlerts
 let started = false;
 try {
+    // noinspection JSUnresolvedFunction
     const socket = io('https://socket.donationalerts.ru:443', {'reconnection': false});
     const token = getCookie('token');
-    if (token) socket.emit('add-user', {'token': token, 'type': 'minor'});
+    if (token) { // noinspection JSUnresolvedFunction
+        socket.emit('add-user', {'token': token, 'type': 'minor'});
+    }
     socket.on('donation', function (msg) {
     if (started) {
         let msgJSON = JSON.parse(msg);
-        if (msgJSON['alert_type'] == 1) {
+        if (msgJSON['alert_type'] === 1 || msgJSON['alert_type'] === '1') {
             let message = msgJSON['message'];
             message = message.replace(/\s+/g, ' ');
             let amount = +msgJSON['amount'];
@@ -63,6 +70,7 @@ try {
                     let notification = document.createElement('div');
                     notification.className = 'notification';
 
+                    // noinspection HtmlUnknownTarget
                     notification.innerHTML =
                         `<p></p>
                         <button class="notification-btn" type="button" title="Подтвердить">
@@ -73,7 +81,8 @@ try {
                         </button>`;
 
                     notification.children[0].innerText = `Добавить ₽${amount} к ${name}?`;
-                    notification.children[0].setAttribute('title', `Добавить ₽${amount} к ${name}?`);
+                    notification.children[0].setAttribute(
+                        'title', `Добавить ₽${amount} к ${name}?`);
 
 
                     notification.children[1].onclick = function() {
@@ -105,6 +114,7 @@ try {
                 let notification = document.createElement('div');
                 notification.className = 'notification';
 
+                // noinspection HtmlUnknownTarget
                 notification.innerHTML =
                     `<p></p>
                     <button class="notification-btn" type="button" title="Подтвердить">
@@ -115,7 +125,8 @@ try {
                     </button>`;
 
                 notification.children[0].innerText = `Создать ${message} с ₽${amount}?`;
-                notification.children[0].setAttribute('title', `Создать ${message} с ₽${amount}?`);
+                notification.children[0].setAttribute(
+                    'title', `Создать ${message} с ₽${amount}?`);
 
                 notification.children[1].onclick = function() {
                     let div = document.createElement('div');
@@ -213,9 +224,9 @@ function startTimer() {
     let s = arr[1];
     let ms = arr[2];
 
-    if (ms == 0) {
-        if (s == 0) {
-            if (m == 0) {
+    if (ms === '00') {
+        if (s === '00') {
+            if (m === '00') {
                 //Modal
                 const modal = document.querySelector('#modal');
                 const modalOverlay = document.querySelector('#modal-overlay');
@@ -235,7 +246,8 @@ function startTimer() {
                 modal.classList.toggle('closed');
                 modalOverlay.classList.toggle('closed');
 
-                document.title = winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
+                document.title =
+                    winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
 
                 // Get back play button functional
                 startBtn.onclick = function () {
@@ -253,7 +265,7 @@ function startTimer() {
 
         s--;
 
-        if (s < 30 && m == 0) {
+        if (s < 30 && m === '00') {
             timer.className = ('danger')
         } else timer.classList.remove('danger');
 
@@ -362,7 +374,7 @@ function sortCandidates() {
 
     for (let i = 0; i < Math.min(names.length, costs.length); i++) {
         let cost = total[i].cost;
-        costs[i].value = cost == 0 ? '' : cost;
+        costs[i].value = cost === 0 ? '' : cost;
         names[i].value = total[i].name;
         names[i].setAttribute('title', total[i].titleName);
         costs[i].setAttribute('title', total[i].titleCost);
@@ -454,6 +466,7 @@ addBtn.onclick = function () {
 
 // Settings
 function getCookie(name) {
+    // noinspection RegExpRedundantEscape
     let matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
@@ -482,6 +495,7 @@ function setCookie(name, value, options) {
 
     for (const propName in options) {
         updatedCookie += "; " + propName;
+        // noinspection JSUnfilteredForInLoop
         const propValue = options[propName];
         if (propValue !== true) {
             updatedCookie += "=" + propValue;
@@ -551,16 +565,16 @@ saveBGURLBtn.onclick = function () {
     changeBG(getCookie('bg-url'));
 
     // Change Accent color
-    colorExctractor.setAttribute('src', `https://cors-anywhere.herokuapp.com/${bgURLInput.value}`);
+    colorExctractor.setAttribute(
+        'src', `https://cors-anywhere.herokuapp.com/${bgURLInput.value}`);
     colorExctractor.addEventListener('load', function () {
-    const vibrant = new Vibrant(this);
-    const swatches = vibrant.swatches();
-    // for (const swatch in swatches)
-    //     if (swatches.hasOwnProperty(swatch) && swatches[swatch]) {
-    //         console.log(swatch, swatches[swatch].getHex())
-    //    }
+    // noinspection JSUnresolvedFunction
+        const vibrant = new Vibrant(this);
+    // noinspection JSUnresolvedFunction
+        const swatches = vibrant.swatches();
 
-    let dominantRGB = swatches['Vibrant'].getHex();
+    // noinspection JSUnresolvedFunction
+        let dominantRGB = swatches['Vibrant'].getHex();
     let accentShadow = hexToRgb(dominantRGB);
     accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}
