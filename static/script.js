@@ -1,5 +1,7 @@
 //TODO: timer animation
 //TODO: select from notification
+//TODO: fix timer freezes
+//TODO: fix UI animation bugs when more than 1 cell appear
 
 
 function notificationSound() {
@@ -10,7 +12,11 @@ function notificationSound() {
 
 //Dynamic inputs
 const defaultSize = 16.2;
+const defaultMargin = 2.6;
+const highestMargin = 35.4;
+
 let maxSize = defaultSize;
+let maxMargin = defaultMargin;
 
 let styleForSize = document.createElement('style');
 styleForSize.appendChild(document.createTextNode(
@@ -19,20 +25,28 @@ document.head.appendChild(styleForSize);
 
 function changeSize(nameElement) {
     let width;
+    let margin;
     let delta = nameElement.value.length - 10;
+
     let names = document.getElementsByClassName('name');
 
     if (delta > 0) {
-        width = Math.round(16.2 + delta * 2.1);
+        width = defaultSize + delta * 2.1;
+        width = +width.toFixed(2);
+        margin = defaultMargin + delta * 2.1;
+        margin = margin.toFixed(2);
+        margin = margin > highestMargin ? highestMargin : margin;
     } else if (names.length === 1) {
         maxSize = defaultSize;
+        maxMargin = defaultMargin;
         styleForSize.innerText =
-            `.name{width:${defaultSize}vw}#add-btn{width:${defaultSize + 10}vw}`;
+            `.name{width:${defaultSize}vw}#add-btn{width:${defaultSize + 10}vw}.block-buy span{margin-right:${defaultMargin}vw}`;
     }
 
     if (width && width > maxSize) {
         maxSize = width;
-        styleForSize.innerText = `.name{width:${width}vw}#add-btn{width:${width + 10}vw!important}`;
+        maxMargin = margin;
+        styleForSize.innerText = `.name{width:${width}vw}#add-btn{width:${width+10}vw!important}.block-buy span{margin-right:${margin}vw!important}`;
     }
 }
 
@@ -67,7 +81,7 @@ try {
             let inserted = false;
             for (let i = 0; i < Math.min(names.length, costs.length); i++) {
                 let name = names[i].value;
-                let cost = +costs[i].value;
+                // let cost = +costs[i].value;
 
                 if (name && message.toLowerCase().includes(name.toLowerCase())) {
                     // console.log(`${name} in ${message}`);
@@ -100,6 +114,7 @@ try {
 
                             if (name && message.toLowerCase().includes(name.toLowerCase())) {
                                 costs[i].value = amount + cost;
+                                checkOnBuy(costs[i]);
                                 sortCandidates();
                                 changeTitle(costs[i]);
                                 notification.classList.add('hidden');
@@ -178,6 +193,8 @@ try {
 
                     changeSize(div.children[0].children[0]);
 
+                    checkOnBuy(div.children[0].children[1]);
+
                     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
 
                     sortCandidates();
@@ -217,7 +234,7 @@ try {
 
 // Timer
 function returnWinner() {
-    let winner = "Никто не ";
+    let winner = undefined;
     let maxCost = null;
     let names = document.getElementsByClassName('name');
     let costs = document.getElementsByClassName('cost');
@@ -232,8 +249,8 @@ function returnWinner() {
         }
     }
 
-    if (maxCost) winner = winner[0].toUpperCase() + winner.substring(1);
-    return winner;
+    if (maxCost) winner = winner.toTitle();
+    return winner ? `"${winner}"` : "Никто не ";
 }
 
 
@@ -267,13 +284,18 @@ function startTimer() {
 
                 let winner = returnWinner();
 
-                modal.children[0].innerText = `${winner} победил!`;
+                if (isBuy) {
+                    modal.children[0].innerText = `"${buyWinner}" выкупили, аж за ${buyCost}₽ Pog!`;
+                    document.title =
+                        buyWinner.length > 50 ? `${buyWinner.substring(0, 50)}... выкупили!` : `${buyWinner} выкупили!`;
+                } else {
+                    modal.children[0].innerText = `${winner} победил!`;
+                    document.title =
+                        winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
+                }
 
                 modal.classList.toggle('closed');
                 modalOverlay.classList.toggle('closed');
-
-                document.title =
-                    winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
 
                 // Get back play button functional
                 startBtn.onclick = function () {
@@ -421,8 +443,8 @@ function sortCandidates() {
 
 function clearRow() {
     let candidateArea = document.getElementById('candidates-area');
-    let label = candidateArea.children[0].children[0];
-    let link = candidateArea.children[0].children[1].children[0];
+    let label = candidateArea.children[1].children[0];
+    let link = candidateArea.children[1].children[1].children[0];
 
     label.children[0].value = '';
     label.children[1].value = '';
@@ -458,7 +480,7 @@ function createLink(nameElement) {
     if (name) {
         nameElement.parentNode.parentNode.children[1].children[0].href =
             encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
-        nameElement.setAttribute('title', name);
+        nameElement.setAttribute('title', name.toTitle());
     } else {
         nameElement.parentNode.parentNode.children[1].children[0].href =
             'https://www.kinopoisk.ru';
@@ -482,7 +504,7 @@ addBtn.onclick = function () {
            <input class="name" type="text" onkeyup="createLink(this);changeSize(this)"  onchange="changeSize(this)"
              title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
            <input class="cost" type="text" min="0" step="10" placeholder="₽" title="Сумма"
-             onchange="changeTitle(this);checksum(this);sortCandidates()" autocomplete="off">
+             onchange="changeTitle(this);checksum(this);sortCandidates();checkOnBuy(this)" autocomplete="off">
          </label>
          <span>
          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
@@ -596,10 +618,10 @@ let colorCookie = getCookie('accent');
 if (colorCookie && colorCookie !== '') {
     let accentShadow = hexToRgb(colorCookie);
     accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
-    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:${colorCookie}!important}
+    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${colorCookie}!important}
 input:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}`);
 } else {
-    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}
+    styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
 input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}`);
 }
 
@@ -622,7 +644,7 @@ saveBGURLBtn.onclick = function () {
         let dominantRGB = swatches['Vibrant'].getHex();
     let accentShadow = hexToRgb(dominantRGB);
     accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
-    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:${dominantRGB}!important}
+    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominantRGB}!important}
 input:focus{--accent:${dominantRGB}!important;--shadow:${accentShadow}!important}`;
     setCookie('accent', dominantRGB, {'expires': year});
     });
@@ -635,7 +657,7 @@ clearBGURLBtn.onclick = function () {
     setCookie('bg-url', '', {'expires': year});
     changeBG('');
 
-    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url{color:#f39727!important}
+    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
 input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
     setCookie('accent', '', {'expires': year});
 };
@@ -727,7 +749,7 @@ resetButton.onclick = function () {
     clickAnimation(this);
 
     let candidatesArea = document.getElementById('candidates-area');
-    while (candidatesArea.children.length > 2) {
+    while (candidatesArea.children.length > 3) {
         candidatesArea.removeChild(candidatesArea.children[candidatesArea.children.length-2]);
     }
     clearRow();
@@ -758,12 +780,68 @@ function checksum(costElement) {
             costElement.value = '';
             costElement.setAttribute('title', 'Сумма');
         } else {
-            calculated = calculated > 0 ? calculated.toFixed(2) : '';
+            calculated = calculated > 0 ? +calculated.toFixed(2) : '';
             costElement.value = calculated;
             costElement.setAttribute('title', `Сумма: ${calculated} ₽`);
         }
     } catch (e) {
         costElement.value = '';
         costElement.setAttribute('title', 'Сумма');
+    }
+}
+
+// Buy
+const costBuy = document.getElementsByClassName('cost-buy')[0];
+const costBuyCookie = getCookie('buyCost');
+const costBuyClearBtn = document.querySelector('.block-buy .btn');
+let isBuy = false;
+let buyWinner;
+let buyCost;
+
+costBuy.value = costBuyCookie ? costBuyCookie : '';
+changeTitle(costBuy);
+
+costBuy.onchange = function () {
+    changeTitle(this);
+    checksum(this);
+    setCookie('buyCost', this.value, {'expires': year});
+};
+
+costBuyClearBtn.onclick = function () {
+    clickAnimation(this);
+    costBuy.value = '';
+    setCookie('buyCost', '', {'expires': -1});
+};
+
+function checkOnBuy(costElem) {
+    const neededCost = +costBuy.value;
+    const currentCost = +costElem.value;
+
+    const nameElem = costElem.previousElementSibling;
+    let winnerName = nameElem.value.toTitle();
+
+    if (neededCost && winnerName && currentCost > neededCost) {
+        if (!started) {
+            const modal = document.querySelector('#modal');
+            const modalOverlay = document.querySelector('#modal-overlay');
+
+            modalOverlay.onclick = function() {
+                modal.classList.toggle('closed');
+                modalOverlay.classList.toggle('closed');
+                document.title = "Аукцион β";
+            };
+
+            modal.children[0].innerText = `"${winnerName}" выкупили, аж за ${currentCost}₽ Pog!`;
+            document.title =
+                winnerName.length > 50 ? `${winnerName.substring(0, 50)}... выкупили!` : `${winnerName} выкупили!`;
+
+            modal.classList.toggle('closed');
+            modalOverlay.classList.toggle('closed');
+        } else {
+            buyWinner = winnerName;
+            buyCost = currentCost;
+            isBuy = true;
+            timer.innerHTML = '00:00:00';
+        }
     }
 }

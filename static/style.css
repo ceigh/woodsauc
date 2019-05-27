@@ -5,6 +5,7 @@
 
 ::-webkit-scrollbar {
     width: .5vw;
+    height: .5vw;
 }
 
 ::-webkit-scrollbar-track {
@@ -25,6 +26,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    overflow: hidden;
 }
 
 #blind {
@@ -176,6 +178,35 @@ body {
     transition: .3s;
 }
 
+.block-buy {
+    height: 4vw;
+    font-size: 1.7vw;
+    margin-bottom: 1vw;
+}
+
+.block-buy span {
+    opacity: 1;
+    margin-right: 2.6vw;
+}
+
+.block-buy .btn {
+    opacity: 0;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -ms-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+    margin-left: .7vw;
+}
+
+.block-buy:hover .btn {
+    opacity: .3;
+}
+
+.block-buy .btn:hover {
+    opacity: 1;
+}
+
 span {
     opacity: 0;
     transition: .3s;
@@ -231,15 +262,15 @@ span {
 .name {
     /*width: 16.2vw;*/
     max-width: 49vw;
-    margin-right: 5px;
+    margin-right: .26vw;
     text-transform: capitalize;
 }
 
-.cost {
+.cost, .cost-buy {
     width: 8vw;
 }
 
-.name, .cost {
+.name, .cost, .cost-buy {
     height: 100%;
 
     font-size: inherit;
