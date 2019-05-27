@@ -3,6 +3,11 @@
 //TODO: fix timer freezes
 //TODO: fix UI animation bugs when more than 1 cell appear
 
+const firefox = navigator.userAgent.toLowerCase().includes('firefox');
+if (firefox && !getCookie('bg-url')) {
+    document.querySelector('body').style.backgroundImage = "url('static/38263.jpg')";
+}
+
 
 function notificationSound() {
     const audio = new Audio();
@@ -570,15 +575,19 @@ function setCookie(name, value, options) {
 
 
 function changeBG(url) {
-    let body = document.getElementsByTagName('body')[0];
+    console.log(url);
+    const body = document.querySelector('body');
 
     if (url && url !== '') {
         body.style.backgroundImage = `url(${url})`;
     } else {
-        body.style.backgroundImage = "url('static/38263.webp')";
+        if (firefox) {
+            body.style.backgroundImage = "url('static/38263.jpg')";
+        } else {
+            body.style.backgroundImage = "url('static/38263.webp')";
+        }
     }
 }
-
 
 function sheet(css) {
     let style = document.createElement("style");
