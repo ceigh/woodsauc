@@ -1,13 +1,11 @@
 //TODO: timer animation
 //TODO: select from notification
 //TODO: fix timer freezes
-//TODO: fix UI animation bugs when more than 1 cell appear
 
 const firefox = navigator.userAgent.toLowerCase().includes('firefox');
 if (firefox && !getCookie('bg-url')) {
     document.querySelector('body').style.backgroundImage = "url('static/38263.jpg')";
 }
-
 
 function notificationSound() {
     const audio = new Audio();
@@ -111,6 +109,7 @@ try {
 
 
                     notification.children[1].onclick = function() {
+                        ripplet(arguments[0]);
                         costs = document.getElementsByClassName('cost');
                         names = document.getElementsByClassName('name');
                         for (let i = 0; i < Math.min(names.length, costs.length); i++) {
@@ -131,6 +130,7 @@ try {
                     };
 
                     notification.children[2].onclick = function() {
+                        ripplet(arguments[0]);
                         notification.classList.add('hidden');
                         setTimeout(function () {
                             notification.remove();
@@ -166,7 +166,7 @@ try {
                     `Создать "${message.toTitle().replace(/\s+$/, '')}" с ₽${amount}?`);
 
                 notification.children[1].onclick = function() {
-                    clickAnimation(this);
+                    ripplet(arguments[0]);
 
                     let div = document.createElement('div');
                     div.className = 'block';
@@ -175,18 +175,18 @@ try {
                         `<label>
                            <input class="name" type="text" autocomplete="off"
                            onkeyup="createLink(this);changeSize(this)" onchange="changeSize(this)"
-                           placeholder="Позиция" spellcheck="false">
-                           <input class="cost" type="text" min="0" step="10" 
+                           placeholder="Позиция" spellcheck="false" onclick="ripplet(arguments[0])">
+                           <input onclick="ripplet(arguments[0])" class="cost" type="text" min="0" step="10" 
                              onchange="changeTitle(this);checksum(this);sortCandidates()" 
                              placeholder="₽" value="${amount}" autocomplete="off">
                          </label>
                          <span>
                          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
-                           onclick="clickAnimation(this)" title="Ссылка на кинопоиск">
+                           onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
                            <img src="static/icons/round-video_library-24px.svg" 
                            alt="Иконка ссылки на кинопоиск"></a>
                          <button type="button" class="btn" 
-                         onclick="clickAnimation(this);removeRow(this)" title="Удалить">
+                         onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
                            <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
                          </button>
                          </span>`;
@@ -219,7 +219,7 @@ try {
                 };
 
                 notification.children[2].onclick = function() {
-                    clickAnimation(this);
+                    ripplet(arguments[0]);
 
                     notification.classList.add('hidden');
                     setTimeout(function () {
@@ -262,7 +262,7 @@ function returnWinner() {
 function startTimer() {
     started = true;
     startBtn.onclick = function () {
-        clickAnimation(this);
+        ripplet(arguments[0]);
     };
 
     const timer = document.getElementById('timer');
@@ -282,6 +282,8 @@ function startTimer() {
                 timer.classList.remove('danger');
 
                 modalOverlay.onclick = function() {
+                    ripplet(arguments[0]);
+
                     modal.classList.toggle('closed');
                     modalOverlay.classList.toggle('closed');
                     document.title = "Аукцион β";
@@ -304,6 +306,7 @@ function startTimer() {
 
                 // Get back play button functional
                 startBtn.onclick = function () {
+                    ripplet(arguments[0]);
                     startTimer();
                 };
 
@@ -346,13 +349,13 @@ const plusTwoBtn = document.getElementById('plus-two-btn');
 const minusBtn = document.getElementById('minus-btn');
 
 startBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     startTimer();
 };
 
 resetBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     timer.innerHTML = '00:00:00';
 
@@ -363,7 +366,7 @@ resetBtn.onclick = function () {
 };
 
 plusBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     let time = timer.innerHTML;
     let arr = time.split(':');
@@ -376,7 +379,7 @@ plusBtn.onclick = function () {
 };
 
 plusTwoBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     let time = timer.innerHTML;
     let arr = time.split(':');
@@ -390,7 +393,7 @@ plusTwoBtn.onclick = function () {
 };
 
 minusBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     let time = timer.innerHTML;
     let arr = time.split(':');
@@ -463,7 +466,9 @@ function clearRow() {
 
 function removeRow(delBtn) {
     setTimeout(function () {
-        delBtn.parentNode.parentNode.parentNode.removeChild(delBtn.parentNode.parentNode);
+        try {
+            delBtn.parentNode.parentNode.parentNode.removeChild(delBtn.parentNode.parentNode);
+        } catch (e) {}
         // Get back to default size after delete last non-empty row
         let names = document.getElementsByClassName('name');
 
@@ -498,8 +503,6 @@ const addBtn = document.getElementById('add-btn');
 let candidatesArea = document.getElementById('candidates-area');
 
 addBtn.onclick = function () {
-    clickAnimation(this);
-
     let div = document.createElement('div');
     div.className = 'block';
 
@@ -507,21 +510,24 @@ addBtn.onclick = function () {
     div.innerHTML =
         `<label>
            <input class="name" type="text" onkeyup="createLink(this);changeSize(this)"  onchange="changeSize(this)"
-             title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
+             onclick="ripplet(arguments[0])" title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
            <input class="cost" type="text" min="0" step="10" placeholder="₽" title="Сумма"
-             onchange="changeTitle(this);checksum(this);sortCandidates();checkOnBuy(this)" autocomplete="off">
+             onclick="ripplet(arguments[0])" onchange="changeTitle(this);checksum(this);sortCandidates();checkOnBuy(this)" autocomplete="off">
          </label>
          <span>
          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
-           onclick="clickAnimation(this)" title="Ссылка на кинопоиск">
+           onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
            <img src="static/icons/round-video_library-24px.svg" alt="Иконка ссылки на кинопоиск"></a>
          <button type="button" class="btn" 
-           onclick="clickAnimation(this);removeRow(this)" title="Удалить">
+           onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
            <img src="static/icons/round-delete-24px.svg" alt="Иконка удаления">
          </button>
         </span>`;
 
     candidatesArea.insertBefore(div, candidatesArea.lastElementChild);
+
+    ripplet(arguments[0]);
+
     setTimeout(function () {
         div.classList.add('visible');
     }, 10);
@@ -575,7 +581,6 @@ function setCookie(name, value, options) {
 
 
 function changeBG(url) {
-    console.log(url);
     const body = document.querySelector('body');
 
     if (url && url !== '') {
@@ -607,8 +612,12 @@ const year = 31622400;
 let bgURL = getCookie('bg-url');
 let styleElement;
 
+bgURLInput.onclick = function () {
+    ripplet(arguments[0]);
+};
+
 showSettingsBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     settingsWindow.classList.toggle("closed");
 };
@@ -624,6 +633,20 @@ function hexToRgb(hex) {
 
 let colorCookie = getCookie('accent');
 
+// noinspection JSUnresolvedVariable
+ripplet.defaultOptions.clearingDuration = '.3s';
+// noinspection JSUnresolvedVariable
+ripplet.defaultOptions.spreadingDuration = '.3s';
+let color;
+if (colorCookie) {
+    const rgb = hexToRgb(colorCookie);
+    color = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, .6)`;
+} else {
+    color = 'rgba(243, 151, 39, .6)';
+}
+// noinspection JSUnresolvedVariable
+ripplet.defaultOptions.color = color;
+
 if (colorCookie && colorCookie !== '') {
     let accentShadow = hexToRgb(colorCookie);
     accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
@@ -635,39 +658,49 @@ input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!importan
 }
 
 saveBGURLBtn.onclick = function () {
-    clickAnimation(this);
-
-    setCookie('bg-url', bgURLInput.value, {'expires': year});
-    changeBG(getCookie('bg-url'));
+    changeBG(bgURLInput.value);
+    ripplet(arguments[0]);
 
     // Change Accent color
     colorExctractor.setAttribute(
         'src', `https://cors-anywhere.herokuapp.com/${bgURLInput.value}`);
-    colorExctractor.addEventListener('load', function () {
-    // noinspection JSUnresolvedFunction
-        const vibrant = new Vibrant(this);
-    // noinspection JSUnresolvedFunction
-        const swatches = vibrant.swatches();
 
-    // noinspection JSUnresolvedFunction
+    colorExctractor.addEventListener('load', function () {
+        // noinspection JSUnresolvedFunction
+        const vibrant = new Vibrant(this);
+        // noinspection JSUnresolvedFunction
+        const swatches = vibrant.swatches();
+        // noinspection JSUnresolvedFunction
         let dominantRGB = swatches['Vibrant'].getHex();
-    let accentShadow = hexToRgb(dominantRGB);
-    accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
-    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominantRGB}!important}
+        let accentShadow = hexToRgb(dominantRGB);
+
+        // noinspection JSUnresolvedVariable
+        ripplet.defaultOptions.color = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, .6)`;
+
+        accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
+
+        styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominantRGB}!important}
 input:focus{--accent:${dominantRGB}!important;--shadow:${accentShadow}!important}`;
-    setCookie('accent', dominantRGB, {'expires': year});
+
+        setCookie('bg-url', bgURLInput.value, {'expires': year});
+        setCookie('accent', dominantRGB, {'expires': year});
     });
 };
 
 clearBGURLBtn.onclick = function () {
-    clickAnimation(this);
+    changeBG('');
+
+    ripplet(arguments[0]);
 
     bgURLInput.value = '';
-    setCookie('bg-url', '', {'expires': year});
-    changeBG('');
+
+    // noinspection JSUnresolvedVariable
+    ripplet.defaultOptions.color = 'rgba(243, 151, 39, .6)';
 
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
 input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
+
+    setCookie('bg-url', '', {'expires': year});
     setCookie('accent', '', {'expires': year});
 };
 
@@ -680,10 +713,14 @@ const saveDAURLBtn = document.getElementById('save-da-url-btn');
 const clearDAURLBtn = document.getElementById('clear-da-url-btn');
 const tokenCookie = getCookie('token');
 
+daURL.onclick = function () {
+    ripplet(arguments[0]);
+};
+
 daURL.value = tokenCookie ? tokenCookie : '';
 
 saveDAURLBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     let token = daURL.value;
     setCookie('token', token, {'expires': year});
@@ -708,7 +745,7 @@ saveDAURLBtn.onclick = function () {
 };
 
 clearDAURLBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     daURL.value = '';
     setCookie('token', '', {'expires': year});
@@ -735,13 +772,10 @@ clearDAURLBtn.onclick = function () {
 
 // Close modal on keydown
 document.onkeydown = function(e) {
-    const modal = document.querySelector('#modal');
     const modalOverlay = document.querySelector('#modal-overlay');
 
-    if(e.key === "Escape" || e.key === "Enter") {
-        modal.className = ('closed');
-        modalOverlay.className = ('closed');
-        document.title = "Аукцион β";
+    if(e.key === "Escape") {
+        modalOverlay.click();
     }
 };
 
@@ -755,7 +789,7 @@ function changeTitle(costInput) {
 const resetButton = document.getElementById('reset-icon');
 
 resetButton.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
 
     let candidatesArea = document.getElementById('candidates-area');
     while (candidatesArea.children.length > 3) {
@@ -764,18 +798,10 @@ resetButton.onclick = function () {
     clearRow();
 };
 
-//Buttons animation
-function clickAnimation(elem) {
-    elem.classList.add('click');
-    setTimeout(function () {
-        elem.classList.remove('click');
-    }, 200);
-}
-
 const urlsBtns = document.getElementsByClassName('special-url');
 for (let i = 0; i < urlsBtns.length; i++) {
     urlsBtns[i].onclick = function () {
-        clickAnimation(this);
+        ripplet(arguments[0]);
     }
 }
 
@@ -816,8 +842,12 @@ costBuy.onchange = function () {
     setCookie('buyCost', this.value, {'expires': year});
 };
 
+costBuy.onclick = function () {
+    ripplet(arguments[0]);
+};
+
 costBuyClearBtn.onclick = function () {
-    clickAnimation(this);
+    ripplet(arguments[0]);
     costBuy.value = '';
     setCookie('buyCost', '', {'expires': -1});
 };

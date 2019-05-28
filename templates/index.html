@@ -42,24 +42,27 @@
                     <input autocomplete="off" class="cost-buy" min="0" placeholder="₽"
                            step="10" title="Сумма" type="text">
                 </label>
-                <button type="button" class="btn" title="Очистить">
-                    <img src="{% static 'icons/round-delete_outline-24px.svg' %}" alt="Иконка очистки">
+                <button class="btn" title="Очистить" type="button">
+                    <img alt="Иконка очистки" src="{% static 'icons/round-delete_outline-24px.svg' %}">
                 </button>
             </div>
 
             <div class="block visible">
                 <label>
-                    <input class="name" type="text" onkeyup="createLink(this);changeSize(this)" onchange="changeSize(this)"
-                           title="Фильм, игра, etc" autocomplete="off" placeholder="Позиция" spellcheck="false">
-                    <input class="cost" type="text" min="0" step="10" placeholder="₽" title="Сумма"
-                           onchange="changeTitle(this);checksum(this);sortCandidates();checkOnBuy(this)" autocomplete="off">
+                    <input autocomplete="off" class="name" onchange="changeSize(this)"
+                           onclick="ripplet(arguments[0])"
+                           onkeyup="createLink(this);changeSize(this)" placeholder="Позиция" spellcheck="false"
+                           title="Фильм, игра, etc" type="text">
+                    <input autocomplete="off" class="cost" min="0"
+                           onchange="changeTitle(this);checksum(this);sortCandidates();checkOnBuy(this)"
+                           onclick="ripplet(arguments[0])" placeholder="₽" step="10" title="Сумма" type="text">
                 </label>
                 <span>
                 <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
-                   title="Ссылка на кинопоиск" onclick="clickAnimation(this)">
+                   title="Ссылка на кинопоиск" onclick="ripplet(arguments[0])">
                     <img src="{% static 'icons/round-video_library-24px.svg' %}"
                     alt="Иконка ссылки на кинопоиск"></a>
-                <button type="button" class="btn" onclick="clickAnimation(this);clearRow()" title="Очистить">
+                <button type="button" class="btn" onclick="ripplet(arguments[0]);clearRow()" title="Очистить">
                     <img src="{% static 'icons/round-delete_outline-24px.svg' %}" alt="Иконка очистки">
                 </button>
                 </span>
@@ -161,6 +164,11 @@
 
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+
+<script defer crossorigin="anonymous"
+            integrity="sha256-dhetxWLJCpi3xiZvfbQLlvVKDf2+tbH4BDjBArnMGn0="
+            src="https://cdn.jsdelivr.net/npm/ripplet.js@0.1.14/umd/ripplet.min.js"></script>
+
 <script defer src="{% static 'script.min.js' %}"></script>
 </body>
 </html>

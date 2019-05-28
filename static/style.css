@@ -63,7 +63,7 @@ body {
 #timer-btns {
     opacity: 0;
     transition: .3s;
-    zoom: 88%;
+    /*zoom: 88%;*/
 }
 
 .danger {
@@ -82,6 +82,8 @@ body {
 
     opacity: .3;
     visibility: hidden;
+
+    border-radius: 100%;
 }
 
 .timer-btn:hover {
@@ -101,6 +103,8 @@ body {
 
     opacity: .3;
     transition: .3s;
+
+    border-radius: .5vw;
 }
 
 #add-btn img {
@@ -123,6 +127,8 @@ body {
 
     /*visibility: hidden;*/
     opacity: .3;
+
+    border-radius: 100%;
 }
 
 .btn:hover {
@@ -133,6 +139,8 @@ body {
 .kp-link {
     /*visibility: hidden;*/
     transition: .3s;
+
+    border-radius: 100%;
 }
 
 .kp-link img {
@@ -467,6 +475,8 @@ input:focus {
 
     opacity: .3;
     padding: .3vw;
+
+    border-radius: 100%;
 }
 
 .settings-btn img, .notification-btn img {
@@ -510,6 +520,8 @@ input:focus {
     opacity: .3;
     transition: .3s;
     cursor: pointer;
+
+    border-radius: 100%;
 }
 
 #settings-icon:hover {
@@ -527,6 +539,8 @@ input:focus {
     cursor: pointer;
     opacity: .3;
     transition: .3s;
+
+    border-radius: 100%;
 }
 
 #reset-icon:hover {
@@ -562,10 +576,13 @@ input[type='number'] {
     text-decoration: none;
     font-size: 1.7vw;
     margin-left: .5vw;
+
+    border-radius: 100%;
 }
 
 .special-url img {
     width: 2vw;
+    height: 2vw;
     opacity: .3;
     transition: .3s;
 }
@@ -616,148 +633,4 @@ input[type='number'] {
 
     line-height: 1.1vw;
     margin: 0;
-}
-
-/* Buttons animation */
-@-webkit-keyframes anim-effect-boris {
-    0% {
-        -webkit-transform: scale3d(0.3, 0.3, 1);
-        transform: scale3d(0.3, 0.3, 1);
-    }
-    25%, 50% {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-        -webkit-transform: scale3d(1.2, 1.2, 1);
-        transform: scale3d(1.2, 1.2, 1);
-    }
-}
-
-@keyframes anim-effect-boris {
-    0% {
-        -webkit-transform: scale3d(0.3, 0.3, 1);
-        transform: scale3d(0.3, 0.3, 1);
-    }
-    25%, 50% {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-        -webkit-transform: scale3d(1.2, 1.2, 1);
-        transform: scale3d(1.2, 1.2, 1);
-    }
-}
-
-.click::after {
-    -webkit-animation: anim-effect-boris .2s forwards;
-    animation: anim-effect-boris .2s forwards;
-}
-
-#settings-icon::after, #reset-icon::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -3.3vw 0 0 -3.1vw;
-    width: 4vw;
-    height: 4vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-}
-
-.settings-btn::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -3vw 0 0 -2vw;
-    width: 4vw;
-    height: 4vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-}
-
-.timer-btn::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -4.3vw 0 0 -2vw;
-    width: 4vw;
-    height: 4vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-}
-
-#add-btn::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -0.5vw 0 0 -3.4vw;
-    width: 4vw;
-    height: 4vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-}
-
-.kp-link::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -0.3vw 0 0 -3vw;
-    width: 4vw;
-    height: 4vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-}
-
-.btn::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -3.1vw 0 0 -2vw;
-    width: 4vw;
-    height: 4vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-}
-
-.special-url::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -0.95vw 0 0 -3.5vw;
-    width: 4vw;
-    height: 4vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-}
-
-.special-url:last-of-type::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -0.95vw 0 0 -3.1vw;
-    width: 4vw;
-    height: 4vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-}
-
-.notification-btn::after {
-    background: rgba(255, 255, 255, .3);
-    position: absolute;
-    margin: -2.6vw 0 0 -1.55vw;
-    width: 3vw;
-    height: 3vw;
-    border-radius: 50%;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
 }
