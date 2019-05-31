@@ -556,10 +556,20 @@ input:focus {
     display: none;
 }
 
-#timer-btns, #settings-icon, #add-btn, #settings, .block, #reset-icon {
+#timer-btns,
+#settings-icon,
+#add-btn, #settings,
+.block, #reset-icon,
+.block-buy {
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+}
+
+.block-buy span {
+    -webkit-user-select: auto;
+    -ms-user-select: auto;
+    -moz-user-select: auto;
 }
 
 input[type=number]::-webkit-inner-spin-button,
