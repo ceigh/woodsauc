@@ -1,6 +1,6 @@
 //TODO: timer animation
 //TODO: select from notification
-//TODO: fix timer freezes
+//TODO: fix timer freezes on FF
 
 const firefox = navigator.userAgent.toLowerCase().includes('firefox');
 if (firefox && !getCookie('bg-url')) {
@@ -56,6 +56,11 @@ function changeSize(nameElement) {
 //Title case
 String.prototype.toTitle = function() {
   return this.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
+};
+
+// Truncate string
+String.prototype.truncate = function() {
+      return this.replace(/\s+$/, '').replace(/^\s+/, '');
 };
 
 // DonationAlerts
@@ -238,6 +243,17 @@ try {
 }
 
 // Timer
+let isBlur = false;
+
+window.onblur = function () {
+    isBlur = true;
+};
+
+window.onfocus = function () {
+    isBlur = false;
+};
+
+
 function returnWinner() {
     let winner = undefined;
     let maxCost = null;
@@ -255,8 +271,15 @@ function returnWinner() {
     }
 
     if (maxCost) winner = winner.toTitle();
-    return winner ? `"${winner}"` : "Никто не ";
+    return winner ? `"${winner.truncate()}"` : "Никто не ";
 }
+
+
+const timer = document.getElementById('timer');
+let timeArr;
+let m;
+let s;
+let ms;
 
 
 function startTimer() {
@@ -265,12 +288,10 @@ function startTimer() {
         ripplet(arguments[0]);
     };
 
-    const timer = document.getElementById('timer');
-    let time = timer.innerHTML;
-    let arr = time.split(':');
-    let m = arr[0];
-    let s = arr[1];
-    let ms = arr[2];
+    timeArr = timer.innerHTML.split(':');
+    m = timeArr[0];
+    s = timeArr[1];
+    ms = timeArr[2];
 
     if (ms === '00') {
         if (s === '00') {
@@ -278,7 +299,9 @@ function startTimer() {
                 //Modal
                 const modal = document.querySelector('#modal');
                 const modalOverlay = document.querySelector('#modal-overlay');
+
                 started = false;
+
                 timer.classList.remove('danger');
 
                 modalOverlay.onclick = function() {
@@ -286,6 +309,7 @@ function startTimer() {
 
                     modal.classList.toggle('closed');
                     modalOverlay.classList.toggle('closed');
+
                     document.title = "Аукцион β";
                 };
 
@@ -301,8 +325,8 @@ function startTimer() {
                         winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
                 }
 
-                modal.classList.toggle('closed');
                 modalOverlay.classList.toggle('closed');
+                modal.classList.toggle('closed');
 
                 // Get back play button functional
                 startBtn.onclick = function () {
@@ -329,11 +353,14 @@ function startTimer() {
 
         let winner = returnWinner();
         winner = winner === "Никто не " ? '' : ` - ${winner}`;
+
         const title = `${m}:${s}${winner}`;
         document.title = title.length > 50 ? `${title.substring(0, 50)}...` : title;
 
-        ms = 99;
-    } else ms--;
+        ms = firefox ? 99 : isBlur ? 0 : 99;
+    } else {
+        ms = firefox ? ms - 1 : (isBlur ? 0 : ms - 1);
+    }
 
     if (ms < 10) ms = `0${ms}`;
 
@@ -772,9 +799,9 @@ clearDAURLBtn.onclick = function () {
 
 // Close modal on keydown
 document.onkeydown = function(e) {
-    const modalOverlay = document.querySelector('#modal-overlay');
+    const modalOverlay = document.getElementById('modal-overlay');
 
-    if(e.key === "Escape") {
+    if (!modalOverlay.classList.contains('closed') && e.key === 'Escape') {
         modalOverlay.click();
     }
 };
@@ -857,14 +884,16 @@ function checkOnBuy(costElem) {
     const currentCost = +costElem.value;
 
     const nameElem = costElem.previousElementSibling;
-    let winnerName = nameElem.value.toTitle();
+    let winnerName = nameElem.value.toTitle().truncate();
 
-    if (neededCost && winnerName && currentCost > neededCost) {
+    if (neededCost && winnerName && currentCost >= neededCost) {
         if (!started) {
             const modal = document.querySelector('#modal');
             const modalOverlay = document.querySelector('#modal-overlay');
 
             modalOverlay.onclick = function() {
+                ripplet(arguments[0]);
+
                 modal.classList.toggle('closed');
                 modalOverlay.classList.toggle('closed');
                 document.title = "Аукцион β";
