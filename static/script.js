@@ -423,7 +423,9 @@ plusTwoBtn.onclick = function () {
     const mins = +timerArray[0];
 
     if (started) {
-        if (mins !== 59 && mins !== 58) {
+        if (mins === 58) {
+            startTime.setMinutes(startTime.getMinutes() + 1);
+        } else if (mins < 58) {
             startTime.setMinutes(startTime.getMinutes() + 2);
         }
     } else {
