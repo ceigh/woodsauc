@@ -243,17 +243,6 @@ try {
 }
 
 // Timer
-let isBlur = false;
-
-window.onblur = function () {
-    isBlur = true;
-};
-
-window.onfocus = function () {
-    isBlur = false;
-};
-
-
 function returnWinner() {
     let winner = undefined;
     let maxCost = null;
@@ -275,99 +264,103 @@ function returnWinner() {
 }
 
 
+function showWinner() {
+    const modal = document.querySelector('#modal');
+    const modalOverlay = document.querySelector('#modal-overlay');
+
+    timer.classList.remove('danger');
+
+    modalOverlay.onclick = function() {
+        ripplet(arguments[0]);
+
+        modal.classList.toggle('closed');
+        modalOverlay.classList.toggle('closed');
+
+        document.title = "Аукцион β";
+    };
+
+    let winner = returnWinner();
+
+    if (isBuy) {
+        modal.children[0].innerText = `"${buyWinner}" выкупили, аж за ${buyCost}₽ Pog!`;
+        document.title =
+            buyWinner.length > 50 ? `${buyWinner.substring(0, 50)}... выкупили!` : `${buyWinner} выкупили!`;
+    } else {
+        modal.children[0].innerText = `${winner} победил!`;
+        document.title =
+            winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
+    }
+
+    modalOverlay.classList.toggle('closed');
+    modal.classList.toggle('closed');
+}
+
+
+let startTime;
+
 const timer = document.getElementById('timer');
-let timeArr;
-let m;
-let s;
-let ms;
+let timerArray = timer.innerHTML.split(':');
+let m = +timerArray[0], s = +timerArray[1], ms = +timerArray[2];
+let timerTime = new Date(60000 * m + 1000 * s + ms);
+
+
+function updateTimer() {
+	const currTime = new Date();
+    const deltaTime = new Date(currTime - startTime);
+    const resultTime = new Date(timerTime - deltaTime);
+
+    let rm = resultTime.getMinutes();  // result minutes
+    let rs = resultTime.getSeconds();  // result seconds
+    let rms = resultTime.getMilliseconds();  // result milliseconds
+
+    if (!rm && rs < 30) {
+        timer.classList.add('danger');
+    } else {
+        timer.classList.remove('danger')
+    }
+    
+    // if (!(rs % 2)) {
+        let winner = returnWinner();
+
+        if (winner !== "Никто не ") {
+            winner = winner.length > 30 ? `${winner.substr(0, 30)}..."` : winner;
+            document.title = `${winner} - Аукцион β`;
+        } else {
+            document.title = 'Аукцион β';
+        }
+    // }
+    
+    if ((!rm && !rs && rms < 300) || timerTime < deltaTime) {  // minimal rms can't be 0, and it's totally random
+    	cancelAnimationFrame(updateTimer);
+        timer.innerHTML = '00:00:00';
+        showWinner();
+        started = false;
+    } else {
+    	rm = rm < 10 ? `0${rm}` : rm;
+        rs = rs < 10 ? `0${rs}` : rs;
+        rms = rms < 10 ? `0${rms}` : rms;
+        rms = String(rms).substr(0, 2);
+
+        timer.innerHTML = `${rm}:${rs}:${rms}`;
+
+        requestAnimationFrame(updateTimer);
+    }
+}
 
 
 function startTimer() {
-    started = true;
-    startBtn.onclick = function () {
-        ripplet(arguments[0]);
-    };
+    const minutes = +timer.innerHTML.split(':')[0];
 
-    timeArr = timer.innerHTML.split(':');
-    m = timeArr[0];
-    s = timeArr[1];
-    ms = timeArr[2];
-
-    if (ms === '00') {
-        if (s === '00') {
-            if (m === '00') {
-                //Modal
-                const modal = document.querySelector('#modal');
-                const modalOverlay = document.querySelector('#modal-overlay');
-
-                started = false;
-
-                timer.classList.remove('danger');
-
-                modalOverlay.onclick = function() {
-                    ripplet(arguments[0]);
-
-                    modal.classList.toggle('closed');
-                    modalOverlay.classList.toggle('closed');
-
-                    document.title = "Аукцион β";
-                };
-
-                let winner = returnWinner();
-
-                if (isBuy) {
-                    modal.children[0].innerText = `"${buyWinner}" выкупили, аж за ${buyCost}₽ Pog!`;
-                    document.title =
-                        buyWinner.length > 50 ? `${buyWinner.substring(0, 50)}... выкупили!` : `${buyWinner} выкупили!`;
-                } else {
-                    modal.children[0].innerText = `${winner} победил!`;
-                    document.title =
-                        winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
-                }
-
-                modalOverlay.classList.toggle('closed');
-                modal.classList.toggle('closed');
-
-                // Get back play button functional
-                startBtn.onclick = function () {
-                    ripplet(arguments[0]);
-                    startTimer();
-                };
-
-                return;
-            }
-
-            m--;
-            s = 59;
-
-            if (m < 10) m = `0${m}`;
+    if (!started) {
+        if (!minutes) {
+            showWinner();
+        } else {
+            startTime = new Date();
+            requestAnimationFrame(updateTimer);
+            started = true;
         }
-
-        s--;
-
-        if (s < 30 && m === '00') {
-            timer.className = ('danger')
-        } else timer.classList.remove('danger');
-
-        if (s < 10) s = `0${s}`;
-
-        let winner = returnWinner();
-        winner = winner === "Никто не " ? '' : ` - ${winner}`;
-
-        const title = `${m}:${s}${winner}`;
-        document.title = title.length > 50 ? `${title.substring(0, 50)}...` : title;
-
-        ms = firefox ? 99 : isBlur ? 0 : 99;
-    } else {
-        ms = firefox ? ms - 1 : (isBlur ? 0 : ms - 1);
     }
-
-    if (ms < 10) ms = `0${ms}`;
-
-    timer.innerHTML = `${m}:${s}:${ms}`;
-    setTimeout(startTimer, 10);
 }
-
 
 const startBtn = document.getElementById('start-btn');
 const resetBtn = document.getElementById('stop-btn');
@@ -384,56 +377,86 @@ startBtn.onclick = function () {
 resetBtn.onclick = function () {
     ripplet(arguments[0]);
 
-    timer.innerHTML = '00:00:00';
+    if (started) {
+        startTime = new Date(new Date - timerTime + 300);
 
-    let notificationArea = document.getElementById('notifications-area');
-    while (notificationArea.children.length > 0) {
-        notificationArea.removeChild(notificationArea.firstChild);
+        let notificationArea = document.getElementById('notifications-area');
+        while (notificationArea.children.length > 0) {
+            notificationArea.removeChild(notificationArea.firstChild);
+        }
+
+        started = false;
+    } else {
+        m = 0;
+        timerTime = new Date(0);
+
+        timer.innerHTML = '00:00:00';
     }
 };
 
 plusBtn.onclick = function () {
     ripplet(arguments[0]);
 
-    let time = timer.innerHTML;
-    let arr = time.split(':');
-    let m = arr[0];
-    let s = arr[1];
-    let ms = arr[2];
-    m++;
-    if (m < 10) m = `0${m}`;
-    timer.innerHTML = `${m}:${s}:${ms}`;
+    timerArray = timer.innerHTML.split(':');
+    const mins = +timerArray[0];
+
+    if (started) {
+        if (mins !== 59) {
+            startTime.setMinutes(startTime.getMinutes() + 1);
+        }
+    } else {
+        let rm;
+
+        m = +timerArray[0] + 1;
+        m = m > 59 ? 59 : m;
+        timerTime = new Date(60000 * m + 1000 * s + ms);
+
+        rm = m < 10 ? `0${m}` : m;
+        timer.innerHTML = `${rm}:00:00`
+    }
 };
 
 plusTwoBtn.onclick = function () {
     ripplet(arguments[0]);
 
-    let time = timer.innerHTML;
-    let arr = time.split(':');
-    let m = arr[0];
-    let s = arr[1];
-    let ms = arr[2];
-    m++;
-    m++;
-    if (m < 10) m = `0${m}`;
-    timer.innerHTML = `${m}:${s}:${ms}`;
+    timerArray = timer.innerHTML.split(':');
+    const mins = +timerArray[0];
+
+    if (started) {
+        if (mins !== 59 && mins !== 58) {
+            startTime.setMinutes(startTime.getMinutes() + 2);
+        }
+    } else {
+        let rm;
+
+        m = +timerArray[0] + 2;
+        m = m > 59 ? 59 : m;
+        timerTime = new Date(60000 * m + 1000 * s + ms);
+
+        rm = m < 10 ? `0${m}` : m;
+        timer.innerHTML = `${rm}:00:00`
+    }
 };
 
 minusBtn.onclick = function () {
+    const minutes = +timer.innerHTML.split(':')[0];
+
     ripplet(arguments[0]);
 
-    let time = timer.innerHTML;
-    let arr = time.split(':');
-    let m = arr[0];
-    let s = arr[1];
-    let ms = arr[2];
-    m--;
-    if (m < 0) {
-        m = '00';
-    } else if (m < 10) {
-        m = `0${m}`;
+    if (minutes) {
+        if (started) {
+            startTime.setMinutes(startTime.getMinutes() - 1);
+        } else {
+            let rm;
+
+            timerArray = timer.innerHTML.split(':');
+            m = +timerArray[0] - 1;
+            timerTime = new Date(60000 * m + 1000 * s + ms);
+
+            rm = m < 10 ? `0${m}` : m;
+            timer.innerHTML = `${rm}:00:00`
+        }
     }
-    timer.innerHTML = `${m}:${s}:${ms}`;
 };
 
 
@@ -901,7 +924,7 @@ function checkOnBuy(costElem) {
 
             modal.children[0].innerText = `"${winnerName}" выкупили, аж за ${currentCost}₽ Pog!`;
             document.title =
-                winnerName.length > 50 ? `${winnerName.substring(0, 50)}... выкупили!` : `${winnerName} выкупили!`;
+                winnerName.length > 30 ? `${winnerName.substring(0, 30)}..." выкупили!` : `${winnerName} выкупили!`;
 
             modal.classList.toggle('closed');
             modalOverlay.classList.toggle('closed');
@@ -909,7 +932,7 @@ function checkOnBuy(costElem) {
             buyWinner = winnerName;
             buyCost = currentCost;
             isBuy = true;
-            timer.innerHTML = '00:00:00';
+            resetBtn.click();
         }
     }
 }
