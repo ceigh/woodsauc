@@ -666,6 +666,12 @@ function sheet(css) {
 }
 
 
+function textSelect(inputElem) {
+    inputElem.focus();
+    inputElem.select();
+}
+
+
 const showSettingsBtn = document.getElementById('settings-icon');
 const settingsWindow = document.getElementById('settings');
 const saveBGURLBtn = document.getElementById('save-bg-url-btn');
@@ -678,6 +684,7 @@ let styleElement;
 
 bgURLInput.onclick = function () {
     ripplet(arguments[0]);
+    textSelect(this);
 };
 
 showSettingsBtn.onclick = function () {
@@ -779,6 +786,7 @@ const tokenCookie = getCookie('token');
 
 daURL.onclick = function () {
     ripplet(arguments[0]);
+    textSelect(this);
 };
 
 daURL.value = tokenCookie ? tokenCookie : '';
