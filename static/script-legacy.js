@@ -308,6 +308,7 @@ function startTimer() {
 
                 modalOverlay.classList.toggle('closed');
                 modal.classList.toggle('closed');
+                notificationSound();
 
                 // Get back play button functional
                 startBtn.onclick = function () {
@@ -891,6 +892,7 @@ function checkOnBuy(costElem) {
 
             modal.classList.toggle('closed');
             modalOverlay.classList.toggle('closed');
+            notificationSound();
         } else {
             buyWinner = winnerName;
             buyCost = currentCost;

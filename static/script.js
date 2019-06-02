@@ -293,6 +293,7 @@ function showWinner() {
 
     modalOverlay.classList.toggle('closed');
     modal.classList.toggle('closed');
+    notificationSound();
 }
 
 
@@ -950,6 +951,7 @@ function checkOnBuy(costElem) {
 
             modal.classList.toggle('closed');
             modalOverlay.classList.toggle('closed');
+            notificationSound();
         } else {
             buyWinner = winnerName;
             buyCost = currentCost;
