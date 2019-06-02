@@ -299,6 +299,11 @@ function showWinner() {
 let startTime;
 
 const timer = document.getElementById('timer');
+const minsCookie = getCookie('previousMinutes');
+if (minsCookie) {
+    timer.innerHTML = `${minsCookie}:00:00`;
+}
+
 let timerArray = timer.innerHTML.split(':');
 let m = +timerArray[0], s = +timerArray[1], ms = +timerArray[2];
 let timerTime = new Date(60000 * m + 1000 * s + ms);
@@ -362,6 +367,7 @@ function startTimer() {
     }
 }
 
+
 const startBtn = document.getElementById('start-btn');
 const resetBtn = document.getElementById('stop-btn');
 const plusBtn = document.getElementById('plus-btn');
@@ -369,7 +375,13 @@ const plusTwoBtn = document.getElementById('plus-two-btn');
 const minusBtn = document.getElementById('minus-btn');
 
 startBtn.onclick = function () {
+    const mins = timer.innerHTML.split(':')[0];
+
     ripplet(arguments[0]);
+
+    if (mins) {
+        setCookie('previousMinutes', mins, {'expires': year});
+    }
 
     startTimer();
 };
