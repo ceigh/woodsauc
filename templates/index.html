@@ -169,6 +169,10 @@
             integrity="sha256-dhetxWLJCpi3xiZvfbQLlvVKDf2+tbH4BDjBArnMGn0="
             src="https://cdn.jsdelivr.net/npm/ripplet.js@0.1.14/umd/ripplet.min.js"></script>
 
-<script defer src="{% static 'script.min.js' %}"></script>
+{% if legacy %}
+    <script defer src="{% static 'script-legacy.min.js' %}"></script>
+{% else %}
+    <script defer src="{% static 'script.min.js' %}"></script>
+{% endif %}
 </body>
 </html>
