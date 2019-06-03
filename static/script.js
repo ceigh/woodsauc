@@ -624,15 +624,7 @@ addBtn.onclick = function () {
 
 
 // Settings
-function getCookie(name) {
-    // noinspection RegExpRedundantEscape
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
-
+// Set cookie is in index.html
 function setCookie(name, value, options) {
     options = options || {};
 
@@ -667,9 +659,13 @@ function setCookie(name, value, options) {
 
 function changeBG(url) {
     const body = document.querySelector('body');
+    const bgImg = new Image();
 
     if (url && url !== '') {
-        body.style.backgroundImage = `url(${url})`;
+        bgImg.onload = function(){
+            body.style.backgroundImage = `url(${bgImg.src})`;
+        };
+        bgImg.src = url;
     } else {
         if (firefox) {
             body.style.backgroundImage = "url('static/38263.jpg')";
@@ -768,12 +764,13 @@ function isUrlWork(url) {
 
 
 function isUrlValid(url) {
-    const objRE = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i;
+    // noinspection RegExpRedundantEscape
+    const objRE = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/i;
     return objRE.test(url);
 }
 
 
-function notificate(text) {
+function notification(text) {
     const tray = document.getElementById('notifications-area');
     const notification = document.createElement('div');
     const p = document.createElement('p');
@@ -801,20 +798,20 @@ saveBGURLBtn.onclick = function () {
     ripplet(arguments[0]);
 
     if (!url) {
-        notificate("Нет URL фона");
+        notification("Нет URL фона");
     } else {
         if (url === getCookie('bg-url')) {
-            notificate("Этот фон уже установлен");
+            notification("Этот фон уже установлен");
         } else {
             if (!isUrlValid(url)) {
-                notificate("Введите корректный URL");
+                notification("Введите корректный URL");
             } else {
                 if (!isUrlWork(`https://cors-anywhere.herokuapp.com/${url}`)) {
-                    notificate("URL неверный, или не отвечает");
+                    notification("URL неверный, или не отвечает");
                 } else {
                     changeBG(url);
-                    
-                    notificate("Фон обновлен");
+
+                    notification("Фон обновлен");
 
                     // Change Accent color
                     colorExctractor.setAttribute(
@@ -850,7 +847,7 @@ clearBGURLBtn.onclick = function () {
     ripplet(arguments[0]);
 
     if (!bgURLInput.value) {
-        notificate("Фон уже сброшен");
+        notification("Фон уже сброшен");
     } else {
         changeBG('');
 
@@ -865,7 +862,7 @@ clearBGURLBtn.onclick = function () {
         setCookie('bg-url', '', {'expires': year});
         setCookie('accent', '', {'expires': year});
 
-        notificate("Фон сброшен");
+        notification("Фон сброшен");
     }
 };
 
