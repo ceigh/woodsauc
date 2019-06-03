@@ -235,6 +235,11 @@ try {
                 notificationArea.insertBefore(notification, notificationArea.firstElementChild);
                 notificationSound();
             }
+            let cuteMsg = message.replace(/\s+$/, '');
+            cuteMsg = cuteMsg.length > 30 ? `${cuteMsg.substr(0, 30)}...` : cuteMsg;
+            sendNotification(`Новое пожертвование${msgJSON['username'] ? ` от ${msgJSON['username']}` : ''}!`,
+                {'body': `"${cuteMsg}" с ${amount}₽`,
+                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/maple.png'})
         }
     }
 });
@@ -284,11 +289,26 @@ function showWinner() {
     if (isBuy) {
         modal.children[0].innerText = `"${buyWinner}" выкупили, аж за ${buyCost}₽ Pog!`;
         document.title =
-            buyWinner.length > 50 ? `${buyWinner.substring(0, 50)}... выкупили!` : `${buyWinner} выкупили!`;
+            buyWinner.length > 30 ? `${buyWinner.substring(0, 30)}... выкупили!` : `${buyWinner} выкупили!`;
+
+        sendNotification("Аукцион окончен!",
+        {'body': `Выкупили "${buyWinner.length > 30 ? `${buyWinner.substring(0, 30)}...` : buyWinner}"!`,
+                  'dir': 'ltr', 'lang': 'ru', 'icon': '/static/maple.png'})
     } else {
         modal.children[0].innerText = `${winner} победил!`;
+
         document.title =
-            winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
+            winner.length > 30 ? `${winner.substring(0, 30)}... победил!` : `${winner} победил!`;
+
+        if (winner === "Никто не ") {
+            sendNotification("Аукцион окончен!",
+                {'body': "Никто не победил :(",
+                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/maple.png'})
+        } else {
+            sendNotification("Аукцион окончен!",
+                {'body': `Победа ${winner.length > 30 ? `${winner.substring(0, 30)}..."` : winner}!`,
+                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/maple.png'})
+        }
     }
 
     modalOverlay.classList.toggle('closed');
@@ -729,51 +749,124 @@ input:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important
 input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}`);
 }
 
+
+/**
+ * @return {boolean}
+ */
+function isUrlWork(url) {
+    const http = new XMLHttpRequest();
+
+    try {
+        http.open('HEAD', url, false);
+        http.send();
+        return http.status === 200;
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
+}
+
+
+function isUrlValid(url) {
+    const objRE = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i;
+    return objRE.test(url);
+}
+
+
+function notificate(text) {
+    const tray = document.getElementById('notifications-area');
+    const notification = document.createElement('div');
+    const p = document.createElement('p');
+
+    p.innerText = text;
+    p.setAttribute('title', text);
+
+    notification.appendChild(p);
+    notification.className = 'notification';
+    tray.insertBefore(notification, tray.firstElementChild);
+    notificationSound();
+
+    setTimeout(function () {
+        notification.classList.add('hidden');
+        setTimeout(function () {
+            notification.remove();
+        }, 300);
+    }, 1200);
+}
+
+
 saveBGURLBtn.onclick = function () {
-    changeBG(bgURLInput.value);
+    const url = bgURLInput.value;
+
     ripplet(arguments[0]);
 
-    // Change Accent color
-    colorExctractor.setAttribute(
-        'src', `https://cors-anywhere.herokuapp.com/${bgURLInput.value}`);
+    if (!url) {
+        notificate("Нет URL фона");
+    } else {
+        if (url === getCookie('bg-url')) {
+            notificate("Этот фон уже установлен");
+        } else {
+            if (!isUrlValid(url)) {
+                notificate("Введите корректный URL");
+            } else {
+                if (!isUrlWork(`https://cors-anywhere.herokuapp.com/${url}`)) {
+                    notificate("URL неверный, или не отвечает");
+                } else {
+                    changeBG(url);
+                    
+                    notificate("Фон обновлен");
 
-    colorExctractor.addEventListener('load', function () {
-        // noinspection JSUnresolvedFunction
-        const vibrant = new Vibrant(this);
-        // noinspection JSUnresolvedFunction
-        const swatches = vibrant.swatches();
-        // noinspection JSUnresolvedFunction
-        let dominantRGB = swatches['Vibrant'].getHex();
-        let accentShadow = hexToRgb(dominantRGB);
+                    // Change Accent color
+                    colorExctractor.setAttribute(
+                        'src', `https://cors-anywhere.herokuapp.com/${url}`);
 
-        // noinspection JSUnresolvedVariable
-        ripplet.defaultOptions.color = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, .6)`;
+                    colorExctractor.addEventListener('load', function () {
+                        // noinspection JSUnresolvedFunction
+                        const vibrant = new Vibrant(this);
+                        // noinspection JSUnresolvedFunction
+                        const swatches = vibrant.swatches();
+                        // noinspection JSUnresolvedFunction
+                        const dominant = swatches['Vibrant'].getHex();
+                        let shadow = hexToRgb(dominant);
 
-        accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
+                        // noinspection JSUnresolvedVariable
+                        ripplet.defaultOptions.color = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .6)`;
 
-        styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominantRGB}!important}
-input:focus{--accent:${dominantRGB}!important;--shadow:${accentShadow}!important}`;
+                        shadow = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .7)`;
 
-        setCookie('bg-url', bgURLInput.value, {'expires': year});
-        setCookie('accent', dominantRGB, {'expires': year});
-    });
+                        styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominant}!important}
+                            input:focus{--accent:${dominant}!important;--shadow:${shadow}!important}`;
+
+                        setCookie('bg-url', url, {'expires': year});
+                        setCookie('accent', dominant, {'expires': year});
+                    });
+                }
+            }
+        }
+    }
 };
 
 clearBGURLBtn.onclick = function () {
-    changeBG('');
-
     ripplet(arguments[0]);
 
-    bgURLInput.value = '';
+    if (!bgURLInput.value) {
+        notificate("Фон уже сброшен");
+    } else {
+        changeBG('');
 
-    // noinspection JSUnresolvedVariable
-    ripplet.defaultOptions.color = 'rgba(243, 151, 39, .6)';
+        bgURLInput.value = '';
 
-    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
-input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
+        // noinspection JSUnresolvedVariable
+        ripplet.defaultOptions.color = 'rgba(243, 151, 39, .6)';
 
-    setCookie('bg-url', '', {'expires': year});
-    setCookie('accent', '', {'expires': year});
+        styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
+            input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
+
+        setCookie('bg-url', '', {'expires': year});
+        setCookie('accent', '', {'expires': year});
+
+        notificate("Фон сброшен");
+    }
 };
 
 changeBG(bgURL);
@@ -952,6 +1045,9 @@ function checkOnBuy(costElem) {
             modal.classList.toggle('closed');
             modalOverlay.classList.toggle('closed');
             notificationSound();
+            sendNotification("Аукцион окончен!",
+            {'body': `Выкупили "${winnerName.length > 30 ? `${winnerName.substring(0, 30)}...` : winnerName}"!`,
+                      'dir': 'ltr', 'lang': 'ru', 'icon': '/static/maple.png'})
         } else {
             buyWinner = winnerName;
             buyCost = currentCost;
@@ -959,4 +1055,42 @@ function checkOnBuy(costElem) {
             resetBtn.click();
         }
     }
+}
+
+//HTML5 notifications
+function sendNotification(title, options) {
+    // Проверим, поддерживает ли браузер HTML5 Notifications
+    if (!('Notification' in window)) {
+        console.log("Ваш браузер не поддерживает HTML Notifications, его необходимо обновить.");
+    } else if (Notification.permission === 'granted') {  // Проверим, есть ли права на отправку уведомлений
+        // Если права есть, отправим уведомление
+        const notification = new Notification(title, options);
+
+        function focusWindow() {
+            window.focus();
+        }
+
+        notification.onclick = focusWindow;
+    } else if (Notification.permission !== 'denied') {  // Если прав нет, пытаемся их получить
+        // noinspection JSIgnoredPromiseFromCall
+        Notification.requestPermission(function (permission) {
+            // Если права успешно получены, отправляем уведомление
+            if (permission === 'granted') {
+                const notification = new Notification(title, options);
+
+                notification.onclick = focusWindow;
+            } else {
+                // Юзер отклонил наш запрос на показ уведомлений
+                console.log('Вы запретили показывать уведомления');
+            }
+        });
+    } else {
+        // Пользователь ранее отклонил наш запрос на показ уведомлений
+    }
+}
+
+
+if (Notification.permission === 'default') {
+    // noinspection JSIgnoredPromiseFromCall
+    Notification.requestPermission();
 }

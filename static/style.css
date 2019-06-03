@@ -27,6 +27,12 @@ body {
     background-attachment: fixed;
     background-position: center;
     overflow: hidden;
+
+    -webkit-transition: background-image .3s;
+    -moz-transition: background-image .3s;
+    -ms-transition: background-image .3s;
+    -o-transition: background-image .3s;
+    transition: background-image .3s;
 }
 
 #blind {
