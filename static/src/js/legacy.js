@@ -1,15 +1,15 @@
 //TODO: timer animation
 //TODO: select from notification
-//TODO: fix timer freezes on FF
+//TODO: fix timer freezes
 
 const firefox = navigator.userAgent.toLowerCase().includes('firefox');
 if (firefox && !getCookie('bg-url')) {
-    document.querySelector('body').style.backgroundImage = "url('/static/img/bg/tree.jpg')";
+    document.querySelector('body').style.backgroundImage = "url('/static/dist/img/bg/tree.jpg')";
 }
 
 function notificationSound() {
     const audio = new Audio();
-    audio.src = '/static/sound/light.mp3';
+    audio.src = '/static/dist/sound/light.mp3';
     audio.autoplay = true;
 }
 
@@ -100,10 +100,10 @@ try {
                     notification.innerHTML =
                         `<p></p>
                         <button class="notification-btn" type="button" title="Подтвердить">
-                            <img src="/static/img/icons/material/done.svg" alt="Иконка подтверждения">
+                            <img src="/static/dist/img/icons/material/done.svg" alt="Иконка подтверждения">
                         </button>
                         <button class="notification-btn" type="button" title="Отклонить">
-                            <img src="/static/img/icons/material/clear.svg" alt="Иконка очистки">
+                            <img src="/static/dist/img/icons/material/clear.svg" alt="Иконка очистки">
                         </button>`;
 
                     notification.children[0].innerText =
@@ -158,10 +158,10 @@ try {
                 notification.innerHTML =
                     `<p></p>
                     <button class="notification-btn" type="button" title="Подтвердить">
-                        <img src="/static/img/icons/material/done.svg" alt="Иконка подтверждения">
+                        <img src="/static/dist/img/icons/material/done.svg" alt="Иконка подтверждения">
                     </button>
                     <button class="notification-btn" type="button" title="Отклонить">
-                        <img src="/static/img/icons/material/clear.svg" alt="Иконка очистки">
+                        <img src="/static/dist/img/icons/material/clear.svg" alt="Иконка очистки">
                     </button>`;
 
                 notification.children[0].innerText =
@@ -188,11 +188,11 @@ try {
                          <span>
                          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
                            onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
-                           <img src="/static/img/icons/material/video-library.svg" 
+                           <img src="/static/dist/img/icons/material/video-library.svg" 
                            alt="Иконка ссылки на кинопоиск"></a>
                          <button type="button" class="btn" 
                          onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
-                           <img src="/static/img/icons/material/delete.svg" alt="Иконка удаления">
+                           <img src="/static/dist/img/icons/material/delete.svg" alt="Иконка удаления">
                          </button>
                          </span>`;
 
@@ -235,11 +235,6 @@ try {
                 notificationArea.insertBefore(notification, notificationArea.firstElementChild);
                 notificationSound();
             }
-            let cuteMsg = message.replace(/\s+$/, '');
-            cuteMsg = cuteMsg.length > 30 ? `${cuteMsg.substr(0, 30)}...` : cuteMsg;
-            sendNotification(`Новое пожертвование${msgJSON['username'] ? ` от ${msgJSON['username']}` : ''}!`,
-                {'body': `"${cuteMsg}" с ${amount}₽`,
-                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
         }
     }
 });
@@ -264,128 +259,92 @@ function returnWinner() {
         }
     }
 
-    if (maxCost) winner = winner.toTitle();
-    return winner ? `"${winner.truncate()}"` : "Никто не ";
-}
-
-
-function showWinner() {
-    const modal = document.querySelector('#modal');
-    const modalOverlay = document.querySelector('#modal-overlay');
-
-    timer.classList.remove('danger');
-
-    modalOverlay.onclick = function() {
-        ripplet(arguments[0]);
-
-        modal.classList.toggle('closed');
-        modalOverlay.classList.toggle('closed');
-
-        document.title = "Аукцион β";
-    };
-
-    let winner = returnWinner();
-
-    if (isBuy) {
-        modal.children[0].innerText = `"${buyWinner}" выкупили, аж за ${buyCost}₽ Pog!`;
-        document.title =
-            buyWinner.length > 30 ? `${buyWinner.substring(0, 30)}... выкупили!` : `${buyWinner} выкупили!`;
-
-        sendNotification("Аукцион окончен!",
-        {'body': `Выкупили "${buyWinner.length > 30 ? `${buyWinner.substring(0, 30)}...` : buyWinner}"!`,
-                  'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
-    } else {
-        modal.children[0].innerText = `${winner} победил!`;
-
-        document.title =
-            winner.length > 30 ? `${winner.substring(0, 30)}... победил!` : `${winner} победил!`;
-
-        if (winner === "Никто не ") {
-            sendNotification("Аукцион окончен!",
-                {'body': "Никто не победил :(",
-                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
-        } else {
-            sendNotification("Аукцион окончен!",
-                {'body': `Победа ${winner.length > 30 ? `${winner.substring(0, 30)}..."` : winner}!`,
-                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
-        }
-    }
-
-    modalOverlay.classList.toggle('closed');
-    modal.classList.toggle('closed');
-    notificationSound();
-}
-
-
-let startTime;
-
-const timer = document.getElementById('timer');
-const minsCookie = getCookie('previousMinutes');
-if (minsCookie) {
-    timer.innerHTML = `${minsCookie}:00:00`;
-}
-
-let timerArray = timer.innerHTML.split(':');
-let m = +timerArray[0], s = +timerArray[1], ms = +timerArray[2];
-let timerTime = new Date(60000 * m + 1000 * s + ms);
-
-
-function updateTimer() {
-	const currTime = new Date();
-    const deltaTime = new Date(currTime - startTime);
-    const resultTime = new Date(timerTime - deltaTime);
-
-    let rm = resultTime.getMinutes();  // result minutes
-    let rs = resultTime.getSeconds();  // result seconds
-    let rms = resultTime.getMilliseconds();  // result milliseconds
-
-    if (!rm && rs < 30) {
-        timer.classList.add('danger');
-    } else {
-        timer.classList.remove('danger')
-    }
-    
-    // if (!(rs % 2)) {
-        let winner = returnWinner();
-
-        if (winner !== "Никто не ") {
-            winner = winner.length > 30 ? `${winner.substr(0, 30)}..."` : winner;
-            document.title = `${winner} - Аукцион β`;
-        } else {
-            document.title = 'Аукцион β';
-        }
-    // }
-    
-    if ((!rm && !rs && rms < 300) || timerTime < deltaTime) {  // minimal rms can't be 0, and it's totally random
-    	cancelAnimationFrame(updateTimer);
-        timer.innerHTML = '00:00:00';
-        showWinner();
-        started = false;
-    } else {
-    	rm = rm < 10 ? `0${rm}` : rm;
-        rs = rs < 10 ? `0${rs}` : rs;
-        rms = rms < 10 ? `0${rms}` : rms;
-        rms = String(rms).substr(0, 2);
-
-        timer.innerHTML = `${rm}:${rs}:${rms}`;
-
-        requestAnimationFrame(updateTimer);
-    }
+    if (maxCost) winner = winner.toTitle().truncate();
+    return winner ? `"${winner}"` : "Никто не ";
 }
 
 
 function startTimer() {
-    const minutes = +timer.innerHTML.split(':')[0];
+    started = true;
+    startBtn.onclick = function () {
+        ripplet(arguments[0]);
+    };
 
-    if (!started) {
-        if (!minutes) {
-            showWinner();
-        } else {
-            startTime = new Date();
-            requestAnimationFrame(updateTimer);
-            started = true;
+    const timer = document.getElementById('timer');
+    let time = timer.innerHTML;
+    let arr = time.split(':');
+    let m = arr[0];
+    let s = arr[1];
+    let ms = arr[2];
+
+    if (ms === '00') {
+        if (s === '00') {
+            if (m === '00') {
+                //Modal
+                const modal = document.querySelector('#modal');
+                const modalOverlay = document.querySelector('#modal-overlay');
+                started = false;
+                timer.classList.remove('danger');
+
+                modalOverlay.onclick = function() {
+                    ripplet(arguments[0]);
+
+                    modal.classList.toggle('closed');
+                    modalOverlay.classList.toggle('closed');
+                    document.title = "Аукцион β";
+                };
+
+                let winner = returnWinner();
+
+                if (isBuy) {
+                    modal.children[0].innerText = `"${buyWinner}" выкупили, аж за ${buyCost}₽ Pog!`;
+                    document.title =
+                        buyWinner.length > 50 ? `${buyWinner.substring(0, 50)}... выкупили!` : `${buyWinner} выкупили!`;
+                } else {
+                    modal.children[0].innerText = `${winner} победил!`;
+                    document.title =
+                        winner.length > 50 ? `${winner.substring(0, 50)}... победил!` : `${winner} победил!`;
+                }
+
+                modalOverlay.classList.toggle('closed');
+                modal.classList.toggle('closed');
+                notificationSound();
+
+                // Get back play button functional
+                startBtn.onclick = function () {
+                    ripplet(arguments[0]);
+                    startTimer();
+                };
+
+                return;
+            }
+
+            m--;
+            s = 59;
+
+            if (m < 10) m = `0${m}`;
         }
-    }
+
+        s--;
+
+        if (s < 30 && m === '00') {
+            timer.className = ('danger')
+        } else timer.classList.remove('danger');
+
+        if (s < 10) s = `0${s}`;
+
+        let winner = returnWinner();
+        winner = winner === "Никто не " ? '' : ` - ${winner}`;
+        const title = `${m}:${s}${winner}`;
+        document.title = title.length > 50 ? `${title.substring(0, 50)}...` : title;
+
+        ms = 99;
+    } else ms--;
+
+    if (ms < 10) ms = `0${ms}`;
+
+    timer.innerHTML = `${m}:${s}:${ms}`;
+    setTimeout(startTimer, 10);
 }
 
 
@@ -396,13 +355,7 @@ const plusTwoBtn = document.getElementById('plus-two-btn');
 const minusBtn = document.getElementById('minus-btn');
 
 startBtn.onclick = function () {
-    const mins = timer.innerHTML.split(':')[0];
-
     ripplet(arguments[0]);
-
-    if (mins) {
-        setCookie('previousMinutes', mins, {'expires': year});
-    }
 
     startTimer();
 };
@@ -410,88 +363,56 @@ startBtn.onclick = function () {
 resetBtn.onclick = function () {
     ripplet(arguments[0]);
 
-    if (started) {
-        startTime = new Date(new Date - timerTime + 300);
+    timer.innerHTML = '00:00:00';
 
-        let notificationArea = document.getElementById('notifications-area');
-        while (notificationArea.children.length > 0) {
-            notificationArea.removeChild(notificationArea.firstChild);
-        }
-
-        started = false;
-    } else {
-        m = 0;
-        timerTime = new Date(0);
-
-        timer.innerHTML = '00:00:00';
+    let notificationArea = document.getElementById('notifications-area');
+    while (notificationArea.children.length > 0) {
+        notificationArea.removeChild(notificationArea.firstChild);
     }
 };
 
 plusBtn.onclick = function () {
     ripplet(arguments[0]);
 
-    timerArray = timer.innerHTML.split(':');
-    const mins = +timerArray[0];
-
-    if (started) {
-        if (mins !== 59) {
-            startTime.setMinutes(startTime.getMinutes() + 1);
-        }
-    } else {
-        let rm;
-
-        m = +timerArray[0] + 1;
-        m = m > 59 ? 59 : m;
-        timerTime = new Date(60000 * m + 1000 * s + ms);
-
-        rm = m < 10 ? `0${m}` : m;
-        timer.innerHTML = `${rm}:00:00`
-    }
+    let time = timer.innerHTML;
+    let arr = time.split(':');
+    let m = arr[0];
+    let s = arr[1];
+    let ms = arr[2];
+    m++;
+    if (m < 10) m = `0${m}`;
+    timer.innerHTML = `${m}:${s}:${ms}`;
 };
 
 plusTwoBtn.onclick = function () {
     ripplet(arguments[0]);
 
-    timerArray = timer.innerHTML.split(':');
-    const mins = +timerArray[0];
-
-    if (started) {
-        if (mins === 58) {
-            startTime.setMinutes(startTime.getMinutes() + 1);
-        } else if (mins < 58) {
-            startTime.setMinutes(startTime.getMinutes() + 2);
-        }
-    } else {
-        let rm;
-
-        m = +timerArray[0] + 2;
-        m = m > 59 ? 59 : m;
-        timerTime = new Date(60000 * m + 1000 * s + ms);
-
-        rm = m < 10 ? `0${m}` : m;
-        timer.innerHTML = `${rm}:00:00`
-    }
+    let time = timer.innerHTML;
+    let arr = time.split(':');
+    let m = arr[0];
+    let s = arr[1];
+    let ms = arr[2];
+    m++;
+    m++;
+    if (m < 10) m = `0${m}`;
+    timer.innerHTML = `${m}:${s}:${ms}`;
 };
 
 minusBtn.onclick = function () {
-    const minutes = +timer.innerHTML.split(':')[0];
-
     ripplet(arguments[0]);
 
-    if (minutes) {
-        if (started) {
-            startTime.setMinutes(startTime.getMinutes() - 1);
-        } else {
-            let rm;
-
-            timerArray = timer.innerHTML.split(':');
-            m = +timerArray[0] - 1;
-            timerTime = new Date(60000 * m + 1000 * s + ms);
-
-            rm = m < 10 ? `0${m}` : m;
-            timer.innerHTML = `${rm}:00:00`
-        }
+    let time = timer.innerHTML;
+    let arr = time.split(':');
+    let m = arr[0];
+    let s = arr[1];
+    let ms = arr[2];
+    m--;
+    if (m < 0) {
+        m = '00';
+    } else if (m < 10) {
+        m = `0${m}`;
     }
+    timer.innerHTML = `${m}:${s}:${ms}`;
 };
 
 
@@ -602,10 +523,10 @@ addBtn.onclick = function () {
          <span>
          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
            onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
-           <img src="/static/img/icons/material/video-library.svg" alt="Иконка ссылки на кинопоиск"></a>
+           <img src="/static/dist/img/icons/material/video-library.svg" alt="Иконка ссылки на кинопоиск"></a>
          <button type="button" class="btn" 
            onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
-           <img src="/static/img/icons/material/delete.svg" alt="Иконка удаления">
+           <img src="/static/dist/img/icons/material/delete.svg" alt="Иконка удаления">
          </button>
         </span>`;
 
@@ -624,7 +545,15 @@ addBtn.onclick = function () {
 
 
 // Settings
-// Set cookie is in index.html
+function getCookie(name) {
+    // noinspection RegExpRedundantEscape
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+
 function setCookie(name, value, options) {
     options = options || {};
 
@@ -659,18 +588,14 @@ function setCookie(name, value, options) {
 
 function changeBG(url) {
     const body = document.querySelector('body');
-    const bgImg = new Image();
 
     if (url && url !== '') {
-        bgImg.onload = function(){
-            body.style.backgroundImage = `url(${bgImg.src})`;
-        };
-        bgImg.src = url;
+        body.style.backgroundImage = `url(${url})`;
     } else {
         if (firefox) {
-            body.style.backgroundImage = "url('/static/img/bg/tree.jpg')";
+            body.style.backgroundImage = "url('/static/dist/img/bg/tree.jpg')";
         } else {
-            body.style.backgroundImage = "url('/static/img/bg/tree.webp')";
+            body.style.backgroundImage = "url('/static/dist/img/bg/tree.webp')";
         }
     }
 }
@@ -739,135 +664,57 @@ if (colorCookie && colorCookie !== '') {
     let accentShadow = hexToRgb(colorCookie);
     accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
     styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${colorCookie}!important}
-input:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}
-::selection{background:${accentShadow}!important}::-moz-selection{background:${accentShadow}}!important`);
+input:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}`);
 } else {
     styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
-input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}
-::selection{background:rgba(243,151,39,.7)}::-moz-selection{background:rgba(243,151,39,.7)}`);
+input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}`);
 }
-
-
-/**
- * @return {boolean}
- */
-function isUrlWork(url) {
-    const http = new XMLHttpRequest();
-
-    try {
-        http.open('HEAD', url, false);
-        http.send();
-        return http.status === 200;
-    } catch (e) {
-        console.log(e);
-        return false;
-    }
-}
-
-
-function isUrlValid(url) {
-    // noinspection RegExpRedundantEscape
-    const objRE = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/i;
-    return objRE.test(url);
-}
-
-
-function notification(text) {
-    const tray = document.getElementById('notifications-area');
-    const notification = document.createElement('div');
-    const p = document.createElement('p');
-
-    p.innerText = text;
-    p.setAttribute('title', text);
-
-    notification.appendChild(p);
-    notification.className = 'notification';
-    tray.insertBefore(notification, tray.firstElementChild);
-    notificationSound();
-
-    setTimeout(function () {
-        notification.classList.add('hidden');
-        setTimeout(function () {
-            notification.remove();
-        }, 300);
-    }, 1200);
-}
-
 
 saveBGURLBtn.onclick = function () {
-    const url = bgURLInput.value;
-
+    changeBG(bgURLInput.value);
     ripplet(arguments[0]);
 
-    if (!url) {
-        notification("Нет URL фона");
-    } else {
-        if (url === getCookie('bg-url')) {
-            notification("Этот фон уже установлен");
-        } else {
-            if (!isUrlValid(url)) {
-                notification("Введите корректный URL");
-            } else {
-                if (!isUrlWork(`https://cors-anywhere.herokuapp.com/${url}`)) {
-                    notification("URL неверный, или не отвечает");
-                } else {
-                    changeBG(url);
+    // Change Accent color
+    colorExctractor.setAttribute(
+        'src', `https://cors-anywhere.herokuapp.com/${bgURLInput.value}`);
 
-                    notification("Фон обновлен");
+    colorExctractor.addEventListener('load', function () {
+        // noinspection JSUnresolvedFunction
+        const vibrant = new Vibrant(this);
+        // noinspection JSUnresolvedFunction
+        const swatches = vibrant.swatches();
+        // noinspection JSUnresolvedFunction
+        let dominantRGB = swatches['Vibrant'].getHex();
+        let accentShadow = hexToRgb(dominantRGB);
 
-                    // Change Accent color
-                    colorExctractor.setAttribute(
-                        'src', `https://cors-anywhere.herokuapp.com/${url}`);
+        // noinspection JSUnresolvedVariable
+        ripplet.defaultOptions.color = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, .6)`;
 
-                    colorExctractor.addEventListener('load', function () {
-                        // noinspection JSUnresolvedFunction
-                        const vibrant = new Vibrant(this);
-                        // noinspection JSUnresolvedFunction
-                        const swatches = vibrant.swatches();
-                        // noinspection JSUnresolvedFunction
-                        const dominant = swatches['Vibrant'].getHex();
-                        let shadow = hexToRgb(dominant);
+        accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
 
-                        // noinspection JSUnresolvedVariable
-                        ripplet.defaultOptions.color = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .6)`;
+        styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominantRGB}!important}
+input:focus{--accent:${dominantRGB}!important;--shadow:${accentShadow}!important}`;
 
-                        shadow = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .7)`;
-
-                        styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominant}!important}
-                            input:focus{--accent:${dominant}!important;--shadow:${shadow}!important}
-                            ::selection{background:${shadow}!important}::-moz-selection{background:${shadow}!important}`;
-
-                        setCookie('bg-url', url, {'expires': year});
-                        setCookie('accent', dominant, {'expires': year});
-                    });
-                }
-            }
-        }
-    }
+        setCookie('bg-url', bgURLInput.value, {'expires': year});
+        setCookie('accent', dominantRGB, {'expires': year});
+    });
 };
 
 clearBGURLBtn.onclick = function () {
+    changeBG('');
+
     ripplet(arguments[0]);
 
-    if (!bgURLInput.value) {
-        notification("Фон уже сброшен");
-    } else {
-        changeBG('');
+    bgURLInput.value = '';
 
-        bgURLInput.value = '';
+    // noinspection JSUnresolvedVariable
+    ripplet.defaultOptions.color = 'rgba(243, 151, 39, .6)';
 
-        // noinspection JSUnresolvedVariable
-        ripplet.defaultOptions.color = 'rgba(243, 151, 39, .6)';
+    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
+input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
 
-        styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
-            input:focus{--accent:#f39727!important;--shadow:rgba(243,151,39,.7)!important});
-            ::selection{background:rgba(243,151,39,.7)}::-moz-selection{background:rgba(243,151,39,.7)}`;
-
-        setCookie('bg-url', '', {'expires': year});
-        setCookie('accent', '', {'expires': year});
-
-        notification("Фон сброшен");
-    }
+    setCookie('bg-url', '', {'expires': year});
+    setCookie('accent', '', {'expires': year});
 };
 
 changeBG(bgURL);
@@ -1041,57 +888,16 @@ function checkOnBuy(costElem) {
 
             modal.children[0].innerText = `"${winnerName}" выкупили, аж за ${currentCost}₽ Pog!`;
             document.title =
-                winnerName.length > 30 ? `${winnerName.substring(0, 30)}..." выкупили!` : `${winnerName} выкупили!`;
+                winnerName.length > 50 ? `${winnerName.substring(0, 50)}... выкупили!` : `${winnerName} выкупили!`;
 
             modal.classList.toggle('closed');
             modalOverlay.classList.toggle('closed');
             notificationSound();
-            sendNotification("Аукцион окончен!",
-            {'body': `Выкупили "${winnerName.length > 30 ? `${winnerName.substring(0, 30)}...` : winnerName}"!`,
-                      'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
         } else {
             buyWinner = winnerName;
             buyCost = currentCost;
             isBuy = true;
-            resetBtn.click();
+            timer.innerHTML = '00:00:00';
         }
     }
-}
-
-//HTML5 notifications
-function sendNotification(title, options) {
-    // Проверим, поддерживает ли браузер HTML5 Notifications
-    if (!('Notification' in window)) {
-        console.log("Ваш браузер не поддерживает HTML Notifications, его необходимо обновить.");
-    } else if (Notification.permission === 'granted') {  // Проверим, есть ли права на отправку уведомлений
-        // Если права есть, отправим уведомление
-        const notification = new Notification(title, options);
-
-        function focusWindow() {
-            window.focus();
-        }
-
-        notification.onclick = focusWindow;
-    } else if (Notification.permission !== 'denied') {  // Если прав нет, пытаемся их получить
-        // noinspection JSIgnoredPromiseFromCall
-        Notification.requestPermission(function (permission) {
-            // Если права успешно получены, отправляем уведомление
-            if (permission === 'granted') {
-                const notification = new Notification(title, options);
-
-                notification.onclick = focusWindow;
-            } else {
-                // Юзер отклонил наш запрос на показ уведомлений
-                console.log('Вы запретили показывать уведомления');
-            }
-        });
-    } else {
-        // Пользователь ранее отклонил наш запрос на показ уведомлений
-    }
-}
-
-
-if (Notification.permission === 'default') {
-    // noinspection JSIgnoredPromiseFromCall
-    Notification.requestPermission();
 }

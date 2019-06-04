@@ -21,7 +21,7 @@
 body {
     color: #fff;
     background: #000;
-    background-image: url('../img/bg/tree.webp');
+    background-image: url('/static/dist/img/bg/tree.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;

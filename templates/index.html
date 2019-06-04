@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Аукцион β</title>
     {% load static %}
-    <link href="{% static 'css/preloader.min.css' %}" rel="stylesheet">
-    <link href="{% static 'img/favicon/favicon.png' %}" rel="icon">
+    <link href="{% static 'dist/css/preloader.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/img/favicon/favicon.png' %}" rel="icon">
 </head>
 <body>
 <div id="preloader">
@@ -56,7 +56,7 @@
                            step="10" title="Сумма" type="text">
                 </label>
                 <button class="btn" title="Очистить" type="button">
-                    <img alt="Иконка очистки" src="{% static 'img/icons/material/delete-outline.svg' %}">
+                    <img alt="Иконка очистки" src="{% static 'dist/img/icons/material/delete-outline.svg' %}">
                 </button>
             </div>
 
@@ -73,16 +73,16 @@
                 <span>
                 <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
                    title="Ссылка на кинопоиск" onclick="ripplet(arguments[0])">
-                    <img src="{% static 'img/icons/material/video-library.svg' %}"
+                    <img src="{% static 'dist/img/icons/material/video-library.svg' %}"
                     alt="Иконка ссылки на кинопоиск"></a>
                 <button type="button" class="btn" onclick="ripplet(arguments[0]);clearRow()" title="Очистить">
-                    <img src="{% static 'img/icons/material/delete-outline.svg' %}" alt="Иконка очистки">
+                    <img src="{% static 'dist/img/icons/material/delete-outline.svg' %}" alt="Иконка очистки">
                 </button>
                 </span>
             </div>
 
             <button id="add-btn" type="button" title="Добавить">
-                <img src="{% static 'img/icons/material/add-box.svg' %}" alt="Иконка добавления">
+                <img src="{% static 'dist/img/icons/material/add-box.svg' %}" alt="Иконка добавления">
             </button>
         </div>
     </div>
@@ -92,19 +92,19 @@
             <div id="timer" title="Таймер">10:00:00</div>
             <div id="timer-btns">
                 <button autofocus id="start-btn" class="timer-btn" type="button" title="Старт">
-                    <img src="{% static 'img/icons/material/play-arrow.svg' %}" alt="Иконка старта">
+                    <img src="{% static 'dist/img/icons/material/play-arrow.svg' %}" alt="Иконка старта">
                 </button>
                 <button id="stop-btn" class="timer-btn" type="button" title="Стоп">
-                    <img src="{% static 'img/icons/material/stop.svg' %}" alt="Иконка остановки">
+                    <img src="{% static 'dist/img/icons/material/stop.svg' %}" alt="Иконка остановки">
                 </button>
                 <button id="minus-btn" class="timer-btn" type="button" title="Минус минута">
-                    <img src="{% static 'img/icons/material/keyboard-arrow-down.svg' %}" alt="Иконка минус минуты">
+                    <img src="{% static 'dist/img/icons/material/keyboard-arrow-down.svg' %}" alt="Иконка минус минуты">
                 </button>
                 <button id="plus-btn" class="timer-btn" type="button" title="Плюс минута">
-                    <img src="{% static 'img/icons/material/keyboard-arrow-up.svg' %}" alt="Иконка плюс минуты">
+                    <img src="{% static 'dist/img/icons/material/keyboard-arrow-up.svg' %}" alt="Иконка плюс минуты">
                 </button>
                 <button id="plus-two-btn" class="timer-btn" type="button" title="Плюс две минуты">
-                    <img src="{% static 'img/icons/material/keyboard-capslock.svg' %}" alt="Иконка плюс двух минут">
+                    <img src="{% static 'dist/img/icons/material/keyboard-capslock.svg' %}" alt="Иконка плюс двух минут">
                 </button>
             </div>
         </div>
@@ -115,10 +115,10 @@
                 <input type="url" id="bg-url" placeholder="URL фона" title="Ссылка на изображение" autocomplete="off">
 
                 <button id="save-bg-url-btn" class="settings-btn" type="button" title="Сохранить">
-                    <img src="{% static 'img/icons/material/save.svg' %}" alt="Иконка сохранения">
+                    <img src="{% static 'dist/img/icons/material/save.svg' %}" alt="Иконка сохранения">
                 </button>
                 <button id="clear-bg-url-btn" class="settings-btn" type="button" title="Сбросить">
-                    <img src="{% static 'img/icons/material/clear.svg' %}" alt="Иконка очистки">
+                    <img src="{% static 'dist/img/icons/material/clear.svg' %}" alt="Иконка очистки">
                 </button>
             </div>
 
@@ -128,33 +128,33 @@
                 title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле токен DonationAlerts из настроек'>
 
                 <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
-                    <img src="{% static 'img/icons/material/save.svg' %}" alt="Иконка сохранения">
+                    <img src="{% static 'dist/img/icons/material/save.svg' %}" alt="Иконка сохранения">
                 </button>
                 <button id="clear-da-url-btn" class="settings-btn" type="button" title="Сбросить">
-                    <img src="{% static 'img/icons/material/clear.svg' %}" alt="Иконка очистки">
+                    <img src="{% static 'dist/img/icons/material/clear.svg' %}" alt="Иконка очистки">
                 </button>
             </div>
 
             <div>
                 <a class="special-url" title="Написать о проблеме"
                    href="mailto:incoming+ceigh-auction-11633616-rwjsauv0b8z8yv37eoj8ad5r-issue@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы">
-                    <img src="{% static 'img/icons/material/bug-report.svg' %}" alt="Иконка багрепорта">
+                    <img src="{% static 'dist/img/icons/material/bug-report.svg' %}" alt="Иконка багрепорта">
                 </a>
                 <a href="https://gitlab.com/ceigh/auction/releases"
                    class="special-url" title="Новости" target="_blank">
-                    <img src="{% static 'img/icons/material/new-releases.svg' %}" alt="Иконка новостей">
+                    <img src="{% static 'dist/img/icons/material/new-releases.svg' %}" alt="Иконка новостей">
                 </a>
                 <a href="https://gitlab.com/ceigh/auction/tree/master"
                    class="special-url" title="Исходный код" target="_blank">
-                    <img src="{% static 'img/icons/material/code.svg' %}" alt="Иконка исходного кода">
+                    <img src="{% static 'dist/img/icons/material/code.svg' %}" alt="Иконка исходного кода">
                 </a>
                 <a href="https://discord.gg/pa4qbtk"
                    class="special-url" title="Сообщество Discord" target="_blank">
-                    <img src="{% static 'img/icons/discord-logo.svg' %}" alt="Иконка Discord">
+                    <img src="{% static 'dist/img/icons/discord-logo.svg' %}" alt="Иконка Discord">
                 </a>
                 <a href="https://www.donationalerts.com/r/hecig"
                    class="special-url" title="Поддержать" target="_blank">
-                    <img src="{% static 'img/icons/material/attach-money.svg' %}" alt="Иконка денег">
+                    <img src="{% static 'dist/img/icons/material/attach-money.svg' %}" alt="Иконка денег">
                 </a>
             </div>
         </div>
@@ -164,18 +164,18 @@
 <div id="notifications-area"></div>
 
 <div id="settings-icon" title="Настройки">
-    <img src="{% static 'img/icons/material/settings.svg' %}" alt="Иконка настроек">
+    <img src="{% static 'dist/img/icons/material/settings.svg' %}" alt="Иконка настроек">
 </div>
 
 <div id="reset-icon" title="Очистить все">
-    <img src="{% static 'img/icons/material/delete-sweep.svg' %}" alt="Иконка очистки">
+    <img src="{% static 'dist/img/icons/material/delete-sweep.svg' %}" alt="Иконка очистки">
 </div>
 
 <div id="modal" class="closed"><p></p></div>
 <div id="modal-overlay" class="closed"></div>
 <img id="color-extractor" crossOrigin="anonymous" alt="Задний фон" src="">
 
-<link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+<link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
 
@@ -187,9 +187,9 @@
             src="https://cdn.jsdelivr.net/npm/ripplet.js@0.1.14/umd/ripplet.min.js"></script>
 
 {% if legacy %}
-    <script defer src="{% static 'js/legacy.min.js' %}"></script>
+    <script defer src="{% static 'dist/js/legacy.min.js' %}"></script>
 {% else %}
-    <script defer src="{% static 'js/script.min.js' %}"></script>
+    <script defer src="{% static 'dist/js/script.min.js' %}"></script>
 {% endif %}
 </body>
 </html>
