@@ -187,9 +187,9 @@
             src="https://cdn.jsdelivr.net/npm/ripplet.js@0.1.14/umd/ripplet.min.js"></script>
 
 {% if legacy %}
-    <script defer src="{% static 'dist/js/legacy.min.js' %}"></script>
+    <script defer src="{% static 'dist/js/legacy/legacy.min.js' %}"></script>
 {% else %}
-    <script defer src="{% static 'dist/js/script.min.js' %}"></script>
+    <script defer src="{% static 'dist/js/default/script.min.js' %}"></script>
 {% endif %}
 </body>
 </html>
