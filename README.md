@@ -12,7 +12,7 @@ Just deploy your local Django server by manage.py.
 
 Or if you're not programmer, just use [link](https://woodsauc.pythonanywhere.com).
 
-![Preview](banner.png)
+![Preview](demo.png)
 
 # Info
 
