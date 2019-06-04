@@ -739,10 +739,12 @@ if (colorCookie && colorCookie !== '') {
     let accentShadow = hexToRgb(colorCookie);
     accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
     styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${colorCookie}!important}
-input:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}`);
+input:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}
+::selection{background:${accentShadow}!important}::-moz-selection{background:${accentShadow}}!important`);
 } else {
     styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
-input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}`);
+input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}
+::selection{background:rgba(243,151,39,.7)}::-moz-selection{background:rgba(243,151,39,.7)}`);
 }
 
 
@@ -832,7 +834,8 @@ saveBGURLBtn.onclick = function () {
                         shadow = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .7)`;
 
                         styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominant}!important}
-                            input:focus{--accent:${dominant}!important;--shadow:${shadow}!important}`;
+                            input:focus{--accent:${dominant}!important;--shadow:${shadow}!important}
+                            ::selection{background:${shadow}!important}::-moz-selection{background:${shadow}!important}`;
 
                         setCookie('bg-url', url, {'expires': year});
                         setCookie('accent', dominant, {'expires': year});
@@ -857,7 +860,8 @@ clearBGURLBtn.onclick = function () {
         ripplet.defaultOptions.color = 'rgba(243, 151, 39, .6)';
 
         styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
-            input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important});`;
+            input:focus{--accent:#f39727!important;--shadow:rgba(243,151,39,.7)!important});
+            ::selection{background:rgba(243,151,39,.7)}::-moz-selection{background:rgba(243,151,39,.7)}`;
 
         setCookie('bg-url', '', {'expires': year});
         setCookie('accent', '', {'expires': year});
