@@ -100,10 +100,10 @@ try {
                     notification.innerHTML =
                         `<p></p>
                         <button class="notification-btn" type="button" title="Подтвердить">
-                            <img src="/icons/material/done.svg" alt="Иконка подтверждения">
+                            <img src="/src/auction/staticn/static/dist/img/icons/material/done.svg" alt="Иконка подтверждения">
                         </button>
                         <button class="notification-btn" type="button" title="Отклонить">
-                            <img src="/icons/material/clear.svg" alt="Иконка очистки">
+                            <img src="/src/auction/staticn/static/dist/img/icons/material/clear.svg" alt="Иконка очистки">
                         </button>`;
 
                     notification.children[0].innerText =
@@ -158,10 +158,10 @@ try {
                 notification.innerHTML =
                     `<p></p>
                     <button class="notification-btn" type="button" title="Подтвердить">
-                        <img src="/icons/material/done.svg" alt="Иконка подтверждения">
+                        <img src="/src/auction/staticn/static/dist/img/icons/material/done.svg" alt="Иконка подтверждения">
                     </button>
                     <button class="notification-btn" type="button" title="Отклонить">
-                        <img src="/icons/material/clear.svg" alt="Иконка очистки">
+                        <img src="/src/auction/staticn/static/dist/img/icons/material/clear.svg" alt="Иконка очистки">
                     </button>`;
 
                 notification.children[0].innerText =
@@ -188,11 +188,11 @@ try {
                          <span>
                          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
                            onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
-                           <img src="/icons/material/video-library.svg" 
+                           <img src="/src/auction/staticn/static/dist/img/icons/material/video-library.svg" 
                            alt="Иконка ссылки на кинопоиск"></a>
                          <button type="button" class="btn" 
                          onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
-                           <img src="/icons/material/delete.svg" alt="Иконка удаления">
+                           <img src="/src/auction/staticn/static/dist/img/icons/material/delete.svg" alt="Иконка удаления">
                          </button>
                          </span>`;
 
@@ -602,10 +602,10 @@ addBtn.onclick = function () {
          <span>
          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
            onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
-           <img src="/icons/material/video-library.svg" alt="Иконка ссылки на кинопоиск"></a>
+           <img src="/src/auction/staticn/static/dist/img/icons/material/video-library.svg" alt="Иконка ссылки на кинопоиск"></a>
          <button type="button" class="btn" 
            onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
-           <img src="/icons/material/delete.svg" alt="Иконка удаления">
+           <img src="/src/auction/staticn/static/dist/img/icons/material/delete.svg" alt="Иконка удаления">
          </button>
         </span>`;
 
