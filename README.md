@@ -1,23 +1,52 @@
-# Auction
+# Woodsauc
 
-Simple auction tool, primarily for streamers.
+[README](README-ENG.md) for English speakers. 
 
-This repository contains all sourse files: 
+Простой инструмент для аукционов, в основном для стримеров.
 
-frontend HTML + CSS, JS and the backend is running on Python (Django).
+Этот репозиторий содержит весь исходный код: 
 
-# Usage
+фронтенд `.html` + `.css`, `.js` и бэкенд на Django.
 
-Just deploy your local Django server by manage.py.
+# Необходимые программы
 
-Or if you're not programmer, just use [link](https://woodsauc.pythonanywhere.com).
+Чтобы запустить локально:
 
-![Preview](branding/demo.png)
+- Python **3+** и Django
+- node + npm
 
-# Info
+# Установка
 
-Developer: [@ceigh](https://gitlab.com/ceigh 'Artjom Löbsack').
+Сначала установите зависимости:
 
-If you want to help the project, please [donate](https://www.donationalerts.com/r/hecig).
+`npm i`
 
-Or if you're developer, please fork, send merge request or mark an issue.
+Затем запустите скрипт:
+
+`npm run 'to production'`
+
+# Использование
+
+Вы можете запустить браузерную версию через:
+
+`npm start`
+
+(если вы пользователь Mac или Linux), но если у вас другая ОС, вы можете вручную развернуть сервер Django.
+
+Также вы всегда можете использовать [онлайн версию](https://woodsauc.pythonanywhere.com 'WoodsAuc').
+
+![Preview](branding/demo.png 'WoodsAuc')
+
+Если вы хотите что то доработать или изменить, запустите:
+
+`npm run 'start development'`
+
+# Информация
+
+Разработчик: [@ceigh](https://gitlab.com/ceigh 'Artjom Löbsack').
+
+Если вы хотите помочь проекту, пожалуйста [пожертвуйте](https://www.donationalerts.com/r/hecig 'Hecig DonationAlerts').
+
+Или если вы разработчик - форкайте, мерджите и оповещайте о багах.
+
+По всем вопросам обращайтесь в [Discord](https://discord.gg/pa4qbtk 'WoodsAuc')

@@ -4,12 +4,12 @@
 
 const firefox = navigator.userAgent.toLowerCase().includes('firefox');
 if (firefox && !getCookie('bg-url')) {
-    document.querySelector('body').style.backgroundImage = "url('/static/dist/img/bg/tree.jpg')";
+    document.querySelector('body').style.backgroundImage = "url('/static/img/bg/tree.jpg')";
 }
 
 function notificationSound() {
     const audio = new Audio();
-    audio.src = '/static/dist/sound/light.mp3';
+    audio.src = '/static/sound/light.mp3';
     audio.autoplay = true;
 }
 
@@ -100,10 +100,10 @@ try {
                     notification.innerHTML =
                         `<p></p>
                         <button class="notification-btn" type="button" title="Подтвердить">
-                            <img src="/src/auction/staticn/static/dist/img/icons/material/done.svg" alt="Иконка подтверждения">
+                            <img src="/static/img/icons/material/done.svg" alt="Иконка подтверждения">
                         </button>
                         <button class="notification-btn" type="button" title="Отклонить">
-                            <img src="/src/auction/staticn/static/dist/img/icons/material/clear.svg" alt="Иконка очистки">
+                            <img src="/static/img/icons/material/clear.svg" alt="Иконка очистки">
                         </button>`;
 
                     notification.children[0].innerText =
@@ -158,10 +158,10 @@ try {
                 notification.innerHTML =
                     `<p></p>
                     <button class="notification-btn" type="button" title="Подтвердить">
-                        <img src="/src/auction/staticn/static/dist/img/icons/material/done.svg" alt="Иконка подтверждения">
+                        <img src="/static/img/icons/material/done.svg" alt="Иконка подтверждения">
                     </button>
                     <button class="notification-btn" type="button" title="Отклонить">
-                        <img src="/src/auction/staticn/static/dist/img/icons/material/clear.svg" alt="Иконка очистки">
+                        <img src="/static/img/icons/material/clear.svg" alt="Иконка очистки">
                     </button>`;
 
                 notification.children[0].innerText =
@@ -188,11 +188,11 @@ try {
                          <span>
                          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
                            onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
-                           <img src="/src/auction/staticn/static/dist/img/icons/material/video-library.svg" 
+                           <img src="/static/img/icons/material/video-library.svg" 
                            alt="Иконка ссылки на кинопоиск"></a>
                          <button type="button" class="btn" 
                          onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
-                           <img src="/src/auction/staticn/static/dist/img/icons/material/delete.svg" alt="Иконка удаления">
+                           <img src="/static/img/icons/material/delete.svg" alt="Иконка удаления">
                          </button>
                          </span>`;
 
@@ -523,10 +523,10 @@ addBtn.onclick = function () {
          <span>
          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
            onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
-           <img src="/src/auction/staticn/static/dist/img/icons/material/video-library.svg" alt="Иконка ссылки на кинопоиск"></a>
+           <img src="/static/img/icons/material/video-library.svg" alt="Иконка ссылки на кинопоиск"></a>
          <button type="button" class="btn" 
            onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
-           <img src="/src/auction/staticn/static/dist/img/icons/material/delete.svg" alt="Иконка удаления">
+           <img src="/static/img/icons/material/delete.svg" alt="Иконка удаления">
          </button>
         </span>`;
 
@@ -593,9 +593,9 @@ function changeBG(url) {
         body.style.backgroundImage = `url(${url})`;
     } else {
         if (firefox) {
-            body.style.backgroundImage = "url('/static/dist/img/bg/tree.jpg')";
+            body.style.backgroundImage = "url('/static/img/bg/tree.jpg')";
         } else {
-            body.style.backgroundImage = "url('/static/dist/img/bg/tree.webp')";
+            body.style.backgroundImage = "url('/static/img/bg/tree.webp')";
         }
     }
 }

@@ -1,15 +1,16 @@
+'use strict';
+
 //TODO: timer animation
 //TODO: select from notification
-//TODO: fix timer freezes on FF
 
 const firefox = navigator.userAgent.toLowerCase().includes('firefox');
 if (firefox && !getCookie('bg-url')) {
-    document.querySelector('body').style.backgroundImage = "url('/static/dist/img/bg/tree.jpg')";
+    document.querySelector('body').style.backgroundImage = "url('/static/img/bg/tree.jpg')";
 }
 
 function notificationSound() {
     const audio = new Audio();
-    audio.src = '/static/dist/sound/light.mp3';
+    audio.src = '/static/sound/light.mp3';
     audio.autoplay = true;
 }
 
@@ -100,10 +101,10 @@ try {
                     notification.innerHTML =
                         `<p></p>
                         <button class="notification-btn" type="button" title="Подтвердить">
-                            <img src="/src/auction/staticn/static/dist/img/icons/material/done.svg" alt="Иконка подтверждения">
+                            <img src="/static/img/icons/material/done.svg" alt="Иконка подтверждения">
                         </button>
                         <button class="notification-btn" type="button" title="Отклонить">
-                            <img src="/src/auction/staticn/static/dist/img/icons/material/clear.svg" alt="Иконка очистки">
+                            <img src="/static/img/icons/material/clear.svg" alt="Иконка очистки">
                         </button>`;
 
                     notification.children[0].innerText =
@@ -158,10 +159,10 @@ try {
                 notification.innerHTML =
                     `<p></p>
                     <button class="notification-btn" type="button" title="Подтвердить">
-                        <img src="/src/auction/staticn/static/dist/img/icons/material/done.svg" alt="Иконка подтверждения">
+                        <img src="/static/img/icons/material/done.svg" alt="Иконка подтверждения">
                     </button>
                     <button class="notification-btn" type="button" title="Отклонить">
-                        <img src="/src/auction/staticn/static/dist/img/icons/material/clear.svg" alt="Иконка очистки">
+                        <img src="/static/img/icons/material/clear.svg" alt="Иконка очистки">
                     </button>`;
 
                 notification.children[0].innerText =
@@ -188,11 +189,11 @@ try {
                          <span>
                          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
                            onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
-                           <img src="/src/auction/staticn/static/dist/img/icons/material/video-library.svg" 
+                           <img src="/static/img/icons/material/video-library.svg" 
                            alt="Иконка ссылки на кинопоиск"></a>
                          <button type="button" class="btn" 
                          onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
-                           <img src="/src/auction/staticn/static/dist/img/icons/material/delete.svg" alt="Иконка удаления">
+                           <img src="/static/img/icons/material/delete.svg" alt="Иконка удаления">
                          </button>
                          </span>`;
 
@@ -239,7 +240,7 @@ try {
             cuteMsg = cuteMsg.length > 30 ? `${cuteMsg.substr(0, 30)}...` : cuteMsg;
             sendNotification(`Новое пожертвование${msgJSON['username'] ? ` от ${msgJSON['username']}` : ''}!`,
                 {'body': `"${cuteMsg}" с ${amount}₽`,
-                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/dist/img/favicon/favicon.png'})
+                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
         }
     }
 });
@@ -293,7 +294,7 @@ function showWinner() {
 
         sendNotification("Аукцион окончен!",
         {'body': `Выкупили "${buyWinner.length > 30 ? `${buyWinner.substring(0, 30)}...` : buyWinner}"!`,
-                  'dir': 'ltr', 'lang': 'ru', 'icon': '/static/dist/img/favicon/favicon.png'})
+                  'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
     } else {
         modal.children[0].innerText = `${winner} победил!`;
 
@@ -303,11 +304,11 @@ function showWinner() {
         if (winner === "Никто не ") {
             sendNotification("Аукцион окончен!",
                 {'body': "Никто не победил :(",
-                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/dist/img/favicon/favicon.png'})
+                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
         } else {
             sendNotification("Аукцион окончен!",
                 {'body': `Победа ${winner.length > 30 ? `${winner.substring(0, 30)}..."` : winner}!`,
-                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/dist/img/favicon/favicon.png'})
+                'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
         }
     }
 
@@ -602,10 +603,10 @@ addBtn.onclick = function () {
          <span>
          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link" 
            onclick="ripplet(arguments[0])" title="Ссылка на кинопоиск">
-           <img src="/src/auction/staticn/static/dist/img/icons/material/video-library.svg" alt="Иконка ссылки на кинопоиск"></a>
+           <img src="static/img/icons/material/video-library.svg" alt="Иконка ссылки на кинопоиск"></a>
          <button type="button" class="btn" 
            onclick="ripplet(arguments[0]);removeRow(this)" title="Удалить">
-           <img src="/src/auction/staticn/static/dist/img/icons/material/delete.svg" alt="Иконка удаления">
+           <img src="/static/img/icons/material/delete.svg" alt="Иконка удаления">
          </button>
         </span>`;
 
@@ -668,9 +669,9 @@ function changeBG(url) {
         bgImg.src = url;
     } else {
         if (firefox) {
-            body.style.backgroundImage = "url('/static/dist/img/bg/tree.jpg')";
+            body.style.backgroundImage = "url('/static/img/bg/tree.jpg')";
         } else {
-            body.style.backgroundImage = "url('/static/distimg/bg/tree.webp')";
+            body.style.backgroundImage = "url('/static/img/bg/tree.webp')";
         }
     }
 }
@@ -1058,6 +1059,10 @@ function checkOnBuy(costElem) {
     }
 }
 
+function focusWindow() {
+    window.focus();
+}
+
 //HTML5 notifications
 function sendNotification(title, options) {
     // Проверим, поддерживает ли браузер HTML5 Notifications
@@ -1066,10 +1071,6 @@ function sendNotification(title, options) {
     } else if (Notification.permission === 'granted') {  // Проверим, есть ли права на отправку уведомлений
         // Если права есть, отправим уведомление
         const notification = new Notification(title, options);
-
-        function focusWindow() {
-            window.focus();
-        }
 
         notification.onclick = focusWindow;
     } else if (Notification.permission !== 'denied') {  // Если прав нет, пытаемся их получить
