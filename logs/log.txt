@@ -1,0 +1,64 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 17 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+June 06, 2019 - 23:12:31
+Django version 2.2.1, using settings 'auction.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+[06/Jun/2019 23:12:40] "GET / HTTP/1.1" 200 9758
+[06/Jun/2019 23:12:41] "GET /static/build/js/script/script.min.js HTTP/1.1" 200 25362
+[06/Jun/2019 23:12:41] "GET /static/build/css/style.css HTTP/1.1" 304 0
+[06/Jun/2019 23:12:45] "GET / HTTP/1.1" 200 9758
+[06/Jun/2019 23:12:45] "GET /static/build/js/script/script.min.js HTTP/1.1" 200 25362
+[06/Jun/2019 23:12:45] "GET /static/build/css/style.css HTTP/1.1" 200 10394
+[06/Jun/2019 23:12:46] "GET /static/build/css/preloader.css HTTP/1.1" 200 3258
+[06/Jun/2019 23:12:46] "GET /static/img/icons/material/video-library.svg HTTP/1.1" 200 317
+[06/Jun/2019 23:12:46] "GET /static/img/icons/material/delete-outline.svg HTTP/1.1" 200 418
+[06/Jun/2019 23:12:46] "GET /static/img/icons/material/add-box.svg HTTP/1.1" 200 339
+[06/Jun/2019 23:12:46] "GET /static/img/icons/material/keyboard-arrow-down.svg HTTP/1.1" 200 257
+[06/Jun/2019 23:12:46] "GET /static/img/icons/material/stop.svg HTTP/1.1" 200 163
+[06/Jun/2019 23:12:46] "GET /static/img/icons/material/play-arrow.svg HTTP/1.1" 200 193
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/new-releases.svg HTTP/1.1" 200 598
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/code.svg HTTP/1.1" 200 443
+[06/Jun/2019 23:12:47] "GET /static/img/bg/tree.webp HTTP/1.1" 200 347890
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/delete-sweep.svg HTTP/1.1" 200 498
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/save.svg HTTP/1.1" 200 380
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/clear.svg HTTP/1.1" 200 400
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/keyboard-capslock.svg HTTP/1.1" 200 317
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/bug-report.svg HTTP/1.1" 200 823
+[06/Jun/2019 23:12:47] "GET /static/img/favicon/favicon.png HTTP/1.1" 200 14725
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/attach-money.svg HTTP/1.1" 200 623
+[06/Jun/2019 23:12:47] "GET /static/img/icons/discord-logo.svg HTTP/1.1" 200 1106
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/settings.svg HTTP/1.1" 200 802
+[06/Jun/2019 23:12:47] "GET /static/img/icons/material/keyboard-arrow-up.svg HTTP/1.1" 200 255
+[06/Jun/2019 23:12:48] "GET /static/img/favicon/favicon.png HTTP/1.1" 200 14725
+[06/Jun/2019 23:12:57] "GET /static/img/favicon/favicon.png HTTP/1.1" 200 14725
+[06/Jun/2019 23:14:00] "GET / HTTP/1.1" 200 9758
+[06/Jun/2019 23:14:00] "GET /static/build/css/preloader.css HTTP/1.1" 200 3258
+[06/Jun/2019 23:14:00] "GET /static/build/css/style.css HTTP/1.1" 200 10394
+[06/Jun/2019 23:14:00] "GET /static/build/js/script/script.min.js HTTP/1.1" 200 25362
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/delete-outline.svg HTTP/1.1" 200 418
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/video-library.svg HTTP/1.1" 200 317
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/add-box.svg HTTP/1.1" 200 339
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/play-arrow.svg HTTP/1.1" 200 193
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/stop.svg HTTP/1.1" 200 163
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/keyboard-arrow-up.svg HTTP/1.1" 200 255
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/keyboard-capslock.svg HTTP/1.1" 200 317
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/save.svg HTTP/1.1" 200 380
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/clear.svg HTTP/1.1" 200 400
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/bug-report.svg HTTP/1.1" 200 823
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/keyboard-arrow-down.svg HTTP/1.1" 200 257
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/new-releases.svg HTTP/1.1" 200 598
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/code.svg HTTP/1.1" 200 443
+[06/Jun/2019 23:14:00] "GET /static/img/icons/discord-logo.svg HTTP/1.1" 200 1106
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/attach-money.svg HTTP/1.1" 200 623
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/settings.svg HTTP/1.1" 200 802
+[06/Jun/2019 23:14:00] "GET /static/img/icons/material/delete-sweep.svg HTTP/1.1" 200 498
+[06/Jun/2019 23:14:00] "GET /static/img/bg/tree.webp HTTP/1.1" 200 347890
+[06/Jun/2019 23:14:00] "GET /static/img/favicon/favicon.png HTTP/1.1" 200 14725
+[06/Jun/2019 23:14:01] "GET /static/img/favicon/favicon.png HTTP/1.1" 200 14725
+[06/Jun/2019 23:14:02] "GET /static/img/favicon/favicon.png HTTP/1.1" 200 14725

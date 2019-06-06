@@ -1,17 +1,13 @@
-'use strict';
-
 //TODO: timer animation
 //TODO: select from notification
+
+'use strict';
+
+import {notificationSound, sendNotification} from './notifications';
 
 const firefox = navigator.userAgent.toLowerCase().includes('firefox');
 if (firefox && !getCookie('bg-url')) {
   document.querySelector('body').style.backgroundImage = "url('/static/img/bg/tree.jpg')";
-}
-
-function notificationSound() {
-  const audio = new Audio();
-  audio.src = '/static/sound/light.mp3';
-  audio.autoplay = true;
 }
 
 //Dynamic inputs
@@ -1059,40 +1055,6 @@ function checkOnBuy(costElem) {
   }
 }
 
-function focusWindow() {
-  window.focus();
-}
-
-//HTML5 notifications
-function sendNotification(title, options) {
-  // Проверим, поддерживает ли браузер HTML5 Notifications
-  if (!('Notification' in window)) {
-    console.log("Ваш браузер не поддерживает HTML Notifications, его необходимо обновить.");
-  } else if (Notification.permission === 'granted') {  // Проверим, есть ли права на отправку уведомлений
-    // Если права есть, отправим уведомление
-    const notification = new Notification(title, options);
-
-    notification.onclick = focusWindow;
-  } else if (Notification.permission !== 'denied') {  // Если прав нет, пытаемся их получить
-    // noinspection JSIgnoredPromiseFromCall
-    Notification.requestPermission(function (permission) {
-      // Если права успешно получены, отправляем уведомление
-      if (permission === 'granted') {
-        const notification = new Notification(title, options);
-
-        notification.onclick = focusWindow;
-      } else {
-        // Юзер отклонил наш запрос на показ уведомлений
-        console.log('Вы запретили показывать уведомления');
-      }
-    });
-  } else {
-    // Пользователь ранее отклонил наш запрос на показ уведомлений
-  }
-}
-
-
 if (Notification.permission === 'default') {
-  // noinspection JSIgnoredPromiseFromCall
   Notification.requestPermission();
 }
