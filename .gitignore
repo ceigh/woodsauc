@@ -1,0 +1,6 @@
+__pycache__/
+logs/
+node_modules/
+venv/
+.idea/workspace.xml
+src/db.sqlite3
