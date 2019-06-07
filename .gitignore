@@ -4,3 +4,4 @@ node_modules/
 venv/
 .idea/workspace.xml
 src/db.sqlite3
+src/auction/static/build/js/legacy

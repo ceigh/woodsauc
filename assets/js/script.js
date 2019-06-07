@@ -4,6 +4,7 @@
 'use strict';
 
 import {notificationSound, sendNotification} from './notifications';
+import {trim, oneSpace, toTitle} from './stringUtilities';
 
 const firefox = navigator.userAgent.toLowerCase().includes('firefox');
 if (firefox && !getCookie('bg-url')) {
@@ -50,16 +51,6 @@ function changeSize(nameElement) {
   }
 }
 
-//Title case
-String.prototype.toTitle = function() {
-  return this.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
-};
-
-// Truncate string
-String.prototype.truncate = function() {
-  return this.replace(/\s+$/, '').replace(/^\s+/, '');
-};
-
 // DonationAlerts
 let started = false;
 try {
@@ -104,10 +95,10 @@ try {
                         </button>`;
 
             notification.children[0].innerText =
-              `Добавить ₽${amount} к "${name.toTitle().replace(/\s+$/, '')}"?`;
+              `Добавить ₽${amount} к "${trim(toTitle(name))}"?`;
             notification.children[0].setAttribute(
               'title',
-              `Добавить ₽${amount} к "${name.toTitle().replace(/\s+$/, '')}"?`);
+              `Добавить ₽${amount} к "${trim(toTitle(name))}"?`);
 
 
             notification.children[1].onclick = function() {
@@ -162,10 +153,10 @@ try {
                     </button>`;
 
           notification.children[0].innerText =
-            `Создать "${message.toTitle().replace(/\s+$/, '')}" с ₽${amount}?`;
+            `Создать "${trim(toTitle(message))}" с ₽${amount}?`;
           notification.children[0].setAttribute(
             'title',
-            `Создать "${message.toTitle().replace(/\s+$/, '')}" с ₽${amount}?`);
+            `Создать "${trim(toTitle(message))}" с ₽${amount}?`);
 
           notification.children[1].onclick = function() {
             ripplet(arguments[0]);
@@ -261,8 +252,8 @@ function returnWinner() {
     }
   }
 
-  if (maxCost) winner = winner.toTitle();
-  return winner ? `"${winner.truncate()}"` : "Никто не ";
+  if (maxCost) winner = toTitle(winner);
+  return winner ? `"${trim(winner)}"` : "Никто не ";
 }
 
 
@@ -562,17 +553,14 @@ function removeRow(delBtn) {
   }, 200);
 }
 
-function trim(string) {
-  return string.replace(/^\s+/, '').replace(/\s{2,}$/, '').replace(/\s+/g, ' ')
-}
 
 function createLink(nameElement) {
-  nameElement.value = trim(nameElement.value);
+  nameElement.value = oneSpace(nameElement.value);
   let name = nameElement.value;
   if (name) {
     nameElement.parentNode.parentNode.children[1].children[0].href =
       encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
-    nameElement.setAttribute('title', name.toTitle());
+    nameElement.setAttribute('title', toTitle(name));
   } else {
     nameElement.parentNode.parentNode.children[1].children[0].href =
       'https://www.kinopoisk.ru';
@@ -1021,7 +1009,7 @@ function checkOnBuy(costElem) {
   const currentCost = +costElem.value;
 
   const nameElem = costElem.previousElementSibling;
-  let winnerName = nameElem.value.toTitle().truncate();
+  let winnerName = trim(toTitle(nameElem.value));
 
   if (neededCost && winnerName && currentCost >= neededCost) {
     if (!started) {
