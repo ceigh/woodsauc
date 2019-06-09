@@ -1,13 +1,18 @@
 'use strict';
 
 import ripplet, {defaultOptions} from 'ripplet.js';
-
 import {notificationSound, sendNotification} from './notifications';
 import {trim, oneSpace, toTitle} from './stringUtilities';
 
-const firefox = navigator.userAgent.toLowerCase().includes('firefox');
+
+const body = document.querySelector('body');
+const firefox = navigator.userAgent
+                  .toLowerCase()
+                    .includes('firefox');
+
+
 if (firefox && !getCookie('bg-url')) {
-  document.querySelector('body').style.backgroundImage = "url('/static/img/bg/tree.jpg')";
+  body.style.backgroundImage = "url('/static/img/bg/tree.jpg')";
 }
 
 //Dynamic inputs
@@ -642,7 +647,6 @@ function setCookie(name, value, options) {
 
 
 function changeBG(url) {
-  const body = document.querySelector('body');
   const bgImg = new Image();
 
   if (url && url !== '') {
