@@ -1,9 +1,6 @@
 'use strict';
 
-export {notificationSound, sendNotification};
-
-// Play notification sound
-const notificationSound = () => {
+const playNotificationSound = () => {
   const audio = new Audio();
 
   audio.src = '/static/sound/light.mp3';
@@ -24,9 +21,20 @@ const createNotification = (title, options) => {
   return notification;
 };
 
+const makeNotificationOptions = (title, body) => {
+  return {
+    title: title,
+    body: body,
+    dir: 'ltr',
+    lang: 'ru',
+    icon: '/static/img/favicon/favicon.png'
+  }
+};
+
 // Send it
-const sendNotification = (title, options) => {
+const sendNotification = (title, body) => {
   const permission = Notification.permission;
+  const options = makeNotificationOptions(title, body);
 
   // Проверим, поддерживает ли браузер HTML5 Notifications
   if ( !('Notification' in window) ) {
@@ -50,3 +58,20 @@ const sendNotification = (title, options) => {
     });
   }
 };
+
+// Clear notification area
+const clear = () => {
+  const notifications = document.getElementById('notifications-area');
+  while (notifications.children.length > 0) {
+    notifications.removeChild(notifications.firstChild);
+  }
+};
+
+// All functions in one object
+const notifications = {
+  playNotificationSound,
+  sendNotification,
+  clear
+};
+
+export default notifications;

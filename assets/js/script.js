@@ -1,19 +1,60 @@
 'use strict';
 
 import ripplet, {defaultOptions} from 'ripplet.js';
-import {notificationSound, sendNotification} from './notifications';
+import Timer from './timer';
+import notifications from './notifications';
 import {trim, oneSpace, toTitle} from './stringUtilities';
 
-
+const firefox = navigator.userAgent.toLowerCase().includes('firefox');
 const body = document.querySelector('body');
-const firefox = navigator.userAgent
-                  .toLowerCase()
-                    .includes('firefox');
-
 
 if (firefox && !getCookie('bg-url')) {
   body.style.backgroundImage = "url('/static/img/bg/tree.jpg')";
 }
+
+const minsCookie = getCookie('previousMinutes');
+const timerElement = document.getElementById('timer');
+
+if (minsCookie) {
+  timerElement.innerHTML = `${minsCookie}:00:00`;
+}
+
+const timer = new Timer(timerElement);
+
+const timerBtns = Array.from(document.getElementById('timer-btns').children);
+const startBtn = document.getElementById('start-btn');
+const stopBtn = document.getElementById('stop-btn');
+const plusBtn = document.getElementById('plus-btn');
+const plusTwoBtn = document.getElementById('plus-two-btn');
+const minusBtn = document.getElementById('minus-btn');
+
+timerBtns.forEach(item => item.addEventListener('click', ripplet));
+
+startBtn.onclick = () => {
+  const mins = timerElement.innerHTML.split(':')[0];
+
+  if (mins) {
+    setCookie('previousMinutes', mins, {'expires': year});
+  }
+
+  timer.start();
+};
+stopBtn.onclick = () => {
+  if (timer.started) {
+    timer.timeStart = new Date(new Date - timer.time + 300);
+    notifications.clear();
+    timer.stop()
+  } else {
+    timer.reset();
+  }
+};
+plusBtn.onclick = () => timer.plusOne();
+plusTwoBtn.onclick = () => timer.plusTwo();
+minusBtn.onclick = () => timer.minusOne();
+
+
+
+
 
 //Dynamic inputs
 const defaultSize = 16.2;
@@ -56,7 +97,6 @@ function changeSize(nameElement) {
 }
 
 // DonationAlerts
-let started = false;
 try {
   // noinspection JSUnresolvedFunction
   const socket = io('https://socket.donationalerts.ru:443', {'reconnection': false});
@@ -65,7 +105,7 @@ try {
     socket.emit('add-user', {'token': token, 'type': 'minor'});
   }
   socket.on('donation', function (msg) {
-    if (started) {
+    if (timer.started) {
       let msgJSON = JSON.parse(msg);
       if (msgJSON['alert_type'] === 1 || msgJSON['alert_type'] === '1') {
         let message = msgJSON['message'];
@@ -135,7 +175,7 @@ try {
             };
 
             notificationArea.insertBefore(notification, notificationArea.firstElementChild);
-            notificationSound();
+            notifications.playNotificationSound();
 
             inserted = true;
             break;
@@ -225,7 +265,7 @@ try {
           };
 
           notificationArea.insertBefore(notification, notificationArea.firstElementChild);
-          notificationSound();
+          notifications.playNotificationSound();
         }
         let cuteMsg = message.replace(/\s+$/, '');
         cuteMsg = cuteMsg.length > 30 ? `${cuteMsg.substr(0, 30)}...` : cuteMsg;
@@ -238,254 +278,6 @@ try {
 } catch (e) {
   console.log("Нет подключения, автодобавление не будет работать.");
 }
-
-// Timer
-function returnWinner() {
-  let winner = undefined;
-  let maxCost = null;
-  let names = document.getElementsByClassName('name');
-  let costs = document.getElementsByClassName('cost');
-
-  for (let i = 0; i < Math.min(names.length, costs.length); i++) {
-    let name = names[i].value;
-    let cost = +costs[i].value;
-
-    if (cost > maxCost) {
-      maxCost = cost;
-      winner = name ? name : winner;
-    }
-  }
-
-  if (maxCost) winner = toTitle(winner);
-  return winner ? `"${trim(winner)}"` : "Никто не ";
-}
-
-
-function showWinner() {
-  const modal = document.querySelector('#modal');
-  const modalOverlay = document.querySelector('#modal-overlay');
-
-  timer.classList.remove('danger');
-
-  modalOverlay.onclick = function() {
-    ripplet(arguments[0]);
-
-    modal.classList.toggle('closed');
-    modalOverlay.classList.toggle('closed');
-
-    document.title = "Аукцион β";
-  };
-
-  let winner = returnWinner();
-
-  if (isBuy) {
-    modal.children[0].innerText = `"${buyWinner}" выкупили, аж за ${buyCost}₽ Pog!`;
-    document.title =
-      buyWinner.length > 30 ? `${buyWinner.substring(0, 30)}... выкупили!` : `${buyWinner} выкупили!`;
-
-    sendNotification("Аукцион окончен!",
-      {'body': `Выкупили "${buyWinner.length > 30 ? `${buyWinner.substring(0, 30)}...` : buyWinner}"!`,
-        'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
-  } else {
-    modal.children[0].innerText = `${winner} победил!`;
-
-    document.title =
-      winner.length > 30 ? `${winner.substring(0, 30)}... победил!` : `${winner} победил!`;
-
-    if (winner === "Никто не ") {
-      sendNotification("Аукцион окончен!",
-        {'body': "Никто не победил :(",
-          'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
-    } else {
-      sendNotification("Аукцион окончен!",
-        {'body': `Победа ${winner.length > 30 ? `${winner.substring(0, 30)}..."` : winner}!`,
-          'dir': 'ltr', 'lang': 'ru', 'icon': '/static/img/favicon/favicon.png'})
-    }
-  }
-
-  modalOverlay.classList.toggle('closed');
-  modal.classList.toggle('closed');
-  notificationSound();
-}
-
-
-let startTime;
-
-const timer = document.getElementById('timer');
-const minsCookie = getCookie('previousMinutes');
-if (minsCookie) {
-  timer.innerHTML = `${minsCookie}:00:00`;
-}
-
-let timerArray = timer.innerHTML.split(':');
-let m = +timerArray[0], s = +timerArray[1], ms = +timerArray[2];
-let timerTime = new Date(60000 * m + 1000 * s + ms);
-
-
-function updateTimer() {
-  const currTime = new Date();
-  const deltaTime = new Date(currTime - startTime);
-  const resultTime = new Date(timerTime - deltaTime);
-
-  let rm = resultTime.getMinutes();  // result minutes
-  let rs = resultTime.getSeconds();  // result seconds
-  let rms = resultTime.getMilliseconds();  // result milliseconds
-
-  if (!rm && rs < 30) {
-    timer.classList.add('danger');
-  } else {
-    timer.classList.remove('danger')
-  }
-
-  // if (!(rs % 2)) {
-  let winner = returnWinner();
-
-  if (winner !== "Никто не ") {
-    winner = winner.length > 30 ? `${winner.substr(0, 30)}..."` : winner;
-    document.title = `${winner} - Аукцион β`;
-  } else {
-    document.title = 'Аукцион β';
-  }
-  // }
-
-  if ((!rm && !rs && rms < 300) || timerTime < deltaTime) {  // minimal rms can't be 0, and it's totally random
-    cancelAnimationFrame(updateTimer);
-    timer.innerHTML = '00:00:00';
-    showWinner();
-    started = false;
-  } else {
-    rm = rm < 10 ? `0${rm}` : rm;
-    rs = rs < 10 ? `0${rs}` : rs;
-    rms = rms < 10 ? `0${rms}` : rms;
-    rms = String(rms).substr(0, 2);
-
-    timer.innerHTML = `${rm}:${rs}:${rms}`;
-
-    requestAnimationFrame(updateTimer);
-  }
-}
-
-
-function startTimer() {
-  const minutes = +timer.innerHTML.split(':')[0];
-
-  if (!started) {
-    if (!minutes) {
-      showWinner();
-    } else {
-      startTime = new Date();
-      requestAnimationFrame(updateTimer);
-      started = true;
-    }
-  }
-}
-
-
-const startBtn = document.getElementById('start-btn');
-const resetBtn = document.getElementById('stop-btn');
-const plusBtn = document.getElementById('plus-btn');
-const plusTwoBtn = document.getElementById('plus-two-btn');
-const minusBtn = document.getElementById('minus-btn');
-
-startBtn.onclick = function () {
-  const mins = timer.innerHTML.split(':')[0];
-
-  ripplet(arguments[0]);
-
-  if (mins) {
-    setCookie('previousMinutes', mins, {'expires': year});
-  }
-
-  startTimer();
-};
-
-resetBtn.onclick = function () {
-  ripplet(arguments[0]);
-
-  if (started) {
-    startTime = new Date(new Date - timerTime + 300);
-
-    let notificationArea = document.getElementById('notifications-area');
-    while (notificationArea.children.length > 0) {
-      notificationArea.removeChild(notificationArea.firstChild);
-    }
-
-    started = false;
-  } else {
-    m = 0;
-    timerTime = new Date(0);
-
-    timer.innerHTML = '00:00:00';
-  }
-};
-
-plusBtn.onclick = function () {
-  ripplet(arguments[0]);
-
-  timerArray = timer.innerHTML.split(':');
-  const mins = +timerArray[0];
-
-  if (started) {
-    if (mins !== 59) {
-      startTime.setMinutes(startTime.getMinutes() + 1);
-    }
-  } else {
-    let rm;
-
-    m = +timerArray[0] + 1;
-    m = m > 59 ? 59 : m;
-    timerTime = new Date(60000 * m + 1000 * s + ms);
-
-    rm = m < 10 ? `0${m}` : m;
-    timer.innerHTML = `${rm}:00:00`
-  }
-};
-
-plusTwoBtn.onclick = function () {
-  ripplet(arguments[0]);
-
-  timerArray = timer.innerHTML.split(':');
-  const mins = +timerArray[0];
-
-  if (started) {
-    if (mins === 58) {
-      startTime.setMinutes(startTime.getMinutes() + 1);
-    } else if (mins < 58) {
-      startTime.setMinutes(startTime.getMinutes() + 2);
-    }
-  } else {
-    let rm;
-
-    m = +timerArray[0] + 2;
-    m = m > 59 ? 59 : m;
-    timerTime = new Date(60000 * m + 1000 * s + ms);
-
-    rm = m < 10 ? `0${m}` : m;
-    timer.innerHTML = `${rm}:00:00`
-  }
-};
-
-minusBtn.onclick = function () {
-  const minutes = +timer.innerHTML.split(':')[0];
-
-  ripplet(arguments[0]);
-
-  if (minutes) {
-    if (started) {
-      startTime.setMinutes(startTime.getMinutes() - 1);
-    } else {
-      let rm;
-
-      timerArray = timer.innerHTML.split(':');
-      m = +timerArray[0] - 1;
-      timerTime = new Date(60000 * m + 1000 * s + ms);
-
-      rm = m < 10 ? `0${m}` : m;
-      timer.innerHTML = `${rm}:00:00`
-    }
-  }
-};
-
 
 // Candidates
 function sortCandidates() {
@@ -771,7 +563,7 @@ function notification(text) {
   notification.appendChild(p);
   notification.className = 'notification';
   tray.insertBefore(notification, tray.firstElementChild);
-  notificationSound();
+  notifications.playNotificationSound();
 
   setTimeout(function () {
     notification.classList.add('hidden');
@@ -888,7 +680,7 @@ saveDAURLBtn.onclick = function () {
     `<p title="Токен сохранен">Токен сохранен</p>`;
 
   notificationArea.insertBefore(notification, notificationArea.firstElementChild);
-  notificationSound();
+  notifications.playNotificationSound();
 
   setTimeout(function () {
     notification.classList.add('hidden');
@@ -913,7 +705,7 @@ clearDAURLBtn.onclick = function () {
     `<p title="Токен удален">Токен удален</p>`;
 
   notificationArea.insertBefore(notification, notificationArea.firstElementChild);
-  notificationSound();
+  notifications.playNotificationSound();
 
   setTimeout(function () {
     notification.classList.add('hidden');
@@ -1015,7 +807,7 @@ function checkOnBuy(costElem) {
   let winnerName = trim(toTitle(nameElem.value));
 
   if (neededCost && winnerName && currentCost >= neededCost) {
-    if (!started) {
+    if (!timer.started) {
       const modal = document.querySelector('#modal');
       const modalOverlay = document.querySelector('#modal-overlay');
 
@@ -1033,15 +825,15 @@ function checkOnBuy(costElem) {
 
       modal.classList.toggle('closed');
       modalOverlay.classList.toggle('closed');
-      notificationSound();
-      sendNotification("Аукцион окончен!",
+      notifications.playNotificationSound();
+      notifications.sendNotification("Аукцион окончен!",
         {'body': `Выкупили "${winnerName.length > 30 ? `${winnerName.substring(0, 30)}...` : winnerName}"!`,
           'dir': 'ltr', 'lang': 'ru', 'icon': '/static/dist/img/favicon/favicon.png'})
     } else {
       buyWinner = winnerName;
       buyCost = currentCost;
       isBuy = true;
-      resetBtn.click();
+      stopBtn.click();
     }
   }
 }
