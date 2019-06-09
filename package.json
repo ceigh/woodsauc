@@ -34,5 +34,7 @@
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ripplet.js": "^0.1.14"
+  }
 }

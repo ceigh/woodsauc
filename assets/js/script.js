@@ -1,7 +1,6 @@
-//TODO: timer animation
-//TODO: select from notification
-
 'use strict';
+
+import ripplet, {defaultOptions} from 'ripplet.js';
 
 import {notificationSound, sendNotification} from './notifications';
 import {trim, oneSpace, toTitle} from './stringUtilities';
@@ -707,9 +706,9 @@ function hexToRgb(hex) {
 let colorCookie = getCookie('accent');
 
 // noinspection JSUnresolvedVariable
-ripplet.defaultOptions.clearingDuration = '.3s';
+defaultOptions.clearingDuration = '.3s';
 // noinspection JSUnresolvedVariable
-ripplet.defaultOptions.spreadingDuration = '.3s';
+defaultOptions.spreadingDuration = '.3s';
 let color;
 if (colorCookie) {
   const rgb = hexToRgb(colorCookie);
@@ -718,7 +717,7 @@ if (colorCookie) {
   color = 'rgba(243, 151, 39, .6)';
 }
 // noinspection JSUnresolvedVariable
-ripplet.defaultOptions.color = color;
+defaultOptions.color = color;
 
 if (colorCookie && colorCookie !== '') {
   let accentShadow = hexToRgb(colorCookie);
@@ -814,7 +813,7 @@ saveBGURLBtn.onclick = function () {
             let shadow = hexToRgb(dominant);
 
             // noinspection JSUnresolvedVariable
-            ripplet.defaultOptions.color = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .6)`;
+            defaultOptions.color = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .6)`;
 
             shadow = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .7)`;
 
@@ -842,7 +841,7 @@ clearBGURLBtn.onclick = function () {
     bgURLInput.value = '';
 
     // noinspection JSUnresolvedVariable
-    ripplet.defaultOptions.color = 'rgba(243, 151, 39, .6)';
+    defaultOptions.color = 'rgba(243, 151, 39, .6)';
 
     styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
             input:focus{--accent:#f39727!important;--shadow:rgba(243,151,39,.7)!important});

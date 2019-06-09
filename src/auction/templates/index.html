@@ -13,11 +13,6 @@
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
 
-  <!--suppress SpellCheckingInspection -->
-  <script defer crossorigin="anonymous"
-          integrity="sha256-dhetxWLJCpi3xiZvfbQLlvVKDf2+tbH4BDjBArnMGn0="
-          src="https://cdn.jsdelivr.net/npm/ripplet.js@0.1.14/umd/ripplet.min.js"></script>
-
   {% if legacy %}
     {% if production %}
       <script defer src="{% static 'build/js/legacy/legacy.min.js' %}"></script>
