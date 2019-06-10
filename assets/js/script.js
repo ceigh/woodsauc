@@ -535,26 +535,25 @@ input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!importan
 /**
  * @return {boolean}
  */
-function isUrlWork(url) {
-  const http = new XMLHttpRequest();
-
-  try {
-    http.open('HEAD', url, false);
-    http.send();
-    return http.status === 200;
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-}
+// function isUrlWork(url) {
+//   const http = new XMLHttpRequest();
+//
+//   try {
+//     http.open('HEAD', url, false);
+//     http.send();
+//     return http.status === 200;
+//   } catch (e) {
+//     console.log(e);
+//     return false;
+//   }
+// }
 
 
 function isUrlValid(url) {
-  // noinspection RegExpRedundantEscape
-  const objRE = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/i;
-  return objRE.test(url);
+  const isUrl = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/i;
+  const isImg = /\.(jpg|jpeg|png|gif|webp|svg)$/;
+  return isUrl.test(url) && isImg.test(url);
 }
-
 
 function notification(text) {
   const tray = document.getElementById('notifications-area');
@@ -592,39 +591,35 @@ saveBGURLBtn.onclick = function () {
       if (!isUrlValid(url)) {
         notification("Введите корректный URL");
       } else {
-        if (!isUrlWork(`https://cors-anywhere.herokuapp.com/${url}`)) {
-          notification("URL неверный, или не отвечает");
-        } else {
-          changeBG(url);
+        changeBG(url);
 
-          notification("Фон обновлен");
+        notification("Фон обновлен");
 
-          // Change Accent color
-          colorExctractor.setAttribute(
-            'src', `https://cors-anywhere.herokuapp.com/${url}`);
+        // Change Accent color
+        colorExctractor.setAttribute(
+          'src', `https://cors-anywhere.herokuapp.com/${url}`);
 
-          colorExctractor.addEventListener('load', function () {
-            // noinspection JSUnresolvedFunction
-            const vibrant = new Vibrant(this);
-            // noinspection JSUnresolvedFunction
-            const swatches = vibrant.swatches();
-            // noinspection JSUnresolvedFunction
-            const dominant = swatches['Vibrant'].getHex();
-            let shadow = hexToRgb(dominant);
+        colorExctractor.addEventListener('load', function () {
+          // noinspection JSUnresolvedFunction
+          const vibrant = new Vibrant(this);
+          // noinspection JSUnresolvedFunction
+          const swatches = vibrant.swatches();
+          // noinspection JSUnresolvedFunction
+          const dominant = swatches['Vibrant'].getHex();
+          let shadow = hexToRgb(dominant);
 
-            // noinspection JSUnresolvedVariable
-            defaultOptions.color = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .6)`;
+          // noinspection JSUnresolvedVariable
+          defaultOptions.color = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .6)`;
 
-            shadow = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .7)`;
+          shadow = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .7)`;
 
-            styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominant}!important}
-                            input:focus{--accent:${dominant}!important;--shadow:${shadow}!important}
-                            ::selection{background:${shadow}!important}::-moz-selection{background:${shadow}!important}`;
+          styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominant}!important}
+                          input:focus{--accent:${dominant}!important;--shadow:${shadow}!important}
+                          ::selection{background:${shadow}!important}::-moz-selection{background:${shadow}!important}`;
 
-            setCookie('bg-url', url, {'expires': year});
-            setCookie('accent', dominant, {'expires': year});
-          });
-        }
+          setCookie('bg-url', url, {'expires': year});
+          setCookie('accent', dominant, {'expires': year});
+        });
       }
     }
   }
