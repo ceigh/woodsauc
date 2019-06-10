@@ -28,7 +28,11 @@ const plusBtn = document.getElementById('plus-btn');
 const plusTwoBtn = document.getElementById('plus-two-btn');
 const minusBtn = document.getElementById('minus-btn');
 
+const modalOverlay = document.getElementById('modal-overlay');
+
 timerBtns.forEach(item => item.addEventListener('click', ripplet));
+
+modalOverlay.addEventListener('click', ripplet);
 
 startBtn.onclick = () => {
   const mins = timerElement.innerHTML.split(':')[0];
@@ -197,10 +201,10 @@ try {
                     </button>`;
 
           notification.children[0].innerText =
-            `Создать "${trim(toTitle(message))}" с ₽${amount}?`;
+            `Создать "${ trim( toTitle(message) ) }" с ₽${amount}?`;
           notification.children[0].setAttribute(
             'title',
-            `Создать "${trim(toTitle(message))}" с ₽${amount}?`);
+            `Создать "${ trim( toTitle(message) ) }" с ₽${amount}?`);
 
           notification.children[1].onclick = function() {
             ripplet(arguments[0]);
@@ -804,7 +808,7 @@ function checkOnBuy(costElem) {
   const currentCost = +costElem.value;
 
   const nameElem = costElem.previousElementSibling;
-  let winnerName = trim(toTitle(nameElem.value));
+  let winnerName = trim( toTitle(nameElem.value) );
 
   if (neededCost && winnerName && currentCost >= neededCost) {
     if (!timer.started) {
@@ -826,9 +830,9 @@ function checkOnBuy(costElem) {
       modal.classList.toggle('closed');
       modalOverlay.classList.toggle('closed');
       notifications.playNotificationSound();
-      notifications.sendNotification("Аукцион окончен!",
-        {'body': `Выкупили "${winnerName.length > 30 ? `${winnerName.substring(0, 30)}...` : winnerName}"!`,
-          'dir': 'ltr', 'lang': 'ru', 'icon': '/static/dist/img/favicon/favicon.png'})
+      notifications.sendNotification('Аукцион окончен!',
+        `Выкупили "${winnerName.length > 30 ? 
+              `${winnerName.substring(0, 30)}...` : winnerName}"!`)
     } else {
       buyWinner = winnerName;
       buyCost = currentCost;
