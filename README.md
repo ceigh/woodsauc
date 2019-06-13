@@ -41,6 +41,10 @@
 
 `npm run 'start development'`
 
+# Документация
+
+Вы можете воспользоваться документацией в `docs/index.html`
+
 # Информация
 
 Разработчик: [@ceigh](https://gitlab.com/ceigh 'Artjom Löbsack').

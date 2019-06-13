@@ -1,7 +1,3 @@
-# WoodsAuc
-
-[README](README.md) для русскоговорящих. 
-
 Simple auction tool, primarily for streamers.
 
 This repository contains all source files: 
@@ -35,15 +31,10 @@ You can start browser version by
 
 And you always can use [online version](https://woodsauc.pythonanywhere.com 'WoodsAuc').
 
-![Preview](branding/demo.png 'WoodsAuc')
 
 If you want to change something, run:
 
 `npm run 'start development'`
-
-# Documentation
-
-You can use documentation from `docs/index.html`
 
 # Info
 

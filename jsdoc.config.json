@@ -1,0 +1,13 @@
+{
+  "sourceType": "module",
+  "plugins": ["node_modules/jsdoc-babel"],
+  "source": {
+    "include": ["assets/js"],
+    "includePattern": ".+\\.js$"
+  },
+  "opts": {
+    "encoding": "utf8",
+    "recurse": true,
+    "destination": "./docs"
+  }
+}
