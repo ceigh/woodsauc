@@ -21,7 +21,7 @@
 body {
     color: #fff;
     background: #000;
-    background-image: url('/src/staticatic/dist/img/bg/tree.webp');
+    background-image: url('/src/auction/static/img/bg/tree.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -274,7 +274,7 @@ span {
 }
 
 .name {
-    /*width: 16.2vw;*/
+    width: 16.2vw;
     max-width: 49vw;
     margin-right: .26vw;
     text-transform: capitalize;

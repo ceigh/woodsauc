@@ -275,7 +275,7 @@ span {
 }
 
 .name {
-    /*width: 16.2vw;*/
+    width: 16.2vw;
     max-width: 49vw;
     margin-right: .26vw;
     text-transform: capitalize;

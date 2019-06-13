@@ -1,3 +1,5 @@
+'use strict';
+
 import notification from './notifications';
 import {toTitle, trim} from './stringUtilities';
 
@@ -5,46 +7,6 @@ const modal = document.getElementById('modal');
 const modalOverlay = document.getElementById('modal-overlay');
 const timerElement = document.getElementById('timer');
 
-/**
-  * Open modal window with winner result
-  *
-  * @param {boolean} isBuy - a variable that indicates,
-  *                          that the winner is purchased
-  * @param {string} [result] - ready compiled winner to show
-  */
-const showWinner = (isBuy, result = undefined) => {
-  if (!result) result = compileWinner( returnWinner() );
-
-  if (isBuy) {
-    modal.children[0].innerText = `"${buyWinner}" выкупили, аж за ${buyCost}₽ Pog!`;
-    document.title = buyWinner.length > 30 ?
-                     `${buyWinner.substring(0, 30)}... выкупили!` :
-                     `${buyWinner} выкупили!`;
-
-    notification.sendNotification('Аукцион окончен!',
-                                 `Выкупили "${buyWinner.length > 30 ? 
-                                       `${buyWinner.substring(0, 30)}...` : buyWinner}"!`);
-
-  } else {
-    modal.children[0].innerText = result;
-    notification.sendNotification('Аукцион окончен!', result);
-    document.title = result;
-  }
-
-  timerElement.classList.remove('danger');
-
-  notification.playNotificationSound();
-
-  modalOverlay.classList.toggle('closed');
-  modal.classList.toggle('closed');
-
-  modalOverlay.onclick = () => {
-    modal.classList.toggle('closed');
-    modalOverlay.classList.toggle('closed');
-
-    document.title = 'WoodsAuc';
-  };
-};
 
 /**
   * Return raw position with max cost
@@ -63,6 +25,40 @@ const returnWinner = () => {
   return !winner ? null : winner;
 };
 
+
+/**
+  * Open modal window with winner result
+  *
+  * @param {string} [result] - ready compiled winner to show
+  */
+const showWinner = result => {
+  if (!result) result = compileWinner( returnWinner() );
+
+  if (!window.isBuy) {
+    modal.querySelector('p').innerText = result;
+    notification.sendNotification('Аукцион окончен!', result);
+    document.title = result;
+  } else {
+    result = window.buyWinner;
+    modal.querySelector('p').innerText =
+      `${result} выкупили, аж за ${window.buyCost}₽ Pog!`;
+    document.title = `${result} выкупили!`;
+    notification.sendNotification('Аукцион окончен!', `Выкупили ${result}`);
+  }
+
+  timerElement.classList.remove('danger');
+  notification.playNotificationSound();
+  modalOverlay.classList.toggle('closed');
+  modal.classList.toggle('closed');
+  modalOverlay.onclick = () => {
+    modal.classList.toggle('closed');
+    modalOverlay.classList.toggle('closed');
+
+    document.title = 'WoodsAuc';
+  };
+};
+
+
 /**
   * Join addEnding call with decorate
   *
@@ -73,6 +69,7 @@ const returnWinner = () => {
 const compileWinner = winner => {
   return addEnding(decorateWinner(winner));
 };
+
 
 /**
   * Append last word to result phrase
@@ -87,8 +84,9 @@ const addEnding = winner => {
   return `${humanizeWinner(winner)} ${ending}!`;
 };
 
+
 /**
-  * Add dots if larger than 30 chars and quotes lazy
+  * Add dots if larger than 20 chars and quotes lazy
   *
   * @param {(undefined|?string)} winner - winner name
   * @see returnWinner
@@ -99,9 +97,10 @@ const addEnding = winner => {
 const decorateWinner = winner => {
   if (!winner) return winner;
   winner = toTitle(trim(winner));
-  winner = winner.length < 30 ? winner : `${winner.substr(0, 30)}...`;
+  winner = winner.length < 20 ? winner : `${winner.substr(0, 20)}...`;
   return JSON.stringify(winner);
 };
+
 
 /**
   * Convert winner to human readable string
@@ -114,13 +113,14 @@ const humanizeWinner = winner => {
   return winner ? winner : winner === null ? 'Пустая позиция' : 'Никто не';
 };
 
+
 const winner = {
-  'show': showWinner,
-  'return': returnWinner,
-  'compile': compileWinner,
-  'addEnding': addEnding,
-  'decorate': decorateWinner,
-  'humanize': humanizeWinner
+  show: showWinner,
+  return: returnWinner,
+  compile: compileWinner,
+  addEnding: addEnding,
+  decorate: decorateWinner,
+  humanize: humanizeWinner
 };
 
 export default winner;

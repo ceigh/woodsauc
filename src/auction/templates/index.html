@@ -2,15 +2,21 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Аукцион β</title>
+  <title>WoodsAuc</title>
   {% load static %}
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://cdnjs.cloudflare.com" rel="preconnect">
+
+  <link href="https://www.kinopoisk.ru/s/type/all/find/" rel="prerender prefetch">
+
   <link href="{% static 'build/css/preloader.css' %}" rel="stylesheet">
   <link href="{% static 'img/favicon/favicon.png' %}" rel="icon">
   <link href="{% static 'build/css/style.css' %}" rel="stylesheet">
+
   <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
 
-  <script async src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
 
   {% if legacy %}
@@ -83,20 +89,17 @@
 
       <div class="block visible">
         <label>
-          <input autocomplete="off" class="name" onchange="changeSize(this)"
-                 onclick="ripplet(arguments[0])"
-                 onkeyup="createLink(this);changeSize(this)" placeholder="Позиция" spellcheck="false"
+          <input autocomplete="off" class="name"
+                 placeholder="Позиция" spellcheck="false"
                  title="Фильм, игра, etc" type="text">
-          <input autocomplete="off" class="cost" min="0"
-                 onchange="changeTitle(this);checksum(this);sortCandidates();checkOnBuy(this)"
-                 onclick="ripplet(arguments[0])" placeholder="₽" step="10" title="Сумма" type="text">
+          <input autocomplete="off" class="cost" min="0" placeholder="₽" step="10" title="Сумма" type="text">
         </label>
         <span>
-          <a href="https://www.kinopoisk.ru" target="_blank" class="kp-link"
-             title="Ссылка на кинопоиск" onclick="ripplet(arguments[0])">
+          <a class="kp-link" href="https://www.kinopoisk.ru" target="_blank"
+             title="Ссылка на кинопоиск">
             <img src="{% static 'img/icons/material/video-library.svg' %}"
                  alt="Иконка ссылки на кинопоиск"></a>
-              <button type="button" class="btn" onclick="ripplet(arguments[0]);clearRow()" title="Очистить">
+              <button class="btn" title="Очистить" type="button">
                 <img src="{% static 'img/icons/material/delete-outline.svg' %}"
                      alt="Иконка очистки">
               </button>

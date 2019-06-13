@@ -1,6 +1,12 @@
+'use strict';
+
 import winner from './winner';
 
 class Timer {
+  /**
+   * @constructor
+   *
+   */
   constructor(timerElem) {
     const arr = timerElem.innerHTML.split(':');
     this.elem = timerElem;
@@ -12,39 +18,53 @@ class Timer {
     this.timeStart = new Date();
   }
 
+  /**
+   * Start timer
+   *
+   */
   start() {
     if (this.started) return;
-    if (this.m) {
-      this.timeStart = new Date();
-      this.started = true;
-      this.m--;
 
+    if (!this.m) winner.show(); else {
+      this.timeStart = new Date();
+      this.m--;
+      this.started = true;
+      window.started = true;
       // () => ...() to resolve scope problems
       requestAnimationFrame(() => this.updateTimer());
-    } else {
-      winner.show(false);
     }
   }
 
-  // It's work when timer didnt started
+  /**
+   * It's work when timer didnt started, reset timer to 00:00:00
+   *
+   */
   reset() {
     this.elem.innerHTML = '00:00:00';
     this.m = 0;
     this.time = new Date(0);
   }
 
-  // This work when timer is running
+  /**
+   * This work when timer is running, stop timer and reset time
+   *
+   */
   stop() {
-    this.elem.innerHTML = '00:00:00';
-    this.m = 0;
-    this.time = new Date(0);
+    this.reset();
     this.started = false;
+    window.started = false;
     cancelAnimationFrame(this.updateTimer);
   }
 
+  /**
+   * Subtract one minute from timer
+   *
+   */
   minusOne() {
     if (!this.m) return;
+
     this.m--;
+
     if (this.started) {
       this.timeStart.setMinutes(this.timeStart.getMinutes() - 1);
     } else {
@@ -54,6 +74,10 @@ class Timer {
     }
   }
 
+  /**
+   * Add one minute to timer
+   *
+   */
   plusOne() {
     if (this.started) {
       if (this.m !== 59) {
@@ -68,6 +92,10 @@ class Timer {
     }
   }
 
+  /**
+   * Add two minutes to timer
+   *
+   */
   plusTwo() {
     if (this.started) {
       if (this.m === 58) {
@@ -85,6 +113,10 @@ class Timer {
     }
   }
 
+  /**
+   * Update timer animation (every 10ms)
+   *
+   */
   updateTimer() {
     // console.log(`${this.m}:${this.s}`);
     const current = new Date();
@@ -106,12 +138,12 @@ class Timer {
     }
 
     document.title = !winnerResult ? 'WoodsAuc' :
-                     `${winner.decorate(winnerResult)} - WoodsAuc`;
+                     `${winner.decorate(winnerResult)} лидирует!`;
 
     // minimal rms can't be 0, and it's totally random
     if ( (!rm && !rs && rms < 300) || this.time < delta ) {
       this.stop();
-      winner.show(false, winner.compile(winnerResult));
+      winner.show(winner.compile(winnerResult));
     } else {
       rm = rm < 10 ? `0${rm}` : rm;
       rs = rs < 10 ? `0${rs}` : rs;

@@ -4,12 +4,11 @@ import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const WEBPACK_MODE = process.env.WEBPACK_MODE || 'development';
 
-module.exports = {
+export default {
   mode: WEBPACK_MODE,
 
   context: `${__dirname}/assets/js`,
   entry: {
-    legacy: './legacy/legacy',
     script: './script'
   },
 

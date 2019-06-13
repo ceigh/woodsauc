@@ -1,5 +1,10 @@
 'use strict';
 
+
+/**
+  * Play light.mp3 sound
+  *
+  */
 const playNotificationSound = () => {
   const audio = new Audio();
 
@@ -7,13 +12,33 @@ const playNotificationSound = () => {
   audio.autoplay = true;
 };
 
-// Open browser window if collapsed
-const focusWindow = () => {
-  window.focus();
+
+/**
+  * Clear notification area
+  *
+  */
+const clear = () => {
+  const notifications = document.getElementById('notifications-area');
+
+  while (notifications.children.length > 0) {
+    notifications.removeChild(notifications.firstChild);
+  }
 };
 
-// HTML5 notifications
-// Make notification element
+
+/**
+  * Open browser window if collapsed
+  *
+  */
+const focusWindow = () => window.focus();
+
+
+/**
+  * Make notification element
+  *
+  * @param {string} title - title of notification
+  * @param {Object} options - notification settings
+  */
 const createNotification = (title, options) => {
   const notification = new Notification(title, options);
 
@@ -21,6 +46,13 @@ const createNotification = (title, options) => {
   return notification;
 };
 
+
+/**
+  * Return taken title and body and make default options object
+  *
+  * @param {string} title - title of notification
+  * @param {string} body - notification body
+  */
 const makeNotificationOptions = (title, body) => {
   return {
     title: title,
@@ -31,15 +63,19 @@ const makeNotificationOptions = (title, body) => {
   }
 };
 
-// Send it
+
+/**
+  * Send ready notification
+  *
+  * @param {string} title - title of notification
+  * @param {string} body - notification body
+  */
 const sendNotification = (title, body) => {
   const permission = Notification.permission;
   const options = makeNotificationOptions(title, body);
 
   // Проверим, поддерживает ли браузер HTML5 Notifications
-  if ( !('Notification' in window) ) {
-    return;
-  }
+  if ( !('Notification' in window) ) return;
 
   // Проверим, есть ли права на отправку уведомлений
   if (permission === 'granted') {
@@ -51,27 +87,13 @@ const sendNotification = (title, body) => {
   } else if (permission !== 'denied') {
     Notification.requestPermission(permission => {
 
-      // Если права успешно получены, отправляем уведомление
-      if (permission === 'granted') {
-        createNotification(title, options);
-      }
+    // Если права успешно получены, отправляем уведомление
+    if (permission === 'granted') createNotification(title, options);
     });
   }
 };
 
-// Clear notification area
-const clear = () => {
-  const notifications = document.getElementById('notifications-area');
-  while (notifications.children.length > 0) {
-    notifications.removeChild(notifications.firstChild);
-  }
-};
 
-// All functions in one object
-const notifications = {
-  playNotificationSound,
-  sendNotification,
-  clear
-};
+const notifications = {playNotificationSound, sendNotification, clear};
 
 export default notifications;
