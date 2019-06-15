@@ -74,7 +74,7 @@ body {
 }
 
 .danger {
-    color: #f39727;
+    color: #f39727 !important;
 }
 
 .timer-btn {

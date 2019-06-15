@@ -4,6 +4,49 @@ const year = 31622400; // sec
 
 
 /**
+  * Select all text in input
+  *
+  * @param {Object} input - input element
+  */
+const selectTxt = input => {
+  input.focus();
+  input.select();
+};
+
+
+/**
+ * Check if URL is URL and it's a picture
+ *
+ * @param {string} url - URL to test
+ * @return {Boolean} - is valid or not
+ */
+const isUrlValid = url => {
+  const isImg = /\.(jpg|jpeg|png|gif|webp|svg)$/;
+  const isUrl = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
+  url = encodeURI(url);
+  return isImg.test(url) && isUrl.test(url);
+};
+
+
+/**
+ * Check is URL loaded
+ * @return {boolean} - loaded or not
+ */
+//TODO FIXME: async, await
+/*const isUrlWork = url => {
+  const http = new XMLHttpRequest();
+
+  try {
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status === 200;
+  } catch {
+    return false;
+  }
+};*/
+
+
+/**
   * Set document cookie
   *
   * @param {string} name - cookie name
@@ -48,6 +91,18 @@ const setCookie = ( name, value, options = {'expires': year} ) => {
 const deleteCookie = name => {
   setCookie( name, '', {'expires': -1} );
 };
-const cookie = {year, set: setCookie, delete: deleteCookie};
 
-export default cookie;
+
+const settings = {
+  cookie: {
+    year,
+    set: setCookie,
+    delete: deleteCookie
+  },
+  tools: {
+    selectTxt,
+    isUrlValid
+  }
+};
+
+export default settings;

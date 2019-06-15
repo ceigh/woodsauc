@@ -1,7 +1,6 @@
 'use strict';
 
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
-import JsDocPlugin from 'jsdoc-webpack-plugin';
 
 const WEBPACK_MODE = process.env.WEBPACK_MODE || 'development';
 
@@ -43,7 +42,5 @@ export default {
     minimizer: WEBPACK_MODE === 'production' ?
                [ new UglifyJsPlugin( {parallel: true} ) ] :
                [ () => {} ]
-  },
-
-  plugins: [ new JsDocPlugin( {conf: './jsdoc.config.json'} ) ]
+  }
 };

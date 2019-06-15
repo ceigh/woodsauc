@@ -1,12 +1,10 @@
 'use strict';
 
 import ripplet from 'ripplet.js';
-import winner from  './winner';
-import cookie from './settings';
 import notifications from './notifications';
+import settings from './settings';
+import winner from  './winner';
 import {oneSpace, toTitle, trim} from './stringUtilities';
-
-export default sortCandidates;
 
 const firstBlock = document.querySelector('.block');
 const firstName = firstBlock.querySelector('.name');
@@ -71,13 +69,14 @@ changeTitle(buyInput);
 
 buyClear.onclick = () => {
   buyInput.value = '';
-  cookie.delete('buyCost');
+  buyInput.setAttribute('title', 'Сумма выкупа');
+  settings.cookie.delete('buyCost');
 };
 buyInput.onchange = function () {
   checksum(this);
   changeTitle(this);
-  if (this.value) cookie.set('buyCost', this.value);
-  else cookie.delete('buyCost');
+  if (this.value) settings.cookie.set('buyCost', this.value);
+  else settings.cookie.delete('buyCost');
 };
 
 

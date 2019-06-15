@@ -122,10 +122,12 @@ class Timer {
     const current = new Date();
     const delta = new Date(current - this.timeStart);
     const result = new Date(this.time - delta);
+    const title = document.title;
     let rm = result.getMinutes();  // result minutes
     let rs = result.getSeconds();  // result seconds
     let rms = result.getMilliseconds();  // result milliseconds
     let winnerResult = winner.return();
+    let compiled;
 
     this.m = rm;
     this.s = rs;
@@ -137,8 +139,10 @@ class Timer {
       this.elem.classList.remove('danger')
     }
 
-    document.title = !winnerResult ? 'WoodsAuc' :
-                     `${winner.decorate(winnerResult)} лидирует!`;
+    if (winnerResult) {
+      compiled = `${winner.decorate(winnerResult)} лидирует!`;
+      if (title !== compiled || title === 'WoodsAuc') document.title = compiled;
+    } else if (title !== 'WoodsAuc') document.title = 'WoodsAuc';
 
     // minimal rms can't be 0, and it's totally random
     if ( (!rm && !rs && rms < 300) || this.time < delta ) {

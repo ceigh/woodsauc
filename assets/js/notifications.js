@@ -1,5 +1,7 @@
 'use strict';
 
+const area = document.getElementById('notifications-area');
+
 
 /**
   * Play light.mp3 sound
@@ -18,10 +20,8 @@ const playNotificationSound = () => {
   *
   */
 const clear = () => {
-  const notifications = document.getElementById('notifications-area');
-
-  while (notifications.children.length > 0) {
-    notifications.removeChild(notifications.firstChild);
+  while (area.children.length > 0) {
+    area.removeChild(area.firstChild);
   }
 };
 
@@ -94,6 +94,36 @@ const sendNotification = (title, body) => {
 };
 
 
-const notifications = {playNotificationSound, sendNotification, clear};
+/**
+  * Send ready notification
+  *
+  * @param {string} text - text of notification
+  */
+const sendInside = text => {
+  const notification = document.createElement('div');
+  const p = document.createElement('p');
+
+  p.innerText = text;
+
+  notification.appendChild(p);
+  notification.className = 'notification';
+  area.insertBefore(notification, area.firstElementChild);
+  notifications.playNotificationSound();
+
+  setTimeout(() => {
+    notification.classList.add('hidden');
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }, 1200);
+};
+
+
+const notifications = {
+  playNotificationSound,
+  sendNotification,
+  sendInside,
+  clear
+};
 
 export default notifications;

@@ -1,38 +1,26 @@
 'use strict';
 
 import ripplet, {defaultOptions} from 'ripplet.js';
-import Timer from './timer';
+import './candidates';
+import './background';
+import settings from './settings';
 import notifications from './notifications';
-import sortCandidates from './candidates';
-import cookie from "./settings";
-
-const firefox = navigator.userAgent.toLowerCase().includes('firefox');
-const body = document.querySelector('body');
-
-if (firefox && !getCookie('bg-url')) {
-  body.style.backgroundImage = "url('/static/img/bg/tree.jpg')";
-}
+import Timer from './timer';
 
 const minsCookie = getCookie('previousMinutes');
 const timerElement = document.getElementById('timer');
-
-if (minsCookie) {
-  timerElement.innerHTML = `${minsCookie}:00:00`;
-}
+if (minsCookie) timerElement.innerHTML = `${minsCookie}:00:00`;
 
 const timer = new Timer(timerElement);
-
 const timerBtns = Array.from(document.getElementById('timer-btns').children);
 const startBtn = document.getElementById('start-btn');
 const stopBtn = document.getElementById('stop-btn');
 const plusBtn = document.getElementById('plus-btn');
 const plusTwoBtn = document.getElementById('plus-two-btn');
 const minusBtn = document.getElementById('minus-btn');
+timerBtns.forEach( item => item.addEventListener('click', ripplet) );
 
 const modalOverlay = document.getElementById('modal-overlay');
-
-timerBtns.forEach(item => item.addEventListener('click', ripplet));
-
 modalOverlay.addEventListener('click', ripplet);
 document.onkeydown = e => {
   if (!modalOverlay.classList.contains('closed') && e.key === 'Escape') {
@@ -42,7 +30,7 @@ document.onkeydown = e => {
 
 startBtn.onclick = () => {
   const mins = timerElement.innerHTML.split(':')[0];
-  if (mins) cookie.set('previousMinutes', mins);
+  if (mins) settings.cookie.set('previousMinutes', mins);
   timer.start();
 };
 stopBtn.onclick = () => {
@@ -63,51 +51,24 @@ minusBtn.onclick = () => timer.minusOne();
 
 
 // Settings
-function changeBG(url) {
-  const bgImg = new Image();
-
-  if (url && url !== '') {
-    bgImg.onload = function(){
-      body.style.backgroundImage = `url(${bgImg.src})`;
-    };
-    bgImg.src = url;
-  } else {
-    if (firefox) {
-      body.style.backgroundImage = "url('/static/img/bg/tree.jpg')";
-    } else {
-      body.style.backgroundImage = "url('/static/img/bg/tree.webp')";
-    }
-  }
-}
-
-function sheet(css) {
-  let style = document.createElement("style");
-  style.appendChild(document.createTextNode(css));
-  document.head.appendChild(style);
-  return style
-}
-
-
-function textSelect(inputElem) {
-  inputElem.focus();
-  inputElem.select();
-}
-
-
+// function changeBG(url) {
+//   const bgImg = new Image();
+//
+//   if (url && url !== '') {
+//     bgImg.onload = function(){
+//       body.style.backgroundImage = `url(${bgImg.src})`;
+//     };
+//     bgImg.src = url;
+//   } else {
+//     if (ff) {
+//       body.style.backgroundImage = "url('/static/img/bg/tree.jpg')";
+//     } else {
+//       body.style.backgroundImage = "url('/static/img/bg/tree.webp')";
+//     }
+//   }
+// }
 const showSettingsBtn = document.getElementById('settings-icon');
 const settingsWindow = document.getElementById('settings');
-const saveBGURLBtn = document.getElementById('save-bg-url-btn');
-const clearBGURLBtn = document.getElementById('clear-bg-url-btn');
-const bgURLInput = document.getElementById('bg-url');
-const colorExctractor = document.getElementById('color-extractor');
-const year = 31622400;
-let bgURL = getCookie('bg-url');
-let styleElement;
-
-bgURLInput.onclick = function () {
-  ripplet(arguments[0]);
-  textSelect(this);
-};
 
 showSettingsBtn.onclick = function () {
   ripplet(arguments[0]);
@@ -115,175 +76,15 @@ showSettingsBtn.onclick = function () {
   settingsWindow.classList.toggle("closed");
 };
 
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-}
-
-let colorCookie = getCookie('accent');
-
-// noinspection JSUnresolvedVariable
-defaultOptions.clearingDuration = '.3s';
-// noinspection JSUnresolvedVariable
-defaultOptions.spreadingDuration = '.3s';
-let color;
-if (colorCookie) {
-  const rgb = hexToRgb(colorCookie);
-  color = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, .6)`;
-} else {
-  color = 'rgba(243, 151, 39, .6)';
-}
-// noinspection JSUnresolvedVariable
-defaultOptions.color = color;
-
-if (colorCookie && colorCookie !== '') {
-  let accentShadow = hexToRgb(colorCookie);
-  accentShadow = `rgba(${accentShadow.r}, ${accentShadow.g}, ${accentShadow.b}, 0.7)`;
-  styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${colorCookie}!important}
-input:focus{--accent:${colorCookie}!important;--shadow:${accentShadow}!important}
-::selection{background:${accentShadow}!important}::-moz-selection{background:${accentShadow}}!important`);
-} else {
-  styleElement = sheet(`.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
-input:focus{--accent:#f39727!important;--shadow:rgba(243, 151, 39, 0.7)!important}
-::selection{background:rgba(243,151,39,.7)}::-moz-selection{background:rgba(243,151,39,.7)}`);
-}
-
-
-/**
- * @return {boolean}
- */
-// function isUrlWork(url) {
-// TODO FIXME: async, await
-//   const http = new XMLHttpRequest();
-//
-//   try {
-//     http.open('HEAD', url, false);
-//     http.send();
-//     return http.status === 200;
-//   } catch (e) {
-//     console.log(e);
-//     return false;
-//   }
-// }
-
-
-function isUrlValid(url) {
-  const isUrl = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/i;
-  const isImg = /\.(jpg|jpeg|png|gif|webp|svg)$/;
-  url = encodeURI(url);
-  return isImg.test(url) && isUrl.test(url);
-}
-
-function notification(text) {
-  const area = document.getElementById('notifications-area');
-  const notification = document.createElement('div');
-  const p = document.createElement('p');
-
-  p.innerText = text;
-  p.setAttribute('title', text);
-
-  notification.appendChild(p);
-  notification.className = 'notification';
-  area.insertBefore(notification, area.firstElementChild);
-  notifications.playNotificationSound();
-
-  setTimeout(function () {
-    notification.classList.add('hidden');
-    setTimeout(function () {
-      notification.remove();
-    }, 300);
-  }, 1200);
-}
-
-
-saveBGURLBtn.onclick = function () {
-  const url = bgURLInput.value;
-
-  ripplet(arguments[0]);
-
-  if (!url) {
-    notification("Нет URL фона");
-  } else {
-    if (url === getCookie('bg-url')) {
-      notification("Этот фон уже установлен");
-    } else {
-      if (!isUrlValid(url)) {
-        notification("Введите корректный URL");
-      } else {
-        changeBG(url);
-
-        notification("Фон обновлен");
-
-        // Change Accent color
-        colorExctractor.setAttribute(
-          'src', `https://cors-anywhere.herokuapp.com/${url}`);
-
-        colorExctractor.addEventListener('load', function () {
-          // noinspection JSUnresolvedFunction
-          const vibrant = new Vibrant(this);
-          // noinspection JSUnresolvedFunction
-          const swatches = vibrant.swatches();
-          // noinspection JSUnresolvedFunction
-          const dominant = swatches['Vibrant'].getHex();
-          let shadow = hexToRgb(dominant);
-
-          // noinspection JSUnresolvedVariable
-          defaultOptions.color = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .6)`;
-
-          shadow = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, .7)`;
-
-          styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:${dominant}!important}
-                          input:focus{--accent:${dominant}!important;--shadow:${shadow}!important}
-                          ::selection{background:${shadow}!important}::-moz-selection{background:${shadow}!important}`;
-
-          cookie.set('bg-url', url);
-          cookie.set('accent', dominant);
-        });
-      }
-    }
-  }
-};
-
-clearBGURLBtn.onclick = function () {
-  ripplet(arguments[0]);
-
-  if (!bgURLInput.value) {
-    notification("Фон уже сброшен");
-  } else {
-    changeBG('');
-
-    bgURLInput.value = '';
-
-    // noinspection JSUnresolvedVariable
-    defaultOptions.color = 'rgba(243, 151, 39, .6)';
-
-    styleElement.innerText = `.name,.cost,#bg-url,.danger,#da-url,.cost-buy{color:#f39727!important}
-            input:focus{--accent:#f39727!important;--shadow:rgba(243,151,39,.7)!important});
-            ::selection{background:rgba(243,151,39,.7)}::-moz-selection{background:rgba(243,151,39,.7)}`;
-
-    cookie.delete('bg-url');
-    cookie.delete('accent');
-
-    notification("Фон сброшен");
-  }
-};
-
-changeBG(bgURL);
-bgURLInput.value = bgURL ? bgURL : '';
-
 //DA URL
 const daURL = document.getElementById('da-url');
 const saveDAURLBtn = document.getElementById('save-da-url-btn');
 const clearDAURLBtn = document.getElementById('clear-da-url-btn');
 const tokenCookie = getCookie('token');
 
-daURL.onclick = function () {
+daURL.onclick = function() {
   ripplet(arguments[0]);
-  textSelect(this);
+  settings.tools.selectTxt(this);
 };
 
 daURL.value = tokenCookie ? tokenCookie : '';
@@ -292,7 +93,7 @@ saveDAURLBtn.onclick = function () {
   ripplet(arguments[0]);
 
   let token = daURL.value;
-  cookie.set('token', token);
+  settings.cookie.set('token', token);
 
   const notificationArea = document.getElementById('notifications-area');
   let notification = document.createElement('div');
@@ -317,7 +118,7 @@ clearDAURLBtn.onclick = function () {
   ripplet(arguments[0]);
 
   daURL.value = '';
-  cookie.delete('token');
+  settings.cookie.delete('token');
 
   const notificationArea = document.getElementById('notifications-area');
   let notification = document.createElement('div');
