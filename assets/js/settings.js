@@ -1,6 +1,8 @@
 'use strict';
 
 import ripplet from 'ripplet.js';
+import './background';
+import './settingsDonationAlerts';
 
 const year = 31622400; // sec
 

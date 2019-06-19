@@ -1,7 +1,6 @@
 'use strict';
 
-import './background';
 import './candidates';
-import './settingsDonationAlerts';
+import './settings';
 import './socketDonationAlerts';
 import './timer';

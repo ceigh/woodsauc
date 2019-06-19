@@ -67,6 +67,8 @@ resetButton.onclick = () => {
     area.children[area.children.length - 2].remove();
   }
   clearFirstRow();
+  // To reset buy position
+  window.isBuy = false;
 };
 
 buyInput.value = !buyCookie ? '' : buyCookie;
@@ -132,6 +134,8 @@ function clearFirstRow() {
   firstKpLink.href = 'https://www.kinopoisk.ru';
   changeSize(firstName);
   sortCandidates();
+  // To reset buy position
+  if (window.isBuy) window.isBuy = false;
 }
 
 
@@ -198,7 +202,7 @@ function checksum(costEl) {
 function checkOnBuy(costEl) {
   const need = Number(buyInput.value);
   const curr = Number(costEl.value);
-  const name = winner.decorate(toTitle(costEl.previousElementSibling.value));
+  const name = winner.decorate( toTitle(costEl.previousElementSibling.value) );
 
   if (!need || !name || curr < need) return;
 
