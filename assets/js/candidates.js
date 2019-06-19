@@ -4,7 +4,7 @@ import ripplet from 'ripplet.js';
 import notifications from './notifications';
 import settings from './settings';
 import winner from  './winner';
-import {oneSpace, toTitle, trim} from './stringUtilities';
+import {oneSpace, toTitle} from './stringUtilities';
 
 export {sortCandidates, changeTitle, checkOnBuy, createBlock};
 
@@ -284,9 +284,7 @@ function createLink(nameEl) {
  *
  * @param {Object} nameEl - name input
  */
-function trimValue(nameEl) {
-  nameEl.value = trim(nameEl.value);
-}
+const trimValue = nameEl => nameEl.value = nameEl.value.trim();
 
 
 /**

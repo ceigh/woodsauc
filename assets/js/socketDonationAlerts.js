@@ -2,7 +2,7 @@
 
 import notifications from './notifications';
 import winner from './winner';
-import {oneSpace, toTitle, trim} from './stringUtilities';
+import {oneSpace, toTitle} from './stringUtilities';
 import {sortCandidates, changeTitle, checkOnBuy, createBlock} from './candidates';
 
 const socketUrl = 'https://socket.donationalerts.ru:443';
@@ -55,8 +55,8 @@ const donationHandler = msg => {
 
   costs.some((item, i) => {
     const name = names[i].value;
-    const isIncludes = name && trim(message).toLowerCase()
-                                 .includes( trim(name).toLowerCase() );
+    const isIncludes = name && message.trim().toLowerCase()
+                                 .includes( name.trim().toLowerCase() );
     const addToPosition = () => {
       const names = Array.from( document.getElementsByClassName('name') );
       const costs = Array.from( document.getElementsByClassName('cost') );
@@ -92,7 +92,7 @@ const donationHandler = msg => {
 
   if (inserted) return;
 
-  notificationText = `Создать "${ trim( toTitle(message) ) }" с ₽${amount}?`;
+  notificationText = `Создать "${ toTitle(message).trim() }" с ₽${amount}?`;
   const createPosition = () => {
     createBlock(message, amount);
   };

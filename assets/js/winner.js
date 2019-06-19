@@ -2,7 +2,7 @@
 
 import ripplet from 'ripplet.js';
 import notification from './notifications';
-import {toTitle, trim} from './stringUtilities';
+import {toTitle} from './stringUtilities';
 
 const modal = document.getElementById('modal');
 const modalOverlay = document.getElementById('modal-overlay');
@@ -106,7 +106,7 @@ const addEnding = winner => {
   */
 const decorateWinner = winner => {
   if (!winner) return winner;
-  winner = toTitle(trim(winner));
+  winner = toTitle(winner).trim();
   winner = winner.length < 20 ? winner : `${winner.substr(0, 20)}...`;
   return JSON.stringify(winner);
 };
