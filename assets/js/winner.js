@@ -1,11 +1,21 @@
 'use strict';
 
+import ripplet from 'ripplet.js';
 import notification from './notifications';
 import {toTitle, trim} from './stringUtilities';
 
 const modal = document.getElementById('modal');
 const modalOverlay = document.getElementById('modal-overlay');
 const timerElement = document.getElementById('timer');
+
+
+modalOverlay.addEventListener('click', ripplet);
+
+document.onkeydown = e => {
+  if (!modalOverlay.classList.contains('closed') && e.key === 'Escape') {
+    modalOverlay.click();
+  }
+};
 
 
 /**

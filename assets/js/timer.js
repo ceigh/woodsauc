@@ -1,6 +1,10 @@
 'use strict';
 
+import ripplet from 'ripplet.js';
+import notifications from './notifications';
+import settings from './settings';
 import winner from './winner';
+
 
 class Timer {
   /**
@@ -24,7 +28,6 @@ class Timer {
    */
   start() {
     if (this.started) return;
-
     if (!this.m) winner.show(); else {
       this.timeStart = new Date();
       this.m--;
@@ -70,7 +73,7 @@ class Timer {
     } else {
       this.m = this.m < 0 ? 0 : this.m;
       this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      timer.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
+      this.elem.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
     }
   }
 
@@ -88,7 +91,7 @@ class Timer {
       this.m++;
       this.m = this.m > 59 ? 59 : this.m;
       this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      timer.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
+      this.elem.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
     }
   }
 
@@ -109,7 +112,7 @@ class Timer {
       this.m += 2;
       this.m = this.m > 59 ? 59 : this.m;
       this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      timer.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
+      this.elem.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
     }
   }
 
@@ -162,4 +165,35 @@ class Timer {
   };
 }
 
-export default Timer;
+
+const minsCookie = getCookie('previousMinutes');
+const timerElement = document.getElementById('timer');
+if (minsCookie) timerElement.innerHTML = `${minsCookie}:00:00`;
+const timer = new Timer(timerElement);
+
+const timerBtns = Array.from(document.getElementById('timer-btns').children);
+const startBtn = timerBtns[0];
+const stopBtn = timerBtns[1];
+const minusBtn = timerBtns[2];
+const plusBtn = timerBtns[3];
+const plusTwoBtn = timerBtns[4];
+
+timerBtns.forEach( btn => btn.addEventListener('click', ripplet) );
+
+startBtn.onclick = () => {
+  const mins = timerElement.innerHTML.split(':')[0];
+  if (mins) settings.cookie.set('previousMinutes', mins);
+  timer.start();
+};
+stopBtn.onclick = () => {
+  if (timer.started) {
+    timer.timeStart = new Date(new Date - timer.time + 300);
+    notifications.clear();
+    timer.stop()
+  } else {
+    timer.reset();
+  }
+};
+minusBtn.onclick = () => timer.minusOne();
+plusBtn.onclick = () => timer.plusOne();
+plusTwoBtn.onclick = () => timer.plusTwo();

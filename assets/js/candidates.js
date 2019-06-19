@@ -341,6 +341,7 @@ function createBlock(nameVal = '', costVal = '') {
   };
 
   delIcon.setAttribute('src', '/static/img/icons/material/delete.svg');
+  link.setAttribute('title', 'Кинопоиск');
 
   if (fromDA) {
     checkOnBuy(cost);
@@ -349,7 +350,6 @@ function createBlock(nameVal = '', costVal = '') {
   } else {
     name.setAttribute('title', 'Фильм, игра, etc');
     cost.setAttribute('title', 'Сумма');
-    link.setAttribute('title', 'Кинопоиск');
     link.setAttribute('href', 'https://www.kinopoisk.ru');
   }
 
