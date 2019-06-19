@@ -29,12 +29,12 @@
             <pre class="prettyprint source linenums"><code>'use strict';
 
 import ripplet from 'ripplet.js';
-import winner from  './winner';
-import cookie from './settings';
 import notifications from './notifications';
-import {oneSpace, toTitle, trim} from './stringUtilities';
+import settings from './settings';
+import winner from  './winner';
+import {oneSpace, toTitle} from './stringUtilities';
 
-export default sortCandidates;
+export {sortCandidates, changeTitle, checkOnBuy, createBlock};
 
 const firstBlock = document.querySelector('.block');
 const firstName = firstBlock.querySelector('.name');
@@ -86,12 +86,18 @@ firstCost.onchange = function() {
 };
 firstClearRowBtn.onclick = clearFirstRow;
 
-addBtn.onclick = createBlock;
+addBtn.onclick = function() {
+  createBlock();
+  ripplet(arguments[0]);
+};
 resetButton.onclick = () => {
   while (area.children.length > 3) {
     area.children[area.children.length - 2].remove();
   }
   clearFirstRow();
+  firstName.focus();
+  // To reset buy position
+  window.isBuy = false;
 };
 
 buyInput.value = !buyCookie ? '' : buyCookie;
@@ -99,13 +105,14 @@ changeTitle(buyInput);
 
 buyClear.onclick = () => {
   buyInput.value = '';
-  cookie.delete('buyCost');
+  buyInput.setAttribute('title', 'Сумма выкупа');
+  settings.cookie.delete('buyCost');
 };
 buyInput.onchange = function () {
   checksum(this);
   changeTitle(this);
-  if (this.value) cookie.set('buyCost', this.value);
-  else cookie.delete('buyCost');
+  if (this.value) settings.cookie.set('buyCost', this.value);
+  else settings.cookie.delete('buyCost');
 };
 
 
@@ -156,55 +163,8 @@ function clearFirstRow() {
   firstKpLink.href = 'https://www.kinopoisk.ru';
   changeSize(firstName);
   sortCandidates();
-}
-
-
-/**
- * Add row to list through copy first block
- *
- */
-function createBlock() {
-  const div = firstBlock.cloneNode(true);
-  const name = div.querySelector('.name');
-  const cost = div.querySelector('.cost');
-  const link = div.querySelector('.kp-link');
-  const btn = div.querySelector('.btn');
-  const delIcon = btn.querySelector('img');
-
-  name.value = '';
-  cost.value = '';
-  name.setAttribute('title', 'Фильм, игра, etc');
-  cost.setAttribute('title', 'Сумма');
-  link.setAttribute('title', 'Кинопоиск');
-  link.setAttribute('href', 'https://www.kinopoisk.ru');
-  delIcon.setAttribute('src', '/static/img/icons/material/delete.svg');
-
-  name.addEventListener('click', ripplet);
-  cost.addEventListener('click', ripplet);
-  link.addEventListener('click', ripplet);
-  btn.addEventListener('click', ripplet);
-
-  btn.onclick = function() {
-    removeRow(this);
-  };
-  name.onkeyup = function() {
-    createLink(this);
-    changeSize(this);
-  };
-  name.onchange = function() {
-    changeSize(this);
-  };
-  cost.onchange = function() {
-    checksum(this);
-    checkOnBuy(this);
-    changeTitle(this);
-    sortCandidates();
-  };
-
-  area.insertBefore(div, area.lastElementChild);
-  name.focus();
-  div.classList.add('visible');
-  ripplet(arguments[0]);
+  // To reset buy position
+  if (window.isBuy) window.isBuy = false;
 }
 
 
@@ -271,7 +231,7 @@ function checksum(costEl) {
 function checkOnBuy(costEl) {
   const need = Number(buyInput.value);
   const curr = Number(costEl.value);
-  const name = winner.decorate(toTitle(costEl.previousElementSibling.value));
+  const name = winner.decorate( toTitle(costEl.previousElementSibling.value) );
 
   if (!need || !name || curr &lt; need) return;
 
@@ -343,7 +303,7 @@ function createLink(nameEl) {
   if (name) {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
       encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
-    nameEl.setAttribute( 'title', toTitle( winner.decorate(name) ) );
+    nameEl.setAttribute( 'title', toTitle(name) );
   } else {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
       'https://www.kinopoisk.ru';
@@ -357,9 +317,7 @@ function createLink(nameEl) {
  *
  * @param {Object} nameEl - name input
  */
-function trimValue(nameEl) {
-  nameEl.value = trim(nameEl.value);
-}
+const trimValue = nameEl => nameEl.value = nameEl.value.trim();
 
 
 /**
@@ -369,6 +327,72 @@ function trimValue(nameEl) {
  */
 function oneSpacedValue(nameEl) {
   nameEl.value = oneSpace(nameEl.value);
+}
+
+
+/**
+ * Add row to list through copy first block
+ *
+ * @param {string} [nameVal] - name of position
+ * @param {string} [costVal] - cost of position
+ *
+ */
+function createBlock(nameVal = '', costVal = '') {
+  const div = firstBlock.cloneNode(true);
+  const name = div.querySelector('.name');
+  const cost = div.querySelector('.cost');
+  const link = div.querySelector('.kp-link');
+  const btn = div.querySelector('.btn');
+  const delIcon = btn.querySelector('img');
+  const fromDA = nameVal &amp;&amp; costVal;
+
+  name.value = nameVal;
+  cost.value = costVal;
+
+  name.addEventListener('click', ripplet);
+  cost.addEventListener('click', ripplet);
+  link.addEventListener('click', ripplet);
+  btn.addEventListener('click', ripplet);
+
+  btn.onclick = function() {
+    removeRow(this);
+  };
+  name.onkeyup = function() {
+    createLink(this);
+    changeSize(this);
+  };
+  name.onchange = function() {
+    changeSize(this);
+  };
+  cost.onchange = function() {
+    checksum(this);
+    checkOnBuy(this);
+    changeTitle(this);
+    sortCandidates();
+  };
+
+  delIcon.setAttribute('src', '/static/img/icons/material/delete.svg');
+  link.setAttribute('title', 'Кинопоиск');
+
+  if (fromDA) {
+    checkOnBuy(cost);
+    createLink(name);
+    changeTitle(cost);
+  } else {
+    name.setAttribute('title', 'Фильм, игра, etc');
+    cost.setAttribute('title', 'Сумма');
+    link.setAttribute('href', 'https://www.kinopoisk.ru');
+  }
+
+  area.insertBefore(div, area.lastElementChild);
+  div.classList.add('visible');
+
+  if (fromDA) {
+    changeSize(name);
+    sortCandidates();
+  } else {
+    name.focus();
+  }
 }
 </code></pre>
         </article>
@@ -380,13 +404,13 @@ function oneSpacedValue(nameEl) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addEnding">addEnding</a></li><li><a href="global.html#changeSize">changeSize</a></li><li><a href="global.html#changeTitle">changeTitle</a></li><li><a href="global.html#checkOnBuy">checkOnBuy</a></li><li><a href="global.html#checksum">checksum</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearFirstRow">clearFirstRow</a></li><li><a href="global.html#compileWinner">compileWinner</a></li><li><a href="global.html#createBlock">createBlock</a></li><li><a href="global.html#createLink">createLink</a></li><li><a href="global.html#createNotification">createNotification</a></li><li><a href="global.html#decorateWinner">decorateWinner</a></li><li><a href="global.html#deleteCookie">deleteCookie</a></li><li><a href="global.html#focusWindow">focusWindow</a></li><li><a href="global.html#humanizeWinner">humanizeWinner</a></li><li><a href="global.html#isUrlValid">isUrlValid</a></li><li><a href="global.html#makeNotificationOptions">makeNotificationOptions</a></li><li><a href="global.html#oneSpace">oneSpace</a></li><li><a href="global.html#oneSpacedValue">oneSpacedValue</a></li><li><a href="global.html#removeRow">removeRow</a></li><li><a href="global.html#returnWinner">returnWinner</a></li><li><a href="global.html#sendNotification">sendNotification</a></li><li><a href="global.html#setCookie">setCookie</a></li><li><a href="global.html#showWinner">showWinner</a></li><li><a href="global.html#sortCandidates">sortCandidates</a></li><li><a href="global.html#toTitle">toTitle</a></li><li><a href="global.html#trimValue">trimValue</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addEnding">addEnding</a></li><li><a href="global.html#changeBG">changeBG</a></li><li><a href="global.html#changeSize">changeSize</a></li><li><a href="global.html#changeTitle">changeTitle</a></li><li><a href="global.html#checkOnBuy">checkOnBuy</a></li><li><a href="global.html#checksum">checksum</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearFirstRow">clearFirstRow</a></li><li><a href="global.html#compileWinner">compileWinner</a></li><li><a href="global.html#connect">connect</a></li><li><a href="global.html#createBlock">createBlock</a></li><li><a href="global.html#createLink">createLink</a></li><li><a href="global.html#createNotification">createNotification</a></li><li><a href="global.html#decorateWinner">decorateWinner</a></li><li><a href="global.html#deleteCookie">deleteCookie</a></li><li><a href="global.html#donationHandler">donationHandler</a></li><li><a href="global.html#focusWindow">focusWindow</a></li><li><a href="global.html#hexToRgb">hexToRgb</a></li><li><a href="global.html#humanizeWinner">humanizeWinner</a></li><li><a href="global.html#isUrlValid">isUrlValid</a></li><li><a href="global.html#makeNotificationOptions">makeNotificationOptions</a></li><li><a href="global.html#oneSpacedValue">oneSpacedValue</a></li><li><a href="global.html#playNotificationSound">playNotificationSound</a></li><li><a href="global.html#removeRow">removeRow</a></li><li><a href="global.html#returnWinner">returnWinner</a></li><li><a href="global.html#selectTxt">selectTxt</a></li><li><a href="global.html#sendInside">sendInside</a></li><li><a href="global.html#sendNotification">sendNotification</a></li><li><a href="global.html#sendPrompt">sendPrompt</a></li><li><a href="global.html#setCookie">setCookie</a></li><li><a href="global.html#showWinner">showWinner</a></li><li><a href="global.html#sortCandidates">sortCandidates</a></li><li><a href="global.html#toRgba">toRgba</a></li><li><a href="global.html#toTitle">toTitle</a></li><li><a href="global.html#trimValue">trimValue</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Fri Jun 14 2019 00:12:19 GMT+0500 (Yekaterinburg Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Wed Jun 19 2019 19:01:24 GMT+0500 (Yekaterinburg Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

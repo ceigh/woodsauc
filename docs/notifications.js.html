@@ -28,6 +28,13 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
+import ripplet from 'ripplet.js';
+import {oneSpace} from './stringUtilities';
+
+const area = document.getElementById('notifications-area');
+
+if (Notification.permission === 'default') Notification.requestPermission();
+
 
 /**
   * Play light.mp3 sound
@@ -46,10 +53,8 @@ const playNotificationSound = () => {
   *
   */
 const clear = () => {
-  const notifications = document.getElementById('notifications-area');
-
-  while (notifications.children.length > 0) {
-    notifications.removeChild(notifications.firstChild);
+  while (area.children.length > 0) {
+    area.removeChild(area.firstChild);
   }
 };
 
@@ -122,7 +127,93 @@ const sendNotification = (title, body) => {
 };
 
 
-const notifications = {playNotificationSound, sendNotification, clear};
+/**
+  * Send ready notification
+  *
+  * @param {string} text - text of notification
+  */
+const sendInside = text => {
+  const notification = document.createElement('div');
+  const p = document.createElement('p');
+
+  p.innerText = text;
+
+  notification.appendChild(p);
+  notification.className = 'notification';
+  area.insertBefore(notification, area.firstElementChild);
+  notifications.playNotificationSound();
+
+  setTimeout(() => {
+    notification.classList.add('hidden');
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }, 1200);
+};
+
+
+/**
+  * Send ready notification with prompt
+  *
+  * @param {string} text - text of notification
+  * @param {function} acceptCallback - function on accept
+  */
+const sendPrompt = (text, acceptCallback) => {
+  const notification = document.createElement('div');
+  const p = document.createElement('p');
+  const acceptBtn = document.createElement('button');
+  const cancelBtn = document.createElement('button');
+  const acceptIcon = document.createElement('img');
+  const cancelIcon = document.createElement('img');
+
+  notification.className = 'notification';
+
+  text = oneSpace(text);
+  p.innerText = text;
+  p.setAttribute('title', text);
+
+  acceptIcon.setAttribute('src', '/static/img/icons/material/done.svg');
+  cancelIcon.setAttribute('src', '/static/img/icons/material/clear.svg');
+  acceptIcon.setAttribute('alt', 'Подтвердить');
+  cancelIcon.setAttribute('alt', 'Отклонить');
+
+  [acceptBtn, cancelBtn].forEach(item => {
+    item.className = 'notification-btn';
+    item.setAttribute('type', 'button');
+  });
+  acceptBtn.setAttribute('title', 'Подтвердить');
+  cancelBtn.setAttribute('title', 'Отклонить');
+  acceptBtn.addEventListener('click', ripplet);
+  cancelBtn.addEventListener('click', ripplet);
+
+  cancelBtn.onclick = () => {
+    notification.classList.add('hidden');
+    setTimeout(() => notification.remove(), 300);
+  };
+  acceptBtn.onclick = () => {
+    acceptCallback();
+    cancelBtn.click();
+  };
+
+  acceptBtn.appendChild(acceptIcon);
+  cancelBtn.appendChild(cancelIcon);
+
+  notification.appendChild(p);
+  notification.appendChild(acceptBtn);
+  notification.appendChild(cancelBtn);
+
+  area.insertBefore(notification, area.firstChild);
+  playNotificationSound();
+};
+
+
+const notifications = {
+  playNotificationSound,
+  sendNotification,
+  sendInside,
+  sendPrompt,
+  clear
+};
 
 export default notifications;
 </code></pre>
@@ -135,13 +226,13 @@ export default notifications;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addEnding">addEnding</a></li><li><a href="global.html#changeSize">changeSize</a></li><li><a href="global.html#changeTitle">changeTitle</a></li><li><a href="global.html#checkOnBuy">checkOnBuy</a></li><li><a href="global.html#checksum">checksum</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearFirstRow">clearFirstRow</a></li><li><a href="global.html#compileWinner">compileWinner</a></li><li><a href="global.html#createBlock">createBlock</a></li><li><a href="global.html#createLink">createLink</a></li><li><a href="global.html#createNotification">createNotification</a></li><li><a href="global.html#decorateWinner">decorateWinner</a></li><li><a href="global.html#deleteCookie">deleteCookie</a></li><li><a href="global.html#focusWindow">focusWindow</a></li><li><a href="global.html#humanizeWinner">humanizeWinner</a></li><li><a href="global.html#isUrlValid">isUrlValid</a></li><li><a href="global.html#makeNotificationOptions">makeNotificationOptions</a></li><li><a href="global.html#oneSpace">oneSpace</a></li><li><a href="global.html#oneSpacedValue">oneSpacedValue</a></li><li><a href="global.html#removeRow">removeRow</a></li><li><a href="global.html#returnWinner">returnWinner</a></li><li><a href="global.html#sendNotification">sendNotification</a></li><li><a href="global.html#setCookie">setCookie</a></li><li><a href="global.html#showWinner">showWinner</a></li><li><a href="global.html#sortCandidates">sortCandidates</a></li><li><a href="global.html#toTitle">toTitle</a></li><li><a href="global.html#trimValue">trimValue</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addEnding">addEnding</a></li><li><a href="global.html#changeBG">changeBG</a></li><li><a href="global.html#changeSize">changeSize</a></li><li><a href="global.html#changeTitle">changeTitle</a></li><li><a href="global.html#checkOnBuy">checkOnBuy</a></li><li><a href="global.html#checksum">checksum</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearFirstRow">clearFirstRow</a></li><li><a href="global.html#compileWinner">compileWinner</a></li><li><a href="global.html#connect">connect</a></li><li><a href="global.html#createBlock">createBlock</a></li><li><a href="global.html#createLink">createLink</a></li><li><a href="global.html#createNotification">createNotification</a></li><li><a href="global.html#decorateWinner">decorateWinner</a></li><li><a href="global.html#deleteCookie">deleteCookie</a></li><li><a href="global.html#donationHandler">donationHandler</a></li><li><a href="global.html#focusWindow">focusWindow</a></li><li><a href="global.html#hexToRgb">hexToRgb</a></li><li><a href="global.html#humanizeWinner">humanizeWinner</a></li><li><a href="global.html#isUrlValid">isUrlValid</a></li><li><a href="global.html#makeNotificationOptions">makeNotificationOptions</a></li><li><a href="global.html#oneSpacedValue">oneSpacedValue</a></li><li><a href="global.html#playNotificationSound">playNotificationSound</a></li><li><a href="global.html#removeRow">removeRow</a></li><li><a href="global.html#returnWinner">returnWinner</a></li><li><a href="global.html#selectTxt">selectTxt</a></li><li><a href="global.html#sendInside">sendInside</a></li><li><a href="global.html#sendNotification">sendNotification</a></li><li><a href="global.html#sendPrompt">sendPrompt</a></li><li><a href="global.html#setCookie">setCookie</a></li><li><a href="global.html#showWinner">showWinner</a></li><li><a href="global.html#sortCandidates">sortCandidates</a></li><li><a href="global.html#toRgba">toRgba</a></li><li><a href="global.html#toTitle">toTitle</a></li><li><a href="global.html#trimValue">trimValue</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Fri Jun 14 2019 00:12:19 GMT+0500 (Yekaterinburg Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Wed Jun 19 2019 19:01:24 GMT+0500 (Yekaterinburg Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

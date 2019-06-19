@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: settings.js</title>
+    <title>JSDoc: Source: socketDonationAlerts.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: settings.js</h1>
+    <h1 class="page-title">Source: socketDonationAlerts.js</h1>
 
     
 
@@ -28,126 +28,104 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-import ripplet from 'ripplet.js';
-import './background';
-import './settingsDonationAlerts';
+import notifications from './notifications';
+import winner from './winner';
+import {oneSpace, toTitle} from './stringUtilities';
+import {sortCandidates, changeTitle, checkOnBuy, createBlock} from './candidates';
 
-const year = 31622400; // sec
+const socketUrl = 'https://socket.donationalerts.ru:443';
+const socketOpt = {'reconnection': true};
 
-const showSettingsBtn = document.getElementById('settings-icon');
-const settingsWindow = document.getElementById('settings');
-const urlsBtns = Array.from( document.getElementsByClassName('special-url') );
-
-showSettingsBtn.addEventListener('click', ripplet);
-
-showSettingsBtn.onclick = () => settingsWindow.classList.toggle('closed');
-
-urlsBtns.forEach( (item) => item.addEventListener('click', ripplet) );
+try { connect() }
+catch (e) { console.log('Нет подключения, к DonationAlerts.') }
 
 
 /**
-  * Select all text in input
-  *
-  * @param {Object} input - input element
-  */
-const selectTxt = input => {
-  input.focus();
-  input.select();
-};
-
-
-/**
- * Check if URL is URL and it's a picture
+ * Connect to DonationAlerts socket and create listeners
  *
- * @param {string} url - URL to test
- * @return {Boolean} - is valid or not
  */
-const isUrlValid = url => {
-  const isImg = /\.(jpg|jpeg|png|gif|webp|svg)$/;
-  const isUrl = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&amp;/=]*)/;
-  url = encodeURI(url);
-  return isImg.test(url) &amp;&amp; isUrl.test(url);
-};
+function connect() {
+  const token = getCookie('token');
+  let socket;
+  if (!token) return;
+  socket = io(socketUrl, socketOpt);
+  socket.emit( 'add-user', {'token': token, 'type': 'minor'} );
+  socket.on( 'donation', msg => donationHandler(msg) );
+}
 
 
 /**
- * Check is URL loaded
- * @return {boolean} - loaded or not
+ * Create notification on donation
+ *
+ * @param {string} msg - JSON string from DonationAlerts
+ *                       with information about donation
  */
-//TODO FIXME: async, await
-/*async function isUrlWork(url) {
-  const http = new XMLHttpRequest();
-  url = `https://cors-anywhere.herokuapp.com/${url}`;
-  try {
-    http.open('HEAD', url, true);
-    http.send();
-    return await (http.status === 200);
-  } catch {
-    return false;
-  }
-}*/
+const donationHandler = msg => {
+  let inserted = false;
+  let amount,
+      message,
+      msgJSON,
+      names,
+      costs,
+      notificationText;
 
+  if (!window.started) return;
 
-/**
-  * Set document cookie
-  *
-  * @param {string} name - cookie name
-  * @param {number|string} value - cookie value
-  * @param {Object} [options] - cookie options
-  */
-const setCookie = ( name, value, options = {'expires': year} ) => {
-  let expires = options.expires;
+  msgJSON = JSON.parse(msg);
 
-  if (typeof expires === 'number' &amp;&amp; expires) {
-    const d = new Date();
-    d.setTime(d.getTime() + expires * 1000);
-    expires = options.expires = d;
-  }
+  if (msgJSON.alert_type != 1) return;
 
-  if (expires &amp;&amp; expires.toUTCString) {
-    options.expires = expires.toUTCString();
-  }
+  message = oneSpace(msgJSON.message);
+  amount = Number(msgJSON.amount);
 
-  value = encodeURIComponent(value);
+  names = Array.from( document.getElementsByClassName('name') );
+  costs = Array.from( document.getElementsByClassName('cost') );
 
-  let updatedCookie = `${name}=${value}`;
+  costs.some((item, i) => {
+    const name = names[i].value;
+    const isIncludes = name &amp;&amp; message.trim().toLowerCase()
+                                 .includes( name.trim().toLowerCase() );
+    const addToPosition = () => {
+      const names = Array.from( document.getElementsByClassName('name') );
+      const costs = Array.from( document.getElementsByClassName('cost') );
+      costs.some( (item, i) => {
+        const name = names[i].value;
+        const cost = Number(item.value);
+        const isIncludes = name &amp;&amp; message.toLowerCase().includes( name.toLowerCase() );
 
-  for (const propName in options) {
-    const propValue = options[propName];
-    updatedCookie += `; ${propName}`;
-    if (propValue !== true) {
-      updatedCookie += `=${propValue}`;
+        if (isIncludes) {
+          item.value = amount + cost;
+          checkOnBuy(item);
+          changeTitle(item);
+          sortCandidates();
+          return true;
+        }
+        return false;
+      });
+    };
+
+    notificationText = `Добавить ₽${amount} к "${toTitle(name)}"?`;
+
+    if (isIncludes) {
+      notifications.sendPrompt(notificationText, addToPosition);
+      inserted = true;
+      return true;
     }
-  }
+    return false;
+  });
 
-  document.cookie = updatedCookie;
+  notifications.sendNotification(
+    `Новое пожертвование${!msgJSON.username ? '' : ` от ${msgJSON.username}`}!`,
+    `${winner.decorate( oneSpace(message) )} с ${amount}₽`);
+
+  if (inserted) return;
+
+  notificationText = `Создать "${ toTitle(message).trim() }" с ₽${amount}?`;
+  const createPosition = () => {
+    createBlock(message, amount);
+  };
+  notifications.sendPrompt(notificationText, createPosition);
 };
-
-
-/**
-  * Delete document cookie by set expires: -1
-  *
-  * @param {(undefined|?string)} name - cookie name
-  * @see setCookie
-  */
-const deleteCookie = name => {
-  setCookie( name, '', {'expires': -1} );
-};
-
-
-const settings = {
-  cookie: {
-    year,
-    set: setCookie,
-    delete: deleteCookie
-  },
-  tools: {
-    selectTxt,
-    isUrlValid
-  }
-};
-
-export default settings;
 </code></pre>
         </article>
     </section>

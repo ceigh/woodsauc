@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: background.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: background.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+import ripplet, {defaultOptions} from 'ripplet.js';
+import notifications from './notifications';
+import settings from './settings';
+
+const ff = navigator.userAgent.toLowerCase().includes('ff');
+const body = document.querySelector('body');
+
+const bgURL = getCookie('bg-url');
+const bgURLInput = document.getElementById('bg-url');
+const saveBGURLBtn = document.getElementById('save-bg-url-btn');
+const clearBGURLBtn = document.getElementById('clear-bg-url-btn');
+
+const colorExtractor = document.getElementById('color-extractor');
+const colorCookie = getCookie('accent');
+const style = document.createElement('style');
+let color;
+
+bgURLInput.value = bgURL ? bgURL : '';
+changeBG(bgURL);
+
+color = !colorCookie ? 'rgba(243, 151, 39, .6)' : toRgba(colorCookie, 60).str;
+defaultOptions.color = color;
+defaultOptions.clearingDuration = '.3s';
+defaultOptions.spreadingDuration = '.3s';
+
+if (colorCookie) {
+  const accentShadow = toRgba(hexToRgb(colorCookie), 70).str;
+  style.innerText = '';
+  style.innerText += `#bg-url {color: ${colorCookie}}`;
+  style.innerText += `#da-url {color: ${colorCookie}}`;
+  style.innerText += `.danger {color: ${colorCookie} !important}`;
+  style.innerText += `.name {color: ${colorCookie}}`;
+  style.innerText += `.cost {color: ${colorCookie}}`;
+  style.innerText += `.cost-buy {color: ${colorCookie}}`;
+
+  style.innerText += `input:focus {--accent: ${colorCookie} !important; --shadow: ${accentShadow}}`;
+
+  style.innerText += `::selection {background: ${accentShadow}}`;
+  style.innerText += `::-moz-selection {background: ${accentShadow}}`;
+
+  document.head.appendChild(style);
+} else {
+  const style = document.createElement('style');
+  style.innerText = '';
+  style.innerText += `#bg-url {color: #f39727}`;
+  style.innerText += `#da-url {color: #f39727}`;
+  style.innerText += `.danger {color: #f39727} !important`;
+  style.innerText += `.name {color: #f39727}`;
+  style.innerText += `.cost {color: #f39727}`;
+  style.innerText += `.cost-buy {color: #f39727}`;
+
+  style.innerText += `input:focus {--accent: #f39727; --shadow: rgba(243, 151, 39, .7)}`;
+
+  style.innerText += `::selection {background: rgba(243, 151, 39, .7)}`;
+  style.innerText += `::-moz-selection {background: rgba(243, 151, 39, .7)}`;
+}
+
+bgURLInput.addEventListener('click', ripplet);
+clearBGURLBtn.addEventListener('click', ripplet);
+saveBGURLBtn.addEventListener('click', ripplet);
+
+bgURLInput.onclick = function () {
+  settings.tools.selectTxt(this);
+};
+
+clearBGURLBtn.onclick = () => {
+  if ( !bgURLInput.value &amp;&amp; !getCookie('bg-url') ) {
+    notifications.sendInside('Фон уже сброшен');
+  } else {
+    changeBG('');
+    bgURLInput.value = '';
+    defaultOptions.color = 'rgba(243, 151, 39, .6)';
+
+    style.innerText = '';
+    style.innerText += `#bg-url {color: #f39727}`;
+    style.innerText += `#da-url {color: #f39727}`;
+    style.innerText += `.danger {color: #f39727 !important}`;
+    style.innerText += `.name {color: #f39727}`;
+    style.innerText += `.cost {color: #f39727}`;
+    style.innerText += `.cost-buy {color: #f39727}`;
+
+    style.innerText += `input:focus {--accent: #f39727; --shadow: rgba(243, 151, 39, .7)}`;
+
+    style.innerText += `::selection {background: rgba(243, 151, 39, .7)}`;
+    style.innerText += `::-moz-selection {background: rgba(243, 151, 39, .7)}`;
+
+    document.head.appendChild(style);
+
+    settings.cookie.delete('bg-url');
+    settings.cookie.delete('accent');
+
+    notifications.sendInside('Фон сброшен');
+  }
+};
+saveBGURLBtn.onclick = () => {
+  const url = encodeURI(bgURLInput.value);
+
+  if (!url) {
+    notifications.sendInside('Нет URL фона');
+    return;
+  }
+
+  if (url === getCookie('bg-url')) {
+    notifications.sendInside('Этот фон уже установлен');
+    return;
+  }
+
+  if (!settings.tools.isUrlValid(url)) {
+    notifications.sendInside('Введите корректный URL');
+    bgURLInput.value = '';
+    return;
+  }
+
+  changeBG(url);
+  notifications.sendInside('Фон обновлен');
+
+  // Change Accent color
+  colorExtractor.setAttribute(
+    'src', `https://cors-anywhere.herokuapp.com/${url}`);
+
+  colorExtractor.addEventListener('load', function() {
+    const vibrant = new Vibrant(this);
+    const swatches = vibrant.swatches();
+    const dominant = swatches['Vibrant'].getHex();
+    let shadow = toRgba(hexToRgb(dominant), 60).str;
+
+    defaultOptions.color = shadow;
+
+    style.innerText = '';
+    style.innerText += `#bg-url {color: ${dominant}}`;
+    style.innerText += `#da-url {color: ${dominant}}`;
+    style.innerText += `.danger {color: ${dominant} !important}`;
+    style.innerText += `.name {color: ${dominant}}`;
+    style.innerText += `.cost {color: ${dominant}}`;
+    style.innerText += `.cost-buy {color: ${dominant}}`;
+
+    style.innerText += `input:focus {--accent: ${dominant}; --shadow: ${shadow}}`;
+
+    style.innerText += `::selection {background: ${dominant}}`;
+    style.innerText += `::-moz-selection {background: ${dominant}}`;
+
+    document.head.appendChild(style);
+
+    settings.cookie.set('bg-url', url);
+    settings.cookie.set('accent', dominant);
+  });
+};
+
+
+/**
+ * Change page background
+ *
+ * @param {string} url - picture URL
+ */
+function changeBG(url) {
+  const bgImg = new Image();
+  if (url) {
+    bgImg.src = url;
+    bgImg.onload = () => body.style.backgroundImage = `url('${bgImg.src}')`;
+    return;
+  }
+  body.style.backgroundImage = `url('/static/img/bg/tree.${ff ? 'jpg' : 'webp'}')`;
+}
+
+
+/**
+ * Convert HEX color to RGB
+ *
+ * @param {string} hex - color in hex (#XXXXXX)
+ * @return {Object} - (r: XXX, g: XXX, b: XXX) Object or css string
+ */
+function hexToRgb(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  let r = parseInt(result[1], 16),
+    g = parseInt(result[2], 16),
+    b = parseInt(result[3], 16);
+  return result ? {
+    rgb: {r, g, b},
+    str: `rgb(${r}, ${g}, ${b}`
+  } : null;
+}
+
+
+/**
+ * Convert HEX color to RGB
+ *
+ * @param {string|Object} color - HEX string or RGB Object
+ * @param {Number} alpha - alpha parameter in % (0-100) or float 0-1
+ * @return {Object} - (r: XXX, g: XXX, b: XXX, a: XXX) Object or css string
+ * @see hexToRgb
+ */
+function toRgba(color, alpha) {
+  const a = alpha &lt;= 1 ? alpha : alpha / 100;
+  let r, g, b;
+
+  if (typeof(color) === 'string') {
+    color = hexToRgb(color).rgb;
+    r = color.r;
+    g = color.g;
+    b = color.b;
+  } else {
+    r = color.rgb.r;
+    g = color.rgb.g;
+    b = color.rgb.b;
+  }
+
+  return color ? {
+    rgba: {r, g, b, a},
+    str: `rgba(${r}, ${g}, ${b}, ${a})`
+  } : null;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addEnding">addEnding</a></li><li><a href="global.html#changeBG">changeBG</a></li><li><a href="global.html#changeSize">changeSize</a></li><li><a href="global.html#changeTitle">changeTitle</a></li><li><a href="global.html#checkOnBuy">checkOnBuy</a></li><li><a href="global.html#checksum">checksum</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearFirstRow">clearFirstRow</a></li><li><a href="global.html#compileWinner">compileWinner</a></li><li><a href="global.html#connect">connect</a></li><li><a href="global.html#createBlock">createBlock</a></li><li><a href="global.html#createLink">createLink</a></li><li><a href="global.html#createNotification">createNotification</a></li><li><a href="global.html#decorateWinner">decorateWinner</a></li><li><a href="global.html#deleteCookie">deleteCookie</a></li><li><a href="global.html#donationHandler">donationHandler</a></li><li><a href="global.html#focusWindow">focusWindow</a></li><li><a href="global.html#hexToRgb">hexToRgb</a></li><li><a href="global.html#humanizeWinner">humanizeWinner</a></li><li><a href="global.html#isUrlValid">isUrlValid</a></li><li><a href="global.html#makeNotificationOptions">makeNotificationOptions</a></li><li><a href="global.html#oneSpacedValue">oneSpacedValue</a></li><li><a href="global.html#playNotificationSound">playNotificationSound</a></li><li><a href="global.html#removeRow">removeRow</a></li><li><a href="global.html#returnWinner">returnWinner</a></li><li><a href="global.html#selectTxt">selectTxt</a></li><li><a href="global.html#sendInside">sendInside</a></li><li><a href="global.html#sendNotification">sendNotification</a></li><li><a href="global.html#sendPrompt">sendPrompt</a></li><li><a href="global.html#setCookie">setCookie</a></li><li><a href="global.html#showWinner">showWinner</a></li><li><a href="global.html#sortCandidates">sortCandidates</a></li><li><a href="global.html#toRgba">toRgba</a></li><li><a href="global.html#toTitle">toTitle</a></li><li><a href="global.html#trimValue">trimValue</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Wed Jun 19 2019 19:01:24 GMT+0500 (Yekaterinburg Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
