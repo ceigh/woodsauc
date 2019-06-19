@@ -5,7 +5,7 @@
   "main": "webpack.config.babel.js",
   "scripts": {
     "start development": "export WEBPACK_MODE=development && webpack && unset WEBPACK_MODE && exit 0",
-    "to production": "export WEBPACK_MODE=production && webpack && unset WEBPACK_MODE && exit 0",
+    "to production": "export WEBPACK_MODE=production && webpack && unset WEBPACK_MODE && echo '' > logs/log-dev.txt && echo '' > logs/log.txt && exit 0",
     "start": "./woodsauc-browser.sh",
     "docs": "jsdoc --readme JSDOC.md -c jsdoc.config.json"
   },
