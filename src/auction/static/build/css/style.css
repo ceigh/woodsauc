@@ -21,8 +21,7 @@
 body {
     color: #fff;
     background: #000;
-    /*noinspection CssUnknownTarget*/
-    background-image: url('/static/img/bg/tree.webp');
+    /*background-image: url('/static/img/bg/tree.webp');*/
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -359,7 +358,7 @@ input:focus {
 }
 
 [class*='col-'] {
-    padding-right: 20px;
+    padding-right: 1vw;
 }
 
 [class*='col-']:last-of-type {

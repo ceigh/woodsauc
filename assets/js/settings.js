@@ -1,6 +1,18 @@
 'use strict';
 
+import ripplet from 'ripplet.js';
+
 const year = 31622400; // sec
+
+const showSettingsBtn = document.getElementById('settings-icon');
+const settingsWindow = document.getElementById('settings');
+const urlsBtns = Array.from( document.getElementsByClassName('special-url') );
+
+showSettingsBtn.addEventListener('click', ripplet);
+
+showSettingsBtn.onclick = () => settingsWindow.classList.toggle('closed');
+
+urlsBtns.forEach( (item) => item.addEventListener('click', ripplet) );
 
 
 /**
@@ -22,7 +34,7 @@ const selectTxt = input => {
  */
 const isUrlValid = url => {
   const isImg = /\.(jpg|jpeg|png|gif|webp|svg)$/;
-  const isUrl = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
+  const isUrl = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
   url = encodeURI(url);
   return isImg.test(url) && isUrl.test(url);
 };
@@ -33,17 +45,17 @@ const isUrlValid = url => {
  * @return {boolean} - loaded or not
  */
 //TODO FIXME: async, await
-/*const isUrlWork = url => {
+/*async function isUrlWork(url) {
   const http = new XMLHttpRequest();
-
+  url = `https://cors-anywhere.herokuapp.com/${url}`;
   try {
-    http.open('HEAD', url, false);
+    http.open('HEAD', url, true);
     http.send();
-    return http.status === 200;
+    return await (http.status === 200);
   } catch {
     return false;
   }
-};*/
+}*/
 
 
 /**

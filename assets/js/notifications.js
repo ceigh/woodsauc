@@ -1,6 +1,11 @@
 'use strict';
 
+import ripplet from 'ripplet.js';
+import {oneSpace} from './stringUtilities';
+
 const area = document.getElementById('notifications-area');
+
+if (Notification.permission === 'default') Notification.requestPermission();
 
 
 /**
@@ -119,10 +124,66 @@ const sendInside = text => {
 };
 
 
+/**
+  * Send ready notification with prompt
+  *
+  * @param {string} text - text of notification
+  * @param {function} acceptCallback - function on accept
+  */
+const sendPrompt = (text, acceptCallback) => {
+  const notification = document.createElement('div');
+  const p = document.createElement('p');
+  const acceptBtn = document.createElement('button');
+  const cancelBtn = document.createElement('button');
+  const acceptIcon = document.createElement('img');
+  const cancelIcon = document.createElement('img');
+
+  notification.className = 'notification';
+
+  text = oneSpace(text);
+  p.innerText = text;
+  p.setAttribute('title', text);
+
+  acceptIcon.setAttribute('src', '/static/img/icons/material/done.svg');
+  cancelIcon.setAttribute('src', '/static/img/icons/material/clear.svg');
+  acceptIcon.setAttribute('alt', 'Подтвердить');
+  cancelIcon.setAttribute('alt', 'Отклонить');
+
+  [acceptBtn, cancelBtn].forEach(item => {
+    item.className = 'notification-btn';
+    item.setAttribute('type', 'button');
+  });
+  acceptBtn.setAttribute('title', 'Подтвердить');
+  cancelBtn.setAttribute('title', 'Отклонить');
+  acceptBtn.addEventListener('click', ripplet);
+  cancelBtn.addEventListener('click', ripplet);
+
+  cancelBtn.onclick = () => {
+    notification.classList.add('hidden');
+    setTimeout(() => notification.remove(), 300);
+  };
+  acceptBtn.onclick = () => {
+    acceptCallback();
+    cancelBtn.click();
+  };
+
+  acceptBtn.appendChild(acceptIcon);
+  cancelBtn.appendChild(cancelIcon);
+
+  notification.appendChild(p);
+  notification.appendChild(acceptBtn);
+  notification.appendChild(cancelBtn);
+
+  area.insertBefore(notification, area.firstChild);
+  playNotificationSound();
+};
+
+
 const notifications = {
   playNotificationSound,
   sendNotification,
   sendInside,
+  sendPrompt,
   clear
 };
 

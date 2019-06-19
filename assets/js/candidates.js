@@ -6,6 +6,8 @@ import settings from './settings';
 import winner from  './winner';
 import {oneSpace, toTitle, trim} from './stringUtilities';
 
+export {sortCandidates, changeTitle, checkOnBuy, createBlock};
+
 const firstBlock = document.querySelector('.block');
 const firstName = firstBlock.querySelector('.name');
 const firstCost = firstBlock.querySelector('.cost');
@@ -56,7 +58,10 @@ firstCost.onchange = function() {
 };
 firstClearRowBtn.onclick = clearFirstRow;
 
-addBtn.onclick = createBlock;
+addBtn.onclick = function() {
+  createBlock();
+  ripplet(arguments[0]);
+};
 resetButton.onclick = () => {
   while (area.children.length > 3) {
     area.children[area.children.length - 2].remove();
@@ -127,55 +132,6 @@ function clearFirstRow() {
   firstKpLink.href = 'https://www.kinopoisk.ru';
   changeSize(firstName);
   sortCandidates();
-}
-
-
-/**
- * Add row to list through copy first block
- *
- */
-function createBlock() {
-  const div = firstBlock.cloneNode(true);
-  const name = div.querySelector('.name');
-  const cost = div.querySelector('.cost');
-  const link = div.querySelector('.kp-link');
-  const btn = div.querySelector('.btn');
-  const delIcon = btn.querySelector('img');
-
-  name.value = '';
-  cost.value = '';
-  name.setAttribute('title', 'Фильм, игра, etc');
-  cost.setAttribute('title', 'Сумма');
-  link.setAttribute('title', 'Кинопоиск');
-  link.setAttribute('href', 'https://www.kinopoisk.ru');
-  delIcon.setAttribute('src', '/static/img/icons/material/delete.svg');
-
-  name.addEventListener('click', ripplet);
-  cost.addEventListener('click', ripplet);
-  link.addEventListener('click', ripplet);
-  btn.addEventListener('click', ripplet);
-
-  btn.onclick = function() {
-    removeRow(this);
-  };
-  name.onkeyup = function() {
-    createLink(this);
-    changeSize(this);
-  };
-  name.onchange = function() {
-    changeSize(this);
-  };
-  cost.onchange = function() {
-    checksum(this);
-    checkOnBuy(this);
-    changeTitle(this);
-    sortCandidates();
-  };
-
-  area.insertBefore(div, area.lastElementChild);
-  name.focus();
-  div.classList.add('visible');
-  ripplet(arguments[0]);
 }
 
 
@@ -314,7 +270,7 @@ function createLink(nameEl) {
   if (name) {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
       encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
-    nameEl.setAttribute( 'title', toTitle( winner.decorate(name) ) );
+    nameEl.setAttribute( 'title', toTitle(name) );
   } else {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
       'https://www.kinopoisk.ru';
@@ -340,4 +296,70 @@ function trimValue(nameEl) {
  */
 function oneSpacedValue(nameEl) {
   nameEl.value = oneSpace(nameEl.value);
+}
+
+
+/**
+ * Add row to list through copy first block
+ *
+ * @param {string} [nameVal] - name of position
+ * @param {string} [costVal] - cost of position
+ *
+ */
+function createBlock(nameVal = '', costVal = '') {
+  const div = firstBlock.cloneNode(true);
+  const name = div.querySelector('.name');
+  const cost = div.querySelector('.cost');
+  const link = div.querySelector('.kp-link');
+  const btn = div.querySelector('.btn');
+  const delIcon = btn.querySelector('img');
+  const fromDA = nameVal && costVal;
+
+  name.value = nameVal;
+  cost.value = costVal;
+
+  name.addEventListener('click', ripplet);
+  cost.addEventListener('click', ripplet);
+  link.addEventListener('click', ripplet);
+  btn.addEventListener('click', ripplet);
+
+  btn.onclick = function() {
+    removeRow(this);
+  };
+  name.onkeyup = function() {
+    createLink(this);
+    changeSize(this);
+  };
+  name.onchange = function() {
+    changeSize(this);
+  };
+  cost.onchange = function() {
+    checksum(this);
+    checkOnBuy(this);
+    changeTitle(this);
+    sortCandidates();
+  };
+
+  delIcon.setAttribute('src', '/static/img/icons/material/delete.svg');
+
+  if (fromDA) {
+    checkOnBuy(cost);
+    createLink(name);
+    changeTitle(cost);
+  } else {
+    name.setAttribute('title', 'Фильм, игра, etc');
+    cost.setAttribute('title', 'Сумма');
+    link.setAttribute('title', 'Кинопоиск');
+    link.setAttribute('href', 'https://www.kinopoisk.ru');
+  }
+
+  area.insertBefore(div, area.lastElementChild);
+  div.classList.add('visible');
+
+  if (fromDA) {
+    changeSize(name);
+    sortCandidates();
+  } else {
+    name.focus();
+  }
 }

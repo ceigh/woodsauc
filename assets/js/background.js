@@ -1,7 +1,7 @@
 'use strict';
 
 import ripplet, {defaultOptions} from 'ripplet.js';
-import notification from './notifications';
+import notifications from './notifications';
 import settings from './settings';
 
 const ff = navigator.userAgent.toLowerCase().includes('ff');
@@ -66,8 +66,8 @@ bgURLInput.onclick = function () {
 };
 
 clearBGURLBtn.onclick = () => {
-  if ( !(bgURLInput.value || getCookie('bg-url')) ) {
-    notification.sendInside('Фон уже сброшен');
+  if ( !bgURLInput.value && !getCookie('bg-url') ) {
+    notifications.sendInside('Фон уже сброшен');
   } else {
     changeBG('');
     bgURLInput.value = '';
@@ -91,29 +91,30 @@ clearBGURLBtn.onclick = () => {
     settings.cookie.delete('bg-url');
     settings.cookie.delete('accent');
 
-    notification.sendInside('Фон сброшен');
+    notifications.sendInside('Фон сброшен');
   }
 };
 saveBGURLBtn.onclick = () => {
-  const url = bgURLInput.value;
+  const url = encodeURI(bgURLInput.value);
 
   if (!url) {
-    notification.sendInside('Нет URL фона');
+    notifications.sendInside('Нет URL фона');
     return;
   }
 
   if (url === getCookie('bg-url')) {
-    notification.sendInside('Этот фон уже установлен');
+    notifications.sendInside('Этот фон уже установлен');
     return;
   }
 
   if (!settings.tools.isUrlValid(url)) {
-    notification.sendInside('Введите корректный URL');
+    notifications.sendInside('Введите корректный URL');
+    bgURLInput.value = '';
     return;
   }
 
   changeBG(url);
-  notification.sendInside('Фон обновлен');
+  notifications.sendInside('Фон обновлен');
 
   // Change Accent color
   colorExtractor.setAttribute(

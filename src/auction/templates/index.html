@@ -89,7 +89,7 @@
 
       <div class="block visible">
         <label>
-          <input autocomplete="off" class="name"
+          <input autocomplete="off" autofocus class="name"
                  placeholder="Позиция" spellcheck="false"
                  title="Фильм, игра, etc" type="text">
           <input autocomplete="off" class="cost" min="0" placeholder="₽" step="10" title="Сумма" type="text">
@@ -117,25 +117,25 @@
         <div id="timer-area">
             <div id="timer" title="Таймер">10:00:00</div>
             <div id="timer-btns">
-                <button autofocus id="start-btn" class="timer-btn" type="button" title="Старт">
+                <button class="timer-btn" id="start-btn" title="Старт" type="button">
                     <img src="{% static 'img/icons/material/play-arrow.svg' %}"
-                         alt="Иконка старта">
+                         alt="Старт">
                 </button>
                 <button id="stop-btn" class="timer-btn" type="button" title="Стоп">
                     <img src="{% static 'img/icons/material/stop.svg' %}"
-                         alt="Иконка остановки">
+                         alt="Стоп">
                 </button>
-                <button id="minus-btn" class="timer-btn" type="button" title="Минус минута">
+                <button id="minus-btn" class="timer-btn" type="button" title="-1">
                     <img src="{% static 'img/icons/material/keyboard-arrow-down.svg' %}"
-                         alt="Иконка минус минуты">
+                         alt="-1">
                 </button>
-                <button id="plus-btn" class="timer-btn" type="button" title="Плюс минута">
+                <button id="plus-btn" class="timer-btn" type="button" title="+1">
                     <img src="{% static 'img/icons/material/keyboard-arrow-up.svg' %}"
-                         alt="Иконка плюс минуты">
+                         alt="+1">
                 </button>
-                <button id="plus-two-btn" class="timer-btn" type="button" title="Плюс две минуты">
+                <button id="plus-two-btn" class="timer-btn" type="button" title="+2">
                     <img src="{% static 'img/icons/material/keyboard-capslock.svg' %}"
-                         alt="Иконка плюс двух минут">
+                         alt="+2">
                 </button>
             </div>
         </div>
