@@ -182,7 +182,7 @@ timerBtns.forEach( btn => btn.addEventListener('click', ripplet) );
 
 startBtn.onclick = () => {
   const mins = timerElement.innerHTML.split(':')[0];
-  if (mins) settings.cookie.set('previousMinutes', mins);
+  if (mins && !window.started) settings.cookie.set('previousMinutes', mins);
   timer.start();
 };
 stopBtn.onclick = () => {
