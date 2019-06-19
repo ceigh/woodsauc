@@ -4,7 +4,7 @@ import ripplet, {defaultOptions} from 'ripplet.js';
 import notifications from './notifications';
 import settings from './settings';
 
-const ff = navigator.userAgent.toLowerCase().includes('ff');
+const ff = navigator.userAgent.toLowerCase().includes('firefox');
 const body = document.querySelector('body');
 
 const bgURL = getCookie('bg-url');

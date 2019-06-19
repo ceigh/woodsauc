@@ -14,6 +14,7 @@ export default {
 
   output: {
     library: 'woodsauc',
+    publicPath: '/static/build/js/',
     path: `${__dirname}/src/auction/static/build`,
     filename: WEBPACK_MODE === 'development' ?
                                'js/[name]/[name].js' :
