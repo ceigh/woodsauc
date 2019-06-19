@@ -67,6 +67,7 @@ resetButton.onclick = () => {
     area.children[area.children.length - 2].remove();
   }
   clearFirstRow();
+  firstName.focus();
   // To reset buy position
   window.isBuy = false;
 };
