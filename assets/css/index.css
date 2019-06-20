@@ -66,7 +66,7 @@ body {
 }
 
 .danger {
-    color: #f39727;
+    color: #f39727 !important;
 }
 
 .timer-btn {
@@ -493,7 +493,7 @@ input:focus {
 #add-btn, #settings,
 .block, #reset-icon,
 .block-buy {
-    user-select: auto;
+    user-select: none;
 }
 
 .block-buy span {
