@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WoodsAuc</title>
   {% load static %}
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -9,9 +10,8 @@
 
   <link href="https://www.kinopoisk.ru/s/type/all/find/" rel="prerender prefetch">
 
-  <link href="{% static 'build/css/preloader.css' %}" rel="stylesheet">
+  <link href="{% static 'build/css/index.min.css' %}" rel="stylesheet">
   <link href="{% static 'img/favicon/favicon.png' %}" rel="icon">
-  <link href="{% static 'build/css/style.css' %}" rel="stylesheet">
 
   <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
@@ -27,9 +27,9 @@
     {% endif %}
   {% else %}
     {% if production %}
-      <script defer src="{% static 'build/js/script/script.min.js' %}"></script>
+      <script defer src="{% static 'build/js/index.min.js' %}"></script>
     {% else %}
-      <script defer src="{% static 'build/js/script/script.js' %}"></script>
+      <script defer src="{% static 'build/js/index.js' %}"></script>
     {% endif %}
   {% endif %}
 </head>

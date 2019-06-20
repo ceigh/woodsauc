@@ -21,7 +21,7 @@
 body {
     color: #fff;
     background: #000;
-    /*background-image: url('/static/img/bg/tree.webp');*/
+    background-image: url('/static/img/bg/tree.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -73,7 +73,7 @@ body {
 }
 
 .danger {
-    color: #f39727 !important;
+    color: #f39727;
 }
 
 .timer-btn {
@@ -358,7 +358,7 @@ input:focus {
 }
 
 [class*='col-'] {
-    padding-right: 1vw;
+    padding-right: 20px;
 }
 
 [class*='col-']:last-of-type {

@@ -1,47 +1,57 @@
 'use strict';
 
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const WEBPACK_MODE = process.env.WEBPACK_MODE || 'development';
+const dev = WEBPACK_MODE === 'development';
 
 export default {
   mode: WEBPACK_MODE,
 
   context: `${__dirname}/assets/js`,
-  entry: {
-    script: './script'
-  },
+
+  entry: { index: './index' },
 
   output: {
     library: 'woodsauc',
-    publicPath: '/static/build/js/',
+    publicPath: '/static/build/',
     path: `${__dirname}/src/auction/static/build`,
-    filename: WEBPACK_MODE === 'development' ?
-                               'js/[name]/[name].js' :
-                               'js/[name]/[name].min.js'
+    filename: dev ?
+              'js/[name].js' :
+              'js/[name].min.js'
   },
 
-  watch: WEBPACK_MODE === 'development',
-  watchOptions: {
-    aggregateTimeout: 100
-  },
+  watch: dev,
+  watchOptions: { aggregateTimeout: 100 },
 
-  devtool: WEBPACK_MODE === 'development' ? 'eval' : '(none)',
+  devtool: dev ? 'eval' : '(none)',
+
+  optimization: {
+    minimizer: dev ?
+               [ () => {} ] :
+               [ new UglifyJsPlugin( { parallel: true } ) ]
+  },
 
   module: {
     rules: [{
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env']
-        }
-      }
+      exclude: /node_modules/,
+      use: { loader: 'babel-loader' }
+    }, {
+      test: /\.css$/,
+      exclude: /node_modules/,
+      use: [
+        'style-loader',
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        'postcss-loader'
+      ]
     }]
   },
 
-  optimization: {
-    minimizer: WEBPACK_MODE === 'production' ?
-               [ new UglifyJsPlugin( {parallel: true} ) ] :
-               [ () => {} ]
-  }
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'css/index.min.css'
+    })
+  ]
 };
