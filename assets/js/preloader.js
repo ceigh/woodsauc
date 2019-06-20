@@ -10,6 +10,6 @@ const getCookie = name => {
 let accent = getCookie('accent');
 
 accent = accent ? accent : '#f39727';
-style.innerText = `.🤚{--skin-color:${accent}!important}`;
+style.innerText = `.hand {--skin-color: ${accent} !important}`;
 document.head.appendChild(style);
 window.onload = () => document.getElementById('preloader').classList.add('hidden');

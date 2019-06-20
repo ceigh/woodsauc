@@ -95,7 +95,7 @@ var woodsauc =
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar style = document.createElement('style');\n\nvar getCookie = function getCookie(name) {\n  var matches = document.cookie.match(new RegExp(\"(?:^|; )\".concat(name.replace(/([.$?*|{}()\\[\\]\\\\\\/+^])/g, '\\\\$1'), \"=([^;]*)\")));\n  return !matches ? undefined : decodeURIComponent(matches[1]);\n};\n\nvar accent = getCookie('accent');\naccent = accent ? accent : '#f39727';\nstyle.innerText = \".\\uD83E\\uDD1A{--skin-color:\".concat(accent, \"!important}\");\ndocument.head.appendChild(style);\n\nwindow.onload = function () {\n  return document.getElementById('preloader').classList.add('hidden');\n};\n\n//# sourceURL=webpack://woodsauc/./preloader.js?");
+eval("\n\nvar style = document.createElement('style');\n\nvar getCookie = function getCookie(name) {\n  var matches = document.cookie.match(new RegExp(\"(?:^|; )\".concat(name.replace(/([.$?*|{}()\\[\\]\\\\\\/+^])/g, '\\\\$1'), \"=([^;]*)\")));\n  return !matches ? undefined : decodeURIComponent(matches[1]);\n};\n\nvar accent = getCookie('accent');\naccent = accent ? accent : '#f39727';\nstyle.innerText = \".hand {--skin-color: \".concat(accent, \" !important}\");\ndocument.head.appendChild(style);\n\nwindow.onload = function () {\n  return document.getElementById('preloader').classList.add('hidden');\n};\n\n//# sourceURL=webpack://woodsauc/./preloader.js?");
 
 /***/ })
 

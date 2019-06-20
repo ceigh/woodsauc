@@ -34,17 +34,19 @@
 <body>
 <div id="preloader">
   <div class="contpre">
-    <div class="🤚">
-      <div class="👉"></div>
-        <div class="👉"></div>
-          <div class="👉"></div>
-            <div class="👉"></div>
-            <div class="🌴"></div>
-            <div class="👍"></div>
-        </div>
+    <div class="hand">
+      <div class="finger"></div>
+      <div class="finger"></div>
+      <div class="finger"></div>
+      <div class="finger"></div>
+      <div class="wrist"></div>
+      <div class="big-finger"></div>
     </div>
+  </div>
 </div>
+
 <div id="blind"></div>
+
 <div class="grid">
   <div class="col-2-3">
     <div id="candidates-area" class="flex">
@@ -55,7 +57,7 @@
                    step="10" title="Сумма выкупа" type="text">
         </label>
           <button class="btn" title="Очистить" type="button">
-            <img alt="Иконка очистки"
+            <img alt="Очистить"
                  src="{% static 'img/icons/material/delete-outline.svg' %}">
           </button>
       </header>
@@ -71,17 +73,17 @@
           <a class="kp-link" href="https://www.kinopoisk.ru" target="_blank"
              title="Ссылка на кинопоиск">
             <img src="{% static 'img/icons/material/video-library.svg' %}"
-                 alt="Иконка ссылки на кинопоиск"></a>
+                 alt="Ссылка на кинопоиск"></a>
               <button class="btn" title="Очистить" type="button">
                 <img src="{% static 'img/icons/material/delete-outline.svg' %}"
-                     alt="Иконка очистки">
+                     alt="Очистить">
               </button>
         </span>
       </section>
 
       <button id="add-btn" type="button" title="Добавить">
         <img src="{% static 'img/icons/material/add-box.svg' %}"
-             alt="Иконка добавления">
+             alt="Добавить">
       </button>
     </div>
   </div>
@@ -121,11 +123,11 @@
 
                 <button id="save-bg-url-btn" class="settings-btn" type="button" title="Сохранить">
                     <img src="{% static 'img/icons/material/save.svg' %}"
-                         alt="Иконка сохранения">
+                         alt="Сохранить">
                 </button>
                 <button id="clear-bg-url-btn" class="settings-btn" type="button" title="Сбросить">
                     <img src="{% static 'img/icons/material/clear.svg' %}"
-                         alt="Иконка очистки">
+                         alt="Сбросить">
                 </button>
             </div>
 
@@ -136,11 +138,11 @@
 
                 <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
                     <img src="{% static 'img/icons/material/save.svg' %}"
-                         alt="Иконка сохранения">
+                         alt="Сохранить">
                 </button>
                 <button id="clear-da-url-btn" class="settings-btn" type="button" title="Сбросить">
                     <img src="{% static 'img/icons/material/clear.svg' %}"
-                         alt="Иконка очистки">
+                         alt="Сбросить">
                 </button>
             </div>
 
@@ -148,27 +150,27 @@
                 <a class="special-url" title="Написать о проблеме"
                    href="mailto:incoming+ceigh-auction-11633616-rwjsauv0b8z8yv37eoj8ad5r-issue@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы">
                     <img src="{% static 'img/icons/material/bug-report.svg' %}"
-                         alt="Иконка багрепорта">
+                         alt="Багрепорт">
                 </a>
                 <a href="https://gitlab.com/ceigh/WoodsAuc/releases"
                    class="special-url" title="Новости" target="_blank">
                     <img src="{% static 'img/icons/material/new-releases.svg' %}"
-                         alt="Иконка новостей">
+                         alt="Новости">
                 </a>
                 <a href="https://gitlab.com/ceigh/WoodsAuc/tree/master"
                    class="special-url" title="Исходный код" target="_blank">
                     <img src="{% static 'img/icons/material/code.svg' %}"
-                         alt="Иконка исходного кода">
+                         alt="Код">
                 </a>
                 <a href="https://discord.gg/pa4qbtk"
                    class="special-url" title="Сообщество Discord" target="_blank">
                     <img src="{% static 'img/icons/discord-logo.svg' %}"
-                         alt="Иконка Discord">
+                         alt="Discord">
                 </a>
                 <a href="https://www.donationalerts.com/r/hecig"
                    class="special-url" title="Поддержать" target="_blank">
                     <img src="{% static 'img/icons/material/attach-money.svg' %}"
-                         alt="Иконка денег">
+                         alt="DonationAlerts">
                 </a>
             </div>
         </div>
@@ -177,18 +179,18 @@
 
 <div id="notifications-area"></div>
 
-<div id="settings-icon" title="Настройки">
-  <img src="{% static 'img/icons/material/settings.svg' %}"
-       alt="Иконка настроек">
-</div>
-
 <div id="reset-icon" title="Очистить все">
-  <img src="{% static 'img/icons/material/delete-sweep.svg' %}"
-       alt="Иконка очистки">
+  <img alt="Очистить все"
+       src="{% static 'img/icons/material/delete-sweep.svg' %}">
+</div>
+<div id="settings-icon" title="Настройки">
+  <img alt="Настройки"
+       src="{% static 'img/icons/material/settings.svg' %}">
 </div>
 
-<div id="modal" class="closed"><p></p></div>
-<div id="modal-overlay" class="closed"></div>
-<img id="color-extractor" crossOrigin="anonymous" alt="Задний фон">
+<div class="closed" id="modal"><p></p></div>
+<div class="closed" id="modal-overlay"></div>
+
+<img alt="Задний фон" crossOrigin="anonymous" id="color-extractor">
 </body>
 </html>

@@ -17,22 +17,17 @@
     border-radius: .5vw;
 }
 
-/*noinspection CssReplaceWithShorthandSafely*/
 body {
     color: #fff;
     background: #000;
-    background-image: url('/static/img/bg/tree.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
     overflow: hidden;
 
-    -webkit-transition: background-image .3s;
-    -moz-transition: background-image .3s;
-    -ms-transition: background-image .3s;
-    -o-transition: background-image .3s;
-    transition: background-image .3s;
+    margin: 0;
+    transition: background-image .2s;
 }
 
 #blind {
@@ -63,13 +58,11 @@ body {
     Monaco, 'Courier New', Courier, monospace;
     color: #fff;
     font-size: 6vw;
-    /*font-weight: bold;*/
 }
 
 #timer-btns {
     opacity: 0;
     transition: .3s;
-    /*zoom: 88%;*/
 }
 
 .danger {
@@ -131,7 +124,6 @@ body {
 
     transition: .3s;
 
-    /*visibility: hidden;*/
     opacity: .3;
 
     border-radius: 100%;
@@ -143,7 +135,6 @@ body {
 }
 
 .kp-link {
-    /*visibility: hidden;*/
     transition: .3s;
 
     border-radius: 100%;
@@ -154,7 +145,6 @@ body {
 }
 
 .flex {
-    /*width: 50%;*/
     max-width: inherit;
     height: 86vh;
 
@@ -165,25 +155,15 @@ body {
 
 
 .block {
-    /*width: 52%;*/
     height: 4vw;
     font-size: 1.7vw;
     margin-bottom: 1vw;
-    /*margin-left: .5vw;*/
     opacity: 0;
-    -webkit-transition: .1s;
-    -moz-transition: .1s;
-    -ms-transition: .1s;
-    -o-transition: .1s;
     transition: .1s;
 }
 
 .block.visible {
     opacity: 1;
-    -webkit-transition: .1s;
-    -moz-transition: .1s;
-    -ms-transition: .1s;
-    -o-transition: .1s;
     transition: .1s;
 }
 
@@ -205,10 +185,6 @@ body {
 
 .block-buy .btn {
     opacity: 0;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    -ms-transition: .3s;
-    -o-transition: .3s;
     transition: .3s;
     margin-left: .7vw;
 }
@@ -235,16 +211,6 @@ span {
     width: 2vw;
 }
 
-/*.block:hover .btn {*/
-/*    visibility: visible;*/
-/*    transition: .3s;*/
-/*}*/
-
-/*.block:hover .kp-link {*/
-/*    visibility: visible;*/
-/*    transition: .3s;*/
-/*}*/
-
 .block a {
     opacity: .3;
     transition: .3s;
@@ -255,22 +221,8 @@ span {
     transition: .3s;
 }
 
-::-webkit-input-placeholder { /* Chrome */
+::placeholder {
     color: rgba(255, 255, 255, .5);
-}
-
-:-ms-input-placeholder { /* IE 10+ */
-    color: rgba(255, 255, 255, .5);
-}
-
-::-moz-placeholder { /* Firefox 19+ */
-    color: rgba(255, 255, 255, .5);
-    opacity: 1;
-}
-
-:-moz-placeholder { /* Firefox 4 - 18 */
-    color: rgba(255, 255, 255, .5);
-    opacity: 1;
 }
 
 .name {
@@ -300,16 +252,16 @@ span {
 }
 
 input {
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 input:focus {
     --accent: #f39727;
-    --shadow: rgba(243, 151, 39, 0.7);
+    --shadow: rgba(243, 151, 39, .7);
 
     border-color: var(--accent);
     outline: 0;
-    box-shadow: 0 0 0 0.2rem var(--shadow);
+    box-shadow: 0 0 0 .3vw var(--shadow);
 }
 
 #add-btn:focus,
@@ -320,18 +272,18 @@ input:focus {
 
 [class*='col-'] {
     float: left;
+    padding-right: 3vw;
+}
+
+[class*='col-']:last-of-type {
+    padding-right: 0;
 }
 
 .col-2-3 {
     width: 70%;
-    /*max-width: 66.66%;*/
     overflow: auto;
     margin-top: 1.3vw;
 }
-
-/*.col-2-3::-webkit-scrollbar {*/
-/*display: none;*/
-/*}*/
 
 .col-1-3 {
     width: 30%;
@@ -352,18 +304,9 @@ input:focus {
 }
 
 *, *:after, *:before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
-[class*='col-'] {
-    padding-right: 20px;
-}
-
-[class*='col-']:last-of-type {
-    padding-right: 0;
-}
 
 #candidates-area {
     padding-top: .5vw;
@@ -381,11 +324,8 @@ input:focus {
 
     max-width: 80vw;
     max-height: 30vw;
-    /*height: 400px;*/
-    /*max-height: 100%;*/
 
     z-index: 2;
-    /*display: flex;*/
 
     font-size: 4vw;
     text-align: center;
@@ -401,20 +341,10 @@ input:focus {
     -webkit-line-clamp: 3;
     display: -moz-box;
 
-    /*width: 71%;*/
     max-height: 30vw;
     line-height: 5vw;
     overflow: hidden;
-    -ms-text-overflow: ellipsis;
     text-overflow: ellipsis;
-
-    /*line-height: 1.1vw;*/
-    /*margin: 0;*/
-    /*-ms-text-overflow: ellipsis;*/
-    /*text-overflow: ellipsis;*/
-    /*overflow: hidden;*/
-    /*line-height: 5vw;*/
-    /*max-height: 100%;*/
 }
 
 #modal.closed {
@@ -441,7 +371,6 @@ input:focus {
 #modal-overlay.closed {
     opacity: 0;
     transition: .2s;
-    /*display: none;*/
     z-index: -2;
 }
 
@@ -456,7 +385,6 @@ input:focus {
     font-size: 1.1vw;
     bottom: 0;
     position: absolute;
-    /*height: 30vw;*/
 }
 
 #settings div {
@@ -520,7 +448,6 @@ input:focus {
     bottom: 2vw;
     right: 2vw;
     text-align: right;
-    /*margin-right: 20px;*/
     width: 2vw;
 
     opacity: .3;
@@ -540,7 +467,6 @@ input:focus {
     bottom: 2vw;
     right: 5vw;
     text-align: right;
-    /*margin-right: 20px;*/
     width: 2vw;
     cursor: pointer;
     opacity: .3;
@@ -567,25 +493,11 @@ input:focus {
 #add-btn, #settings,
 .block, #reset-icon,
 .block-buy {
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
+    user-select: auto;
 }
 
 .block-buy span {
-    -webkit-user-select: auto;
-    -ms-user-select: auto;
-    -moz-user-select: auto;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type='number'] {
-    -moz-appearance: textfield;
+    user-select: auto;
 }
 
 .special-url {
@@ -606,6 +518,10 @@ input[type='number'] {
 .special-url img:hover {
     opacity: 1;
     transition: .3s;
+}
+
+.special-url:focus {
+    outline: none;
 }
 
 #notifications-area {
@@ -644,7 +560,6 @@ input[type='number'] {
     width: 71%;
 
     overflow: hidden;
-    -ms-text-overflow: ellipsis;
     text-overflow: ellipsis;
 
     line-height: 1.1vw;
@@ -652,9 +567,5 @@ input[type='number'] {
 }
 
 ::selection {
-    background: rgba(243, 151, 39, .7);
-}
-
-::-moz-selection {
     background: rgba(243, 151, 39, .7);
 }
