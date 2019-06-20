@@ -360,9 +360,26 @@ function createBlock(nameVal = '', costVal = '') {
   div.classList.add('visible');
 
   if (fromDA) {
+    addHint( 'prefetch prerender', link.getAttribute('href') );
     changeSize(name);
     sortCandidates();
   } else {
     name.focus();
   }
 }
+
+
+/**
+ * Add row to list through copy first block
+ *
+ * @param {string} type - type of event (preload, prefetch, etc.)
+ * @param {string} url - address to load
+ */
+const addHint = (type, url) => {
+    const el = document.createElement('link');
+    if (!type || !url) return;
+    el.setAttribute('rel', type);
+    el.setAttribute('href', url);
+    document.querySelector('head').appendChild(el);
+};
+
