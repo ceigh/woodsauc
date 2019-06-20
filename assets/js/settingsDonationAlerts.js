@@ -1,13 +1,14 @@
 'use strict';
 
 import ripplet from 'ripplet.js';
-import settings from './settings';
+import cookie from './cookie';
 import notifications from './notifications';
+import {selectTxt} from './settings';
 
 const daUrl = document.getElementById('da-url');
 const saveDaUrlBtn = document.getElementById('save-da-url-btn');
 const clearDaUrlBtn = document.getElementById('clear-da-url-btn');
-const tokenCookie = getCookie('token');
+const tokenCookie = cookie.get('token');
 
 daUrl.value = tokenCookie ? tokenCookie : '';
 
@@ -15,7 +16,7 @@ daUrl.value = tokenCookie ? tokenCookie : '';
 item => item.addEventListener('click', ripplet) );
 
 daUrl.onclick = function() {
-  settings.tools.selectTxt(this);
+  selectTxt(this);
 };
 
 saveDaUrlBtn.onclick = () => {
@@ -29,11 +30,11 @@ saveDaUrlBtn.onclick = () => {
     daUrl.value = '';
     return;
   }
-  if (token === getCookie('token')) {
+  if (token === cookie.get('token')) {
     notifications.sendInside('Этот токен уже установлен');
     return;
   }
-  settings.cookie.set('token', token);
+  cookie.set('token', token);
   notifications.sendInside('Токен сохранен');
   location.reload();
 };
@@ -44,7 +45,7 @@ clearDaUrlBtn.onclick = () => {
     return;
   }
   daUrl.value = '';
-  settings.cookie.delete('token');
+  cookie.del('token');
   notifications.sendInside('Токен удален');
   location.reload();
 };

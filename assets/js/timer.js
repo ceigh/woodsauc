@@ -1,8 +1,8 @@
 'use strict';
 
 import ripplet from 'ripplet.js';
+import cookie from './cookie';
 import notifications from './notifications';
-import settings from './settings';
 import winner from './winner';
 
 
@@ -166,7 +166,7 @@ class Timer {
 }
 
 
-const minsCookie = getCookie('previousMinutes');
+const minsCookie = cookie.get('previousMinutes');
 const timerElement = document.getElementById('timer');
 if (minsCookie) timerElement.innerHTML = `${minsCookie}:00:00`;
 const timer = new Timer(timerElement);
@@ -182,7 +182,7 @@ timerBtns.forEach( btn => btn.addEventListener('click', ripplet) );
 
 startBtn.onclick = () => {
   const mins = timerElement.innerHTML.split(':')[0];
-  if (mins && !window.started) settings.cookie.set('previousMinutes', mins);
+  if (mins && !window.started) cookie.set('previousMinutes', mins);
   timer.start();
 };
 stopBtn.onclick = () => {

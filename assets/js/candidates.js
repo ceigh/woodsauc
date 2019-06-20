@@ -1,8 +1,8 @@
 'use strict';
 
 import ripplet from 'ripplet.js';
+import cookie from './cookie';
 import notifications from './notifications';
-import settings from './settings';
 import winner from  './winner';
 import {oneSpace, toTitle} from './stringUtilities';
 
@@ -18,7 +18,7 @@ const buyBlock = document.querySelector('.block-buy');
 const buyText = document.querySelector('.block-buy span');
 const buyInput = buyBlock.querySelector('.cost-buy');
 const buyClear = buyBlock.querySelector('.btn');
-const buyCookie = getCookie('buyCost');
+const buyCookie = cookie.get('buyCost');
 
 const modalOverlay = document.getElementById('modal-overlay');
 const modal = document.getElementById('modal');
@@ -78,13 +78,13 @@ changeTitle(buyInput);
 buyClear.onclick = () => {
   buyInput.value = '';
   buyInput.setAttribute('title', 'Сумма выкупа');
-  settings.cookie.delete('buyCost');
+  cookie.del('buyCost');
 };
 buyInput.onchange = function () {
   checksum(this);
   changeTitle(this);
-  if (this.value) settings.cookie.set('buyCost', this.value);
-  else settings.cookie.delete('buyCost');
+  if (this.value) cookie.set('buyCost', this.value);
+  else cookie.del('buyCost');
 };
 
 
@@ -310,11 +310,11 @@ function oneSpacedValue(nameEl) {
  *
  */
 function createBlock(nameVal = '', costVal = '') {
-  const div = firstBlock.cloneNode(true);
-  const name = div.querySelector('.name');
-  const cost = div.querySelector('.cost');
-  const link = div.querySelector('.kp-link');
-  const btn = div.querySelector('.btn');
+  const section = firstBlock.cloneNode(true);
+  const name = section.querySelector('.name');
+  const cost = section.querySelector('.cost');
+  const link = section.querySelector('.kp-link');
+  const btn = section.querySelector('.btn');
   const delIcon = btn.querySelector('img');
   const fromDA = nameVal && costVal;
 
@@ -356,8 +356,8 @@ function createBlock(nameVal = '', costVal = '') {
     link.setAttribute('href', 'https://www.kinopoisk.ru');
   }
 
-  area.insertBefore(div, area.lastElementChild);
-  div.classList.add('visible');
+  area.insertBefore(section, area.lastElementChild);
+  section.classList.add('visible');
 
   if (fromDA) {
     addHint( 'prefetch prerender', link.getAttribute('href') );
@@ -380,6 +380,6 @@ const addHint = (type, url) => {
     if (!type || !url) return;
     el.setAttribute('rel', type);
     el.setAttribute('href', url);
-    document.querySelector('head').appendChild(el);
+    document.head.appendChild(el);
 };
 

@@ -1,9 +1,10 @@
 'use strict';
 
+import cookie from './cookie';
 import notifications from './notifications';
 import winner from './winner';
-import {oneSpace, toTitle} from './stringUtilities';
 import {sortCandidates, changeTitle, checkOnBuy, createBlock} from './candidates';
+import {oneSpace, toTitle} from './stringUtilities';
 
 const socketUrl = 'https://socket.donationalerts.ru:443';
 const socketOpt = {'reconnection': true};
@@ -17,7 +18,7 @@ catch (e) { notifications.sendInside('Нет подключения, к Donation
  *
  */
 function connect() {
-  const token = getCookie('token');
+  const token = cookie.get('token');
   let socket;
   if (!token) return;
   socket = io(socketUrl, socketOpt);

@@ -2,18 +2,19 @@
 
 import ripplet, {defaultOptions} from 'ripplet.js';
 import notifications from './notifications';
-import settings from './settings';
+import cookie from './cookie';
+import {selectTxt, isUrlValid} from './settings';
 
 const ff = navigator.userAgent.toLowerCase().includes('firefox');
 const body = document.querySelector('body');
 
-const bgURL = getCookie('bg-url');
+const bgURL = cookie.get('bg-url');
 const bgURLInput = document.getElementById('bg-url');
 const saveBGURLBtn = document.getElementById('save-bg-url-btn');
 const clearBGURLBtn = document.getElementById('clear-bg-url-btn');
 
 const colorExtractor = document.getElementById('color-extractor');
-const colorCookie = getCookie('accent');
+const colorCookie = cookie.get('accent');
 const style = document.createElement('style');
 let color;
 
@@ -62,11 +63,11 @@ clearBGURLBtn.addEventListener('click', ripplet);
 saveBGURLBtn.addEventListener('click', ripplet);
 
 bgURLInput.onclick = function () {
-  settings.tools.selectTxt(this);
+  selectTxt(this);
 };
 
 clearBGURLBtn.onclick = () => {
-  if ( !bgURLInput.value && !getCookie('bg-url') ) {
+  if ( !bgURLInput.value && !cookie.get('bg-url') ) {
     notifications.sendInside('Фон уже сброшен');
   } else {
     changeBG('');
@@ -88,8 +89,8 @@ clearBGURLBtn.onclick = () => {
 
     document.head.appendChild(style);
 
-    settings.cookie.delete('bg-url');
-    settings.cookie.delete('accent');
+    cookie.del('bg-url');
+    cookie.del('accent');
 
     notifications.sendInside('Фон сброшен');
   }
@@ -102,12 +103,12 @@ saveBGURLBtn.onclick = () => {
     return;
   }
 
-  if (url === getCookie('bg-url')) {
+  if (url === cookie.get('bg-url')) {
     notifications.sendInside('Этот фон уже установлен');
     return;
   }
 
-  if (!settings.tools.isUrlValid(url)) {
+  if (!isUrlValid(url)) {
     notifications.sendInside('Введите корректный URL');
     bgURLInput.value = '';
     return;
@@ -143,8 +144,8 @@ saveBGURLBtn.onclick = () => {
 
     document.head.appendChild(style);
 
-    settings.cookie.set('bg-url', url);
-    settings.cookie.set('accent', dominant);
+    cookie.set('bg-url', url);
+    cookie.set('accent', dominant);
   });
 };
 

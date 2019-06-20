@@ -11,7 +11,10 @@ export default {
 
   context: `${__dirname}/assets/js`,
 
-  entry: { index: './index' },
+  entry: {
+    index: './index',
+    preloader: './preloader'
+  },
 
   output: {
     library: 'woodsauc',
