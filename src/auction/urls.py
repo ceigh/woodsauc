@@ -1,8 +1,9 @@
 from django.urls import path
+from django.views.generic.base import RedirectView
 
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('legacy/', views.legacy_home, name='legacy_home')
+    path('', RedirectView.as_view(url='dashboard/', permanent=False), name='index'),
+    path('dashboard/', views.dashboard, name='dashboard')
 ]

@@ -216,7 +216,7 @@ function checkOnBuy(costEl) {
     modalOverlay.onclick = () => {
       modal.classList.add('closed');
       modalOverlay.classList.add('closed');
-      document.title = 'WoodsAuc';
+      document.title = 'Аукцион';
     };
 
     modal.querySelector('p').innerText = `${name} выкупили, аж за ${curr}₽ Pog!`;

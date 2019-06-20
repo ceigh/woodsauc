@@ -3,35 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WoodsAuc</title>
-  {% load static %}
+  <meta name="application name" content="WoodsAuc">
+  <meta name="author" content="Artjom Löbsack">
+  <meta name="description" content="Простое приложение для проведения аукционов">
+  <meta name="generator" content="Jinja2">
+  <meta name="keywords" content="dashboard, WoodsAuc, stream, twitch, goodgame">
+
+  <title>Аукцион</title>
+
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://cdnjs.cloudflare.com" rel="preconnect">
 
-  <link href="https://www.kinopoisk.ru/s/type/all/find/" rel="prerender prefetch">
-
+  {% load static %}
   <link href="{% static 'build/css/index.min.css' %}" rel="stylesheet">
-  <link href="{% static 'img/favicon/favicon.png' %}" rel="icon">
-
   <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
 
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+  {% if production %}<script defer src="{% static 'build/js/index.min.js' %}"></script>
+  {% else %}<script defer src="{% static 'build/js/index.js' %}"></script>{% endif %}
 
-  {% if legacy %}
-    {% if production %}
-      <script defer src="{% static 'build/js/legacy/legacy.min.js' %}"></script>
-    {% else %}
-      <script defer src="{% static 'build/js/legacy/legacy.js' %}"></script>
-    {% endif %}
-  {% else %}
-    {% if production %}
-      <script defer src="{% static 'build/js/index.min.js' %}"></script>
-    {% else %}
-      <script defer src="{% static 'build/js/index.js' %}"></script>
-    {% endif %}
-  {% endif %}
+  {% include 'favicon.html' %}
+
+  <link href="https://www.kinopoisk.ru" rel="prerender">
 </head>
 <body>
 <div id="preloader">

@@ -144,8 +144,8 @@ class Timer {
 
     if (winnerResult) {
       compiled = `${winner.decorate(winnerResult)} лидирует!`;
-      if (title !== compiled || title === 'WoodsAuc') document.title = compiled;
-    } else if (title !== 'WoodsAuc') document.title = 'WoodsAuc';
+      if (title !== compiled || title === 'Аукцион') document.title = compiled;
+    } else if (title !== 'Аукцион') document.title = 'Аукцион';
 
     // minimal rms can't be 0, and it's totally random
     if ( (!rm && !rs && rms < 300) || this.time < delta ) {

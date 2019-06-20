@@ -7,11 +7,5 @@ except KeyError:
     is_production = False
 
 
-def home(request):
-    return render(request, 'index.html', {'production': is_production})
-
-
-def legacy_home(request):
-    is_legacy = 'legacy' in request.path
-    return render(request, 'index.html', {'legacy': is_legacy,
-                                          'production': is_production})
+def dashboard(request):
+    return render(request, 'dashboard.html', {'production': is_production})

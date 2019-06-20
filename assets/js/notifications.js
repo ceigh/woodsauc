@@ -64,7 +64,7 @@ const makeNotificationOptions = (title, body) => {
     body: body,
     dir: 'ltr',
     lang: 'ru',
-    icon: '/static/img/favicon/favicon.png'
+    icon: '/static/img/favicon/apple-touch-icon-72x72-precomposed.png'
   }
 };
 

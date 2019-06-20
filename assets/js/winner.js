@@ -64,7 +64,7 @@ const showWinner = result => {
     modal.classList.toggle('closed');
     modalOverlay.classList.toggle('closed');
 
-    document.title = 'WoodsAuc';
+    document.title = 'Аукцион';
   };
 };
 

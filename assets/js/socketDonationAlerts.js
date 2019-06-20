@@ -8,8 +8,8 @@ import {sortCandidates, changeTitle, checkOnBuy, createBlock} from './candidates
 const socketUrl = 'https://socket.donationalerts.ru:443';
 const socketOpt = {'reconnection': true};
 
-try { connect() }
-catch (e) { console.log('Нет подключения, к DonationAlerts.') }
+try { connect(); }
+catch (e) { notifications.sendInside('Нет подключения, к DonationAlerts.') }
 
 
 /**
