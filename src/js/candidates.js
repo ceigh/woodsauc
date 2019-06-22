@@ -343,7 +343,8 @@ function createBlock(nameVal = '', costVal = '') {
     sortCandidates();
   };
 
-  delIcon.setAttribute('src', '/static/img/icons/material/delete.svg');
+  delIcon.setAttribute('src', 'img/icons/material/delete.svg');
+  delIcon.setAttribute('alt', 'Удалить');
   link.setAttribute('title', 'Кинопоиск');
 
   if (fromDA) {
