@@ -1,8 +1,4 @@
-__pycache__/
-logs/
-node_modules/
-venv/
+node_modules
 .idea/workspace.xml
-src/db.sqlite3
-src/auction/static/build/js/legacy
-assets/js/legacy
+public/js/dashboard.js
+public/js/preloader.js

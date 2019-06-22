@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="application name" content="WoodsAuc">
+  <meta name="author" content="Artjom Löbsack">
+  <meta name="description" content="Простое приложение для проведения аукционов">
+  <meta name="generator" content="Webpack">
+  <meta name="keywords" content="dashboard, WoodsAuc, stream, twitch, goodgame">
+
+  <title>Аукцион</title>
+
+  <script async src="js/preloader.js"></script>
+
+  <link href="https://cdnjs.cloudflare.com" rel="preconnect">
+
+  <link href="css/dashboard.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+  <script defer src="js/dashboard.js"></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="img/favicons/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="mask-icon" href="img/favicons/safari-pinned-tab.svg" color="#283593">
+  <link rel="shortcut icon" href="img/favicons/favicon.ico">
+  <meta name="apple-mobile-web-app-title" content="Auction">
+  <meta name="application-name" content="Auction">
+  <meta name="msapplication-TileColor" content="#283593">
+  <meta name="msapplication-TileImage" content="img/favicons/mstile-144x144.png">
+  <meta name="msapplication-config" content="browserconfig.xml">
+  <meta name="theme-color" content="#283593">
+
+  <link href="https://www.kinopoisk.ru" rel="prefetch prerender">
+</head>
+<body>
+<div id="preloader">
+  <div class="contpre">
+    <div class="hand">
+      <div class="finger"></div>
+      <div class="finger"></div>
+      <div class="finger"></div>
+      <div class="finger"></div>
+      <div class="wrist"></div>
+      <div class="big-finger"></div>
+    </div>
+  </div>
+</div>
+
+<div id="blind"></div>
+
+<div class="grid">
+  <div class="col-2-3">
+    <div id="candidates-area" class="flex">
+      <header class="block-buy">
+        <label title="Обозначить сумму выкупа">
+          <span>Выкуп нынче...</span>
+          <input autocomplete="off" class="cost-buy" min="0" placeholder="₽"
+                 step="10" title="Сумма выкупа" type="text">
+        </label>
+        <button class="btn" title="Очистить" type="button">
+          <img alt="Очистить"
+               src="img/icons/material/delete-outline.svg">
+        </button>
+      </header>
+
+      <section class="block visible">
+        <label>
+          <input autocomplete="off" autofocus class="name"
+                 placeholder="Позиция" spellcheck="false"
+                 title="Фильм, игра, etc" type="text">
+          <input autocomplete="off" class="cost" min="0" placeholder="₽" step="10" title="Сумма" type="text">
+        </label>
+        <span>
+          <a class="kp-link" href="https://www.kinopoisk.ru" target="_blank"
+             title="Ссылка на кинопоиск">
+            <img src="img/icons/material/video-library.svg"
+                 alt="Ссылка на кинопоиск"></a>
+              <button class="btn" title="Очистить" type="button">
+                <img src="img/icons/material/delete-outline.svg"
+                     alt="Очистить">
+              </button>
+        </span>
+      </section>
+
+      <button id="add-btn" type="button" title="Добавить">
+        <img src="img/icons/material/add-box.svg"
+             alt="Добавить">
+      </button>
+    </div>
+  </div>
+
+  <div class="col-1-3">
+    <div id="timer-area">
+      <time id="timer" title="Таймер">10:00:00</time>
+      <nav id="timer-btns">
+        <button class="timer-btn" id="start-btn" title="Старт" type="button">
+          <img src="img/icons/material/play-arrow.svg"
+               alt="Старт">
+        </button>
+        <button id="stop-btn" class="timer-btn" type="button" title="Стоп">
+          <img src="img/icons/material/stop.svg"
+               alt="Стоп">
+        </button>
+        <button id="minus-btn" class="timer-btn" type="button" title="-1">
+          <img src="img/icons/material/keyboard-arrow-down.svg"
+               alt="-1">
+        </button>
+        <button id="plus-btn" class="timer-btn" type="button" title="+1">
+          <img src="img/icons/material/keyboard-arrow-up.svg"
+               alt="+1">
+        </button>
+        <button id="plus-two-btn" class="timer-btn" type="button" title="+2">
+          <img src="img/icons/material/keyboard-capslock.svg"
+               alt="+2">
+        </button>
+      </nav>
+    </div>
+
+    <div id="settings" class="closed">
+      <div>
+        <label for="bg-url">URL фона:</label><br><br>
+        <input autocomplete="off" id="bg-url" placeholder="URL фона" spellcheck="false" title="Ссылка на изображение"
+               type="url">
+
+        <button id="save-bg-url-btn" class="settings-btn" type="button" title="Сохранить">
+          <img src="img/icons/material/save.svg"
+               alt="Сохранить">
+        </button>
+        <button id="clear-bg-url-btn" class="settings-btn" type="button" title="Сбросить">
+          <img src="img/icons/material/clear.svg"
+               alt="Сбросить">
+        </button>
+      </div>
+
+      <div>
+        <label for="da-url">DonationAlerts:</label><br><br>
+        <input type="password" id="da-url" placeholder="Токен DA" autocomplete="off"
+               title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле токен DonationAlerts из настроек'>
+
+        <button id="save-da-url-btn" class="settings-btn" type="button" title="Сохранить">
+          <img src="img/icons/material/save.svg"
+               alt="Сохранить">
+        </button>
+        <button id="clear-da-url-btn" class="settings-btn" type="button" title="Сбросить">
+          <img src="img/icons/material/clear.svg"
+               alt="Сбросить">
+        </button>
+      </div>
+
+      <div>
+        <a class="special-url" title="Написать о проблеме"
+           href="mailto:incoming+ceigh-auction-11633616-rwjsauv0b8z8yv37eoj8ad5r-issue@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы">
+          <img src="img/icons/material/bug-report.svg"
+               alt="Багрепорт">
+        </a>
+        <a href="https://gitlab.com/ceigh/WoodsAuc/releases"
+           class="special-url" title="Новости" target="_blank">
+          <img src="img/icons/material/new-releases.svg"
+               alt="Новости">
+        </a>
+        <a href="https://gitlab.com/ceigh/WoodsAuc/tree/master"
+           class="special-url" title="Исходный код" target="_blank">
+          <img src="img/icons/material/code.svg"
+               alt="Код">
+        </a>
+        <a href="https://discord.gg/pa4qbtk"
+           class="special-url" title="Сообщество Discord" target="_blank">
+          <img src="img/icons/discord-logo.svg"
+               alt="Discord">
+        </a>
+        <a href="https://www.donationalerts.com/r/hecig"
+           class="special-url" title="Поддержать" target="_blank">
+          <img src="img/icons/material/attach-money.svg"
+               alt="DonationAlerts">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="notifications-area"></div>
+
+<div id="reset-icon" title="Очистить все">
+  <img alt="Очистить все"
+       src="img/icons/material/delete-sweep.svg">
+</div>
+<div id="settings-icon" title="Настройки">
+  <img alt="Настройки"
+       src="img/icons/material/settings.svg">
+</div>
+
+<div class="closed" id="modal"><p></p></div>
+<div class="closed" id="modal-overlay"></div>
+
+<img alt="Задний фон" crossOrigin="anonymous" id="color-extractor" src="img/bg/tree.jpg">
+</body>
+</html>

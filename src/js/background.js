@@ -162,7 +162,7 @@ function changeBG(url) {
     bgImg.onload = () => body.style.backgroundImage = `url('${bgImg.src}')`;
     return;
   }
-  body.style.backgroundImage = `url('/static/img/bg/tree.${ff ? 'jpg' : 'webp'}')`;
+  body.style.backgroundImage = `url('img/bg/tree.${ff ? 'jpg' : 'webp'}')`;
 }
 
 

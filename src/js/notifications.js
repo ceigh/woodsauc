@@ -1,49 +1,45 @@
 'use strict';
 
-import ripplet from 'ripplet.js';
+import ripplet    from 'ripplet.js';
 import {oneSpace} from './stringUtilities';
 
 const area = document.getElementById('notifications-area');
 
-if (Notification.permission === 'default') Notification.requestPermission();
-
+if ('default' === Notification.permission) Notification.requestPermission();
 
 /**
-  * Play light.mp3 sound
-  *
-  */
+ * Play light.mp3 sound
+ *
+ */
 const playNotificationSound = () => {
   const audio = new Audio();
 
-  audio.src = '/static/sound/light.mp3';
+  audio.src = 'light.mp3';
   audio.autoplay = true;
 };
 
-
 /**
-  * Clear notification area
-  *
-  */
+ * Clear notification area
+ *
+ */
 const clear = () => {
-  while (area.children.length > 0) {
+  while (0 < area.children.length) {
     area.removeChild(area.firstChild);
   }
 };
 
-
 /**
-  * Open browser window if collapsed
-  *
-  */
+ * Open browser window if collapsed
+ *
+ */
 const focusWindow = () => window.focus();
 
-
 /**
-  * Make notification element
-  *
-  * @param {string} title - title of notification
-  * @param {Object} options - notification settings
-  */
+ * Make notification element
+ *
+ * @param {string} title - title of notification
+ * @param {Object} options - notification settings
+ */
 const createNotification = (title, options) => {
   const notification = new Notification(title, options);
 
@@ -51,59 +47,56 @@ const createNotification = (title, options) => {
   return notification;
 };
 
-
 /**
-  * Return taken title and body and make default options object
-  *
-  * @param {string} title - title of notification
-  * @param {string} body - notification body
-  */
+ * Return taken title and body and make default options object
+ *
+ * @param {string} title - title of notification
+ * @param {string} body - notification body
+ */
 const makeNotificationOptions = (title, body) => {
   return {
     title: title,
     body: body,
     dir: 'ltr',
     lang: 'ru',
-    icon: '/static/img/favicon/apple-touch-icon-72x72-precomposed.png'
-  }
+    icon: '/static/img/favicons/apple-touch-icon-72x72-precomposed.png'
+  };
 };
 
-
 /**
-  * Send ready notification
-  *
-  * @param {string} title - title of notification
-  * @param {string} body - notification body
-  */
+ * Send ready notification
+ *
+ * @param {string} title - title of notification
+ * @param {string} body - notification body
+ */
 const sendNotification = (title, body) => {
   const permission = Notification.permission;
   const options = makeNotificationOptions(title, body);
 
   // Проверим, поддерживает ли браузер HTML5 Notifications
-  if ( !('Notification' in window) ) return;
+  if (!( 'Notification' in window )) return;
 
   // Проверим, есть ли права на отправку уведомлений
-  if (permission === 'granted') {
+  if ('granted' === permission) {
 
     // Если права есть, отправим уведомление
     createNotification(title, options);
 
     // Если прав нет, пытаемся их получить
-  } else if (permission !== 'denied') {
+  } else if ('denied' !== permission) {
     Notification.requestPermission(permission => {
 
-    // Если права успешно получены, отправляем уведомление
-    if (permission === 'granted') createNotification(title, options);
+      // Если права успешно получены, отправляем уведомление
+      if ('granted' === permission) createNotification(title, options);
     });
   }
 };
 
-
 /**
-  * Send ready notification
-  *
-  * @param {string} text - text of notification
-  */
+ * Send ready notification
+ *
+ * @param {string} text - text of notification
+ */
 const sendInside = text => {
   const notification = document.createElement('div');
   const p = document.createElement('p');
@@ -123,13 +116,12 @@ const sendInside = text => {
   }, 1200);
 };
 
-
 /**
-  * Send ready notification with prompt
-  *
-  * @param {string} text - text of notification
-  * @param {function} acceptCallback - function on accept
-  */
+ * Send ready notification with prompt
+ *
+ * @param {string} text - text of notification
+ * @param {function} acceptCallback - function on accept
+ */
 const sendPrompt = (text, acceptCallback) => {
   const notification = document.createElement('div');
   const p = document.createElement('p');
@@ -177,7 +169,6 @@ const sendPrompt = (text, acceptCallback) => {
   area.insertBefore(notification, area.firstChild);
   playNotificationSound();
 };
-
 
 const notifications = {
   playNotificationSound,

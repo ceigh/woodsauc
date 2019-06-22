@@ -2,7 +2,7 @@
 
 // CSS
 import '../css/preloader.css';
-import '../css/index.css';
+import '../css/dashboard.css';
 
 // JS
 import './candidates';
