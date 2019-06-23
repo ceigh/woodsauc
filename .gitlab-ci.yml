@@ -23,6 +23,7 @@ test:
 pages:
   stage: deploy
   script:
+    - mkdir public
     - mv -v dist/* public/
   artifacts:
     paths:
