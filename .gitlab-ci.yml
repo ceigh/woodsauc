@@ -1,28 +1,31 @@
 image: node:latest
 
-cache:
-  paths:
-  - node_modules/
+variables:
+  WEBPACK_MODE: production
 
 before_script:
   - npm i --progress=false
 
-pages:
-  stage: deploy
+cache:
+  paths:
+    - node_modules/
+
+webpack:
+  stage: build
   script:
-    - npm run 'to production'
-  artifacts:
-    paths:
-    - public
-  only:
-  - master
+    - webpack
 
 test:
   stage: test
   script:
-  - echo "Tests are passed!"
-#  artifacts:
-#    paths:
-#    - test
-#  except:
-#  - master
+    - echo 'Tests are passed!'
+
+pages:
+  stage: deploy
+  script:
+    - mv -v dist/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

@@ -2,44 +2,77 @@
 
 import UglifyJsPlugin       from 'uglifyjs-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CopyWebpackPlugin    from 'copy-webpack-plugin';
+import HtmlWebpackPlugin    from 'html-webpack-plugin';
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
 
 const WEBPACK_MODE = process.env.WEBPACK_MODE || 'development';
-const dev = 'development' === WEBPACK_MODE;
+const isDev = 'development' === WEBPACK_MODE;
 
 export default {
   mode: WEBPACK_MODE,
+  watch: isDev,
+  watchOptions: {aggregateTimeout: 100},
+  devtool: isDev ? 'eval' : '(none)',
 
-  context: `${__dirname}/src/js`,
-
+  context: `${__dirname}/src`,
   entry: {
-    dashboard: './dashboard',
-    preloader: './preloader'
+    preloader: './js/preloader',
+    dashboard: './js/dashboard'
   },
 
   output: {
     library: 'WoodsAuc',
     publicPath: '/',
-    path: `${__dirname}/public`,
-    filename: dev ?
-              'js/[name].js' :
-              'js/[name].min.js'
+    filename: isDev ?
+              './js/[name].[hash].js' :
+              './js/[name].[hash].min.js'
   },
 
-  watch: dev,
-  watchOptions: {aggregateTimeout: 100},
+  plugins: [
+    new CleanWebpackPlugin(),
 
-  devtool: dev ? 'eval' : '(none)',
+    new MiniCssExtractPlugin({
+      filename: isDev ?
+                './css/[name].[hash].css' :
+                './css/[name].[hash].min.css'
+    }),
+
+    new HtmlWebpackPlugin({
+      template: './html/dashboard.pug'
+    }),
+
+    new CopyWebpackPlugin([
+      {
+        from: './img',
+        to: './img'
+      },
+      {
+        from: './light.mp3',
+        to: './light.mp3'
+      },
+      {
+        from: './manifest.json',
+        to: './manifest.json'
+      },
+      {
+        from: './browserconfig.xml',
+        to: './browserconfig.xml'
+      }
+    ])
+  ],
 
   optimization: {
-    minimizer: dev ?
+    minimizer: isDev ?
       [() => {}] :
       [new UglifyJsPlugin({parallel: true})]
   },
 
   module: {
     rules: [{
+      test: /\.js$/,
       exclude: /node_modules/,
-      use: {loader: 'babel-loader'}
+      use: ['babel-loader']
     }, {
       test: /\.css$/,
       exclude: /node_modules/,
@@ -49,12 +82,9 @@ export default {
         'css-loader',
         'postcss-loader'
       ]
+    }, {
+      test: /\.pug$/,
+      use: ['pug-loader']
     }]
-  },
-
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].min.css'
-    })
-  ]
+  }
 };
