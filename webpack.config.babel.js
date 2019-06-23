@@ -39,7 +39,7 @@ export default {
     }),
 
     new HtmlWebpackPlugin({
-      template: './html/dashboard.pug'
+      template: 'html/dashboard.pug'
     }),
 
     new CopyWebpackPlugin([
