@@ -6,7 +6,7 @@ image: node:latest
 #    - echo 'Tests passed!'
 
 production:
-  stage: build
+  stage: deploy
   script:
     - npm i --progress=false
     - npm run 'to production'
