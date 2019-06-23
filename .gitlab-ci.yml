@@ -1,19 +1,16 @@
 image: node:latest
 
-variables:
-  WEBPACK_MODE: production
-
 before_script:
   - npm i
 
-#cache:
-#  paths:
-#    - node_modules/
+cache:
+  paths:
+    - node_modules/
 
 webpack:
   stage: build
   script:
-    - webpack
+    - npm run build
 
 test:
   stage: test
