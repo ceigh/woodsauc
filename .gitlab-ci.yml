@@ -9,13 +9,13 @@ image: node:latest
 #  script:
 #    - echo 'Tests passed!'
 
-production:
+pages:
   stage: deploy
   script:
     - npm i --progress=false
     - npm run 'to production'
   artifacts:
-    name: 'WoodsAuc'
-    expire_in: 1 week
+#    name: 'pages'
+#    expire_in: 1 week
     paths:
       - public
