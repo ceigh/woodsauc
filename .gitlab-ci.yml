@@ -1,11 +1,6 @@
 image: node:latest
 
-#tests:
-#  stage: tests
-#  script:
-#    - echo 'Tests passed!'
-
-production:
+pages:
   stage: deploy
   script:
     - npm i --progress=false
@@ -13,3 +8,5 @@ production:
   artifacts:
     paths:
       - public
+  only:
+    - master
