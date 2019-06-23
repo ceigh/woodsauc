@@ -4,11 +4,11 @@ variables:
   WEBPACK_MODE: production
 
 before_script:
-  - npm i --progress=false
+  - npm i
 
-cache:
-  paths:
-    - node_modules/
+#cache:
+#  paths:
+#    - node_modules/
 
 webpack:
   stage: build
