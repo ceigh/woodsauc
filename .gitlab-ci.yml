@@ -11,6 +11,9 @@ webpack:
   stage: build
   script:
     - npm run build
+  artifacts:
+    paths:
+      - dist
 
 test:
   stage: test
