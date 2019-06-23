@@ -136,8 +136,8 @@ const sendPrompt = (text, acceptCallback) => {
   p.innerText = text;
   p.setAttribute('title', text);
 
-  acceptIcon.setAttribute('src', '/static/img/icons/material/done.svg');
-  cancelIcon.setAttribute('src', '/static/img/icons/material/clear.svg');
+  acceptIcon.setAttribute('src', 'img/icons/material/done.svg');
+  cancelIcon.setAttribute('src', 'img/icons/material/clear.svg');
   acceptIcon.setAttribute('alt', 'Подтвердить');
   cancelIcon.setAttribute('alt', 'Отклонить');
 

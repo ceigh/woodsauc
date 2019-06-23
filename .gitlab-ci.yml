@@ -1,11 +1,15 @@
-image: alpine:latest
+image: node:latest
 
-pages:
-  stage: deploy
+#tests:
+#  stage: tests
+#  script:
+#    - echo 'Tests passed!'
+
+production:
+  stage: production
   script:
-    - echo 'WoodsAuc is the best auction ever!!!'
+    - npm i --progress=false
+    - npm run 'to production'
   artifacts:
     paths:
       - public
-  only:
-    - master
