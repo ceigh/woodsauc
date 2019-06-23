@@ -1,12 +1,21 @@
 image: node:latest
 
-pages:
+#cache:
+#  paths:
+#  - node_modules/
+
+#tests:
+#  stage: tests
+#  script:
+#    - echo 'Tests passed!'
+
+production:
   stage: deploy
   script:
     - npm i --progress=false
     - npm run 'to production'
   artifacts:
+    name: 'WoodsAuc'
+    expire_in: 1 week
     paths:
       - public
-  only:
-    - master
