@@ -5,7 +5,7 @@
   "main": "webpack.config.babel.js",
   "scripts": {
     "dev": "webpack",
-    "build": "export WEBPACK_MODE=production && webpack --display-error-details && unset WEBPACK_MODE",
+    "build": "export WEBPACK_MODE=production && webpack && unset WEBPACK_MODE",
     "docs": "jsdoc --readme JSDOC.md -c jsdoc.config.json"
   },
   "repository": {

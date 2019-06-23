@@ -1,0 +1,97 @@
+doctype html
+html(lang='ru')
+  head
+    include includes/head
+    title Аукцион
+    link(href='https://cdnjs.cloudflare.com' rel='preconnect')
+    script(defer src='https://cdnjs.cloudflare.com/ajax/libs/vibrant.js/1.0.0/Vibrant.min.js')
+    script(defer src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js')
+    link(href='https://www.kinopoisk.ru' rel='prefetch prerender')
+  body
+    include includes/preloader
+
+    #blind
+
+    .grid
+      .col-2-3
+        #candidates-area.flex
+          header.block-buy
+            label(title='Обозначить сумму выкупа')
+              span Выкуп нынче...
+              input.cost-buy(autocomplete='off' min='0' placeholder='₽' step='10' title='Сумма выкупа' type='text')
+            button.btn(title='Очистить' type='button')
+              img(alt='Очистить' src='img/icons/material/delete-outline.svg')
+
+          section.block.visible
+            label
+              input.name(autocomplete='off' autofocus='' placeholder='Позиция' spellcheck='false' title='Фильм, игра, etc' type='text')
+              input.cost(autocomplete='off' min='0' placeholder='₽' step='10' title='Сумма' type='text')
+            span
+              a.kp-link(href='https://www.kinopoisk.ru' target='_blank' title='Ссылка на кинопоиск')
+                img(src='img/icons/material/video-library.svg' alt='Ссылка на кинопоиск')
+              button.btn(title='Очистить' type='button')
+                img(src='img/icons/material/delete-outline.svg' alt='Очистить')
+
+          button#add-btn(type='button' title='Добавить')
+            img(src='img/icons/material/add-box.svg' alt='Добавить')
+
+      .col-1-3
+        #timer-area
+          time#timer(title='Таймер') 10:00:00
+          nav#timer-btns
+            button#start-btn.timer-btn(title='Старт' type='button')
+              img(src='img/icons/material/play-arrow.svg' alt='Старт')
+            button#stop-btn.timer-btn(type='button' title='Стоп')
+              img(src='img/icons/material/stop.svg' alt='Стоп')
+            button#minus-btn.timer-btn(type='button' title='-1')
+              img(src='img/icons/material/keyboard-arrow-down.svg' alt='-1')
+            button#plus-btn.timer-btn(type='button' title='+1')
+              img(src='img/icons/material/keyboard-arrow-up.svg' alt='+1')
+            button#plus-two-btn.timer-btn(type='button' title='+2')
+              img(src='img/icons/material/keyboard-capslock.svg' alt='+2')
+
+        #settings.closed
+          div
+            label(for='bg-url') URL фона:
+            br
+            br
+            input#bg-url(autocomplete='off' placeholder='URL фона' spellcheck='false' title='Ссылка на изображение' type='url')
+            button#save-bg-url-btn.settings-btn(type='button' title='Сохранить')
+              img(src='img/icons/material/save.svg' alt='Сохранить')
+            button#clear-bg-url-btn.settings-btn(type='button' title='Сбросить')
+              img(src='img/icons/material/clear.svg' alt='Сбросить')
+
+          div
+            label(for='da-url') DonationAlerts:
+            br
+            br
+            input#da-url(type='password' placeholder='Токен DA' autocomplete='off' title='Чтобы автоматически добавлять позиции из пожертвований, вставьте в это поле токен DonationAlerts из настроек')
+            button#save-da-url-btn.settings-btn(type='button' title='Сохранить')
+              img(src='img/icons/material/save.svg' alt='Сохранить')
+            button#clear-da-url-btn.settings-btn(type='button' title='Сбросить')
+              img(src='img/icons/material/clear.svg' alt='Сбросить')
+
+          div
+            a.special-url(title='Написать о проблеме' href='mailto:incoming+woodsauc-woodsauc-gitlab-io-12984291-issue-@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы')
+              img(src='img/icons/material/bug-report.svg' alt='Багрепорт')
+            a.special-url(href='https://gitlab.com/ceigh/WoodsAuc/releases' title='Новости' target='_blank')
+              img(src='img/icons/material/new-releases.svg' alt='Новости')
+            a.special-url(href='https://gitlab.com/ceigh/WoodsAuc/tree/master' title='Исходный код' target='_blank')
+              img(src='img/icons/material/code.svg' alt='Код')
+            a.special-url(href='https://discord.gg/pa4qbtk' title='Сообщество Discord' target='_blank')
+              img(src='img/icons/discord-logo.svg' alt='Discord')
+            a.special-url(href='https://www.donationalerts.com/r/hecig' title='Поддержать' target='_blank')
+              img(src='img/icons/material/attach-money.svg' alt='DonationAlerts')
+
+    #notifications-area
+
+    #reset-icon(title='Очистить все')
+      img(alt='Очистить все' src='img/icons/material/delete-sweep.svg')
+    #settings-icon(title='Настройки')
+      img(alt='Настройки' src='img/icons/material/settings.svg')
+
+    #modal.closed
+      p
+    #modal-overlay.closed
+
+    img#color-extractor(alt='Задний фон' crossorigin='anonymous' src='img/bg/tree.jpg')
