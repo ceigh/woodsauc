@@ -27,6 +27,8 @@
     box-shadow:              0 0 1vw rgba(0, 0, 0, 0.5);
 
     transition:              bottom cubic-bezier(.7, -.5, .3, 1.6) .3s;
+
+    visibility:              hidden;
 }
 
 #promotion span {

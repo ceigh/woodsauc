@@ -20,8 +20,14 @@ acceptBtn.onclick = () => {
 };
 cancelBtn.onclick = () => closePromotion();
 
-const closePromotion = () => promotionDiv.style.bottom = '-10vw';
-const showPromotion = () => promotionDiv.style.bottom = '0';
+const closePromotion = () => {
+  promotionDiv.style.bottom = '-10vw';
+  setTimeout(() => promotionDiv.style.visibility = 'hidden', 300);
+};
+const showPromotion = () => {
+  promotionDiv.style.visibility = 'visible';
+  promotionDiv.style.bottom = '0';
+};
 
 const promotion = {
   show: showPromotion,
