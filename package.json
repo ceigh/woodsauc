@@ -1,6 +1,6 @@
 {
   "name": "woodsauc",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Auction tool for streamers",
   "main": "webpack.config.babel.js",
   "scripts": {
@@ -47,10 +47,11 @@
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.3",
     "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.4",
+    "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "ripplet.js": "^0.1.14"
+    "ripplet.js": "^0.1.14",
+    "socket.io-client": "^2.2.0"
   }
 }
