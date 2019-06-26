@@ -32,6 +32,8 @@ Generate docs:
 
 And you always can use [online version](https://woodsauc.gitlab.io 'WoodsAuc').
 
+![Preview](demo.png 'WoodsAuc')
+
 # Info
 
 Developer: [@ceigh](https://gitlab.com/ceigh 'Artjom Löbsack').

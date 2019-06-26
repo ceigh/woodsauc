@@ -14,5 +14,16 @@
     "recurse": true,
     "destination": "./docs",
     "readme": "JSDOC.md"
+  },
+  "templates": {
+    "default": {
+      "includeDate": false,
+      "useLongnameInNav": true,
+      "staticFiles": {
+        "include": [
+          "./demo.png"
+        ]
+      }
+    }
   }
 }

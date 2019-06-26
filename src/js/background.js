@@ -169,6 +169,7 @@ function changeBG(url) {
 /**
  * Convert HEX color to RGB
  *
+ * @private
  * @param {string} hex - color in hex (#XXXXXX)
  * @return {Object} - (r: XXX, g: XXX, b: XXX) Object or css string
  */
@@ -187,6 +188,7 @@ function hexToRgb(hex) {
 /**
  * Convert HEX color to RGB
  *
+ * @private
  * @param {string|Object} color - HEX string or RGB Object
  * @param {Number} alpha - alpha parameter in % (0-100) or float 0-1
  * @return {Object} - (r: XXX, g: XXX, b: XXX, a: XXX) Object or css string

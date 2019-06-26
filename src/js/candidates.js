@@ -287,6 +287,7 @@ function createLink(nameEl) {
 /**
  * Trim name element value
  *
+ * @private
  * @param {Object} nameEl - name input
  */
 const trimValue = nameEl => nameEl.value = nameEl.value.trim();
@@ -295,6 +296,7 @@ const trimValue = nameEl => nameEl.value = nameEl.value.trim();
 /**
  * Cut more than 2 spaces to one
  *
+ * @private
  * @param {Object} nameEl - name input
  */
 function oneSpacedValue(nameEl) {

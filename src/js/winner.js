@@ -84,6 +84,7 @@ const compileWinner = winner => {
 /**
   * Append last word to result phrase
   *
+  * @private
   * @param {(undefined|?string)} winner - winner name,
   *                                       result from decorateWinner
   * @see decorateWinner
@@ -98,6 +99,7 @@ const addEnding = winner => {
 /**
   * Add dots if larger than 20 chars and quotes lazy
   *
+  * @private
   * @param {(undefined|?string)} winner - winner name
   * @see returnWinner
   * @return {(undefined|?string)} - if !cost - undefined,
@@ -115,6 +117,7 @@ const decorateWinner = winner => {
 /**
   * Convert winner to human readable string
   *
+  * @private
   * @param {(undefined|?string)} winner - winner name
   * @see returnWinner
   * @return {string} - human readable result

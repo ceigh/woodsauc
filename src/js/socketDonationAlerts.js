@@ -16,6 +16,7 @@ catch (e) { notifications.sendInside('Нет подключения, к Donation
 /**
  * Connect to DonationAlerts socket and create listeners
  *
+ * @private
  */
 function connect() {
   const token = cookie.get('token');
