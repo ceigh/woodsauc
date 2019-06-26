@@ -26,7 +26,7 @@ You can start browser version by
 
 And you always can use [online version](https://woodsauc.gitlab.io 'WoodsAuc').
 
-![Preview](demo.png 'WoodsAuc')
+![Preview](https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/raw/master/demo.png 'WoodsAuc')
 
 # Documentation
 
