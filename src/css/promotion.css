@@ -1,0 +1,42 @@
+#promotion {
+    width:                   65vw;
+    height:                  3vw;
+
+    display:                 flex;
+    align-items:             center;
+    justify-content:         center;
+
+    position:                absolute;
+    left:                    0;
+    right:                   0;
+    bottom:                  -10vw;
+
+    margin-left:             auto;
+    margin-right:            auto;
+    padding-left:            2vw;
+    padding-right:           2vw;
+
+    font-size:               1vw;
+    text-align:              center;
+
+    border-top-left-radius:  .5vw;
+    border-top-right-radius: .5vw;
+
+    background-color:        rgba(0, 0, 0, .7);
+    color:                   #fff;
+    box-shadow:              0 0 1vw rgba(0, 0, 0, 0.5);
+
+    transition:              bottom cubic-bezier(.7, -.5, .3, 1.6) .3s;
+}
+
+#promotion span {
+    opacity:       1;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+    white-space:   nowrap;
+}
+
+#promotion button {
+    margin-left: 2vw;
+    font-size:   1vw;
+}

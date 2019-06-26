@@ -1,9 +1,10 @@
 'use strict';
 
-import ripplet from 'ripplet.js';
-import cookie from './cookie';
+import ripplet       from 'ripplet.js';
+import cookie        from './cookie';
 import notifications from './notifications';
-import winner from './winner';
+import winner        from './winner';
+import promotion     from './promotion';
 
 
 class Timer {
@@ -27,14 +28,26 @@ class Timer {
    *
    */
   start() {
+    const startedTimes = Number(cookie.get('startedTimes'));
+    const isSupport = cookie.get('isSupport');
+
     if (this.started) return;
-    if (!this.m) winner.show(); else {
+
+    if (!this.m) {
+      winner.show();
+    } else {
       this.timeStart = new Date();
       this.m--;
       this.started = true;
       window.started = true;
       // () => ...() to resolve scope problems
       requestAnimationFrame(() => this.updateTimer());
+
+      cookie.set('startedTimes', startedTimes + 1);
+      if (0 < startedTimes && !( startedTimes % 15 )) cookie.del('isSupport');
+      if (0 < startedTimes && !isSupport && !( startedTimes % 5 )) {
+        setTimeout(promotion.show, 2000);
+      }
     }
   }
 
@@ -136,10 +149,10 @@ class Timer {
     this.s = rs;
     this.ms = rms;
 
-    if ( !rm && rs < 31 && !this.elem.classList.contains('danger') ) {
+    if (!rm && rs < 31 && !this.elem.classList.contains('danger')) {
       this.elem.classList.add('danger');
-    } else if ( this.elem.classList.contains('danger') && (rm || rs > 31) ) {
-      this.elem.classList.remove('danger')
+    } else if (this.elem.classList.contains('danger') && ( rm || rs > 31 )) {
+      this.elem.classList.remove('danger');
     }
 
     if (winnerResult) {
@@ -148,7 +161,7 @@ class Timer {
     } else if (title !== 'Аукцион') document.title = 'Аукцион';
 
     // minimal rms can't be 0, and it's totally random
-    if ( (!rm && !rs && rms < 300) || this.time < delta ) {
+    if (( !rm && !rs && rms < 300 ) || this.time < delta) {
       this.stop();
       winner.show(winner.compile(winnerResult));
     } else {
@@ -178,7 +191,7 @@ const minusBtn = timerBtns[2];
 const plusBtn = timerBtns[3];
 const plusTwoBtn = timerBtns[4];
 
-timerBtns.forEach( btn => btn.addEventListener('click', ripplet) );
+timerBtns.forEach(btn => btn.addEventListener('click', ripplet));
 
 startBtn.onclick = () => {
   const mins = timerElement.innerHTML.split(':')[0];
@@ -189,7 +202,7 @@ stopBtn.onclick = () => {
   if (timer.started) {
     timer.timeStart = new Date(new Date - timer.time + 300);
     notifications.clear();
-    timer.stop()
+    timer.stop();
   } else {
     timer.reset();
   }
