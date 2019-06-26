@@ -32,8 +32,8 @@ pages:
   stage: deploy
   script:
     - mkdir public
-    - mv -v dist/* public/
-    - mv -v docs/* public/
+    - mv dist/* public/
+    - mv docs/ public/
   artifacts:
     paths:
       - public
