@@ -64,7 +64,7 @@ addBtn.onclick = function() {
   ripplet(arguments[0]);
 };
 resetButton.onclick = () => {
-  while (area.children.length > 3) {
+  while (3 < area.children.length) {
     area.children[area.children.length - 2].remove();
   }
   clearFirstRow();
@@ -73,7 +73,7 @@ resetButton.onclick = () => {
   window.isBuy = false;
 };
 
-buyInput.value = !buyCookie ? '' : buyCookie;
+buyInput.value = buyCookie ? buyCookie : '';
 changeTitle(buyInput);
 
 buyClear.onclick = () => {
@@ -120,7 +120,7 @@ function sortCandidates() {
   names.forEach((name, i) => {
     const totalE = total[i];
     let costVal = totalE.costVal;
-    costVal = !costVal ? '' : Number(costVal);
+    costVal = costVal ? Number(costVal) : '';
     name.value = totalE.nameVal;
     costs[i].value = costVal;
     name.setAttribute('title', totalE.nameTitle);
@@ -159,7 +159,7 @@ function removeRow(delBtn) {
   delBtn.parentElement.parentElement.remove();
 
   // Get back to default size after delete last non-empty row
-  if (names.length === 1 && !names[0].value) {
+  if (1 === names.length && !names[0].value) {
     maxSize = defaultSize;
     names[0].removeAttribute('style');
     addBtn.removeAttribute('style');
@@ -174,7 +174,7 @@ function removeRow(delBtn) {
  * @param {Object} costEl - cost input
  */
 function changeTitle(costEl) {
-  const cost = !costEl.value ? '' : `: ${costEl.value} ₽`;
+  const cost = costEl.value ? `: ${costEl.value} ₽` : '';
   costEl.setAttribute('title', `Сумма${cost}`);
 }
 
@@ -192,7 +192,7 @@ function checksum(costEl) {
     if (isNaN(calc) || !isFinite(calc)) {
       costEl.value = '';
     } else {
-      calc = calc <= 0 ? '' : Number(Number(calc).toFixed(2));
+      calc = 0 >= calc ? '' : Number(Number(calc).toFixed(2));
       costEl.value = calc;
     }
   } catch {
@@ -243,15 +243,16 @@ function checkOnBuy(costEl) {
  */
 function changeSize(nameEl) {
   const names = Array.from(document.getElementsByClassName('name'));
+  const factor = 1.1;
   let delta = nameEl.value.length - 10;
   let width;
   let margin;
 
-  if (delta > 0) {
-    width = Number(( defaultSize + delta * 2.1 ).toFixed(2));
-    margin = Number(( defaultMargin + delta * 2.1 ).toFixed(2));
+  if (0 < delta) {
+    width = Number(( defaultSize + delta * factor ).toFixed(2));
+    margin = Number(( defaultMargin + delta * factor ).toFixed(2));
     margin = margin > highestMargin ? highestMargin : margin;
-  } else if (names.length === 1) {
+  } else if (1 === names.length) {
     maxSize = defaultSize;
     maxMargin = defaultMargin;
 
