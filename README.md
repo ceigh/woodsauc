@@ -1,56 +1,43 @@
-# Woodsauc
+# WoodsAuc
 
-[README](README-ENG.md) for English speakers. 
+[README](RU.README.md) для русскоговорящих. 
 
-Простой инструмент для аукционов, в основном для стримеров.
+Simple auction tool, primarily for streamers.
 
-Этот репозиторий содержит весь исходный код: 
+This repository contains all source files.
 
-фронтенд `.html` + `.css`, `.js` и бэкенд на Django.
+# Requirements
 
-# Необходимые программы
+To run locally you need:
 
-Чтобы запустить локально:
+- [Node.js](https://nodejs.org 'NodeJS') + npm (installs with Node.js)
 
-- Python **3+** и Django
-- node + npm
+# Setup
 
-# Установка
-
-Сначала установите зависимости:
+First you need to install dependencies:
 
 `npm i`
 
-Затем запустите скрипт:
+# Usage
 
-`npm run 'to production'`
+You can start browser version by 
 
-# Использование
+`npm run start`
 
-Вы можете запустить браузерную версию через:
+And you always can use [online version](https://woodsauc.gitlab.io 'WoodsAuc').
 
-`npm start`
+![Preview](demo.png 'WoodsAuc')
 
-(если вы пользователь Mac или Linux), но если у вас другая ОС, вы можете вручную развернуть сервер Django.
+# Documentation
 
-Также вы всегда можете использовать [онлайн версию](https://woodsauc.pythonanywhere.com 'WoodsAuc').
+You can use documentation from `docs/index.html`
 
-![Preview](branding/demo.png 'WoodsAuc')
+# Info
 
-Если вы хотите что то доработать или изменить, запустите:
+Developer: [@ceigh](https://gitlab.com/ceigh 'Artjom Löbsack').
 
-`npm run 'start development'`
+If you want to help the project, please [donate](https://www.donationalerts.com/r/hecig 'Hecig DonationAlerts').
 
-# Документация
+Or if you're developer, please fork, send merge request or mark an issue.
 
-Вы можете воспользоваться документацией в `docs/index.html`
-
-# Информация
-
-Разработчик: [@ceigh](https://gitlab.com/ceigh 'Artjom Löbsack').
-
-Если вы хотите помочь проекту, пожалуйста [пожертвуйте](https://www.donationalerts.com/r/hecig 'Hecig DonationAlerts').
-
-Или если вы разработчик - форкайте, мерджите и оповещайте о багах.
-
-По всем вопросам обращайтесь в [Discord](https://discord.gg/pa4qbtk 'WoodsAuc')
+Checkout my [Discord](https://discord.gg/pa4qbtk 'WoodsAuc')!

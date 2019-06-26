@@ -86,5 +86,11 @@ export default {
       test: /\.pug$/,
       use: ['pug-loader']
     }]
+  },
+
+  devServer: {
+    contentBase: `${__dirname}/dist`,
+    compress: true,
+    port: 9000
   }
 };

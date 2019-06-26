@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack",
     "build": "export WEBPACK_MODE=production && webpack && unset WEBPACK_MODE",
-    "docs": "jsdoc --readme JSDOC.md -c jsdoc.config.json"
+    "start": "webpack-dev-server",
+    "docs": "jsdoc --readme README.md -c jsdoc.config.json"
   },
   "repository": {
     "type": "git",
@@ -45,7 +46,8 @@
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.3",
     "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.4"
+    "webpack-cli": "^3.3.4",
+    "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
     "ripplet.js": "^0.1.14"
