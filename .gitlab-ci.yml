@@ -10,6 +10,7 @@ cache:
 docs:
   stage: build
   script:
+    # Run jsdoc with config
     - npm run docs
   artifacts:
     paths:
@@ -26,14 +27,19 @@ webpack:
 test:
   stage: test
   script:
+    # TODO: tests
     - echo 'Tests are passed!'
 
 pages:
   stage: deploy
   script:
     - mkdir public
-    - mv dist/* public/
-    - mv docs/ public/
+    # Dashboard
+    - mv dist/* public
+    # Documentation folder
+    - mv docs public
+    # Rename it for /dev/ path
+    - mv public/docs public/dev
   artifacts:
     paths:
       - public

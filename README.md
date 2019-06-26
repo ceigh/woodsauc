@@ -30,7 +30,7 @@ And you always can use [online version](https://woodsauc.gitlab.io 'WoodsAuc').
 
 # Documentation
 
-You can use documentation from `docs/index.html`
+You can use [documentation](https://woodsauc.gitlab.io/dev/).
 
 # Info
 
