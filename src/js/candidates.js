@@ -1,9 +1,10 @@
 'use strict';
 
-import ripplet from 'ripplet.js';
-import cookie from './cookie';
-import notifications from './notifications';
-import winner from  './winner';
+import ripplet             from 'ripplet.js';
+import cookie              from './cookie';
+import notifications       from './notifications';
+import winner              from './winner';
+import {selectTxt}         from './settings';
 import {oneSpace, toTitle} from './stringUtilities';
 
 export {sortCandidates, changeTitle, checkOnBuy, createBlock};
@@ -80,11 +81,17 @@ buyClear.onclick = () => {
   buyInput.setAttribute('title', 'Сумма выкупа');
   cookie.del('buyCost');
 };
-buyInput.onchange = function () {
+buyInput.onchange = function() {
   checksum(this);
   changeTitle(this);
-  if (this.value) cookie.set('buyCost', this.value);
-  else cookie.del('buyCost');
+  if (this.value) {
+    cookie.set('buyCost', this.value);
+  } else {
+    cookie.del('buyCost');
+  }
+};
+buyInput.onclick = function() {
+  selectTxt(this);
 };
 
 
@@ -105,7 +112,7 @@ function sortCandidates() {
     const costTitle = cost.getAttribute('title');
     const link = name.parentElement.parentElement.querySelector('.kp-link').href;
 
-    total.push( {nameVal, costVal, nameTitle, costTitle, link} );
+    total.push({nameVal, costVal, nameTitle, costTitle, link});
   });
 
   total = total.sort((e1, e2) => e1.costVal - e2.costVal).reverse();
@@ -182,10 +189,10 @@ function checksum(costEl) {
 
   try {
     calc = eval(calc);
-    if ( isNaN(calc) || !isFinite(calc) ) {
+    if (isNaN(calc) || !isFinite(calc)) {
       costEl.value = '';
     } else {
-      calc = calc <= 0 ? '' : Number( Number(calc).toFixed(2) );
+      calc = calc <= 0 ? '' : Number(Number(calc).toFixed(2));
       costEl.value = calc;
     }
   } catch {
@@ -203,7 +210,7 @@ function checksum(costEl) {
 function checkOnBuy(costEl) {
   const need = Number(buyInput.value);
   const curr = Number(costEl.value);
-  const name = winner.decorate( toTitle(costEl.previousElementSibling.value) );
+  const name = winner.decorate(toTitle(costEl.previousElementSibling.value));
 
   if (!need || !name || curr < need) return;
 
@@ -235,14 +242,14 @@ function checkOnBuy(costEl) {
  * @param {Object} nameEl - name input
  */
 function changeSize(nameEl) {
-  const names = Array.from( document.getElementsByClassName('name') );
+  const names = Array.from(document.getElementsByClassName('name'));
   let delta = nameEl.value.length - 10;
   let width;
   let margin;
 
   if (delta > 0) {
-    width = Number( (defaultSize + delta * 2.1).toFixed(2) );
-    margin = Number( (defaultMargin + delta * 2.1).toFixed(2) );
+    width = Number(( defaultSize + delta * 2.1 ).toFixed(2));
+    margin = Number(( defaultMargin + delta * 2.1 ).toFixed(2));
     margin = margin > highestMargin ? highestMargin : margin;
   } else if (names.length === 1) {
     maxSize = defaultSize;
@@ -275,7 +282,7 @@ function createLink(nameEl) {
   if (name) {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
       encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
-    nameEl.setAttribute( 'title', toTitle(name) );
+    nameEl.setAttribute('title', toTitle(name));
   } else {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
       'https://www.kinopoisk.ru';
@@ -363,7 +370,7 @@ function createBlock(nameVal = '', costVal = '') {
   section.classList.add('visible');
 
   if (fromDA) {
-    addHint( 'prefetch prerender', link.getAttribute('href') );
+    addHint('prefetch prerender', link.getAttribute('href'));
     changeSize(name);
     sortCandidates();
   } else {
@@ -379,10 +386,10 @@ function createBlock(nameVal = '', costVal = '') {
  * @param {string} url - address to load
  */
 const addHint = (type, url) => {
-    const el = document.createElement('link');
-    if (!type || !url) return;
-    el.setAttribute('rel', type);
-    el.setAttribute('href', url);
-    document.head.appendChild(el);
+  const el = document.createElement('link');
+  if (!type || !url) return;
+  el.setAttribute('rel', type);
+  el.setAttribute('href', url);
+  document.head.appendChild(el);
 };
 
