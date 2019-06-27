@@ -394,4 +394,3 @@ const addHint = (type, url) => {
   el.setAttribute('href', url);
   document.head.appendChild(el);
 };
-
