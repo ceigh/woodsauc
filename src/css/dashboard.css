@@ -1,11 +1,11 @@
 * {
     font-family: 'Montserrat Alternates', 'Montserrat SemiBold',
-    'Roboto', 'Lucida Grande', Verdana, Arial, sans-serif;
+                 'Roboto', 'Lucida Grande', Verdana, Arial, sans-serif;
 }
 
 ::-webkit-scrollbar {
-    width: .5vw;
     height: .5vw;
+    width:  .5vw;
 }
 
 ::-webkit-scrollbar-track {
@@ -13,31 +13,31 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, .1);
+    background:    rgba(255, 255, 255, .1);
     border-radius: .5vw;
 }
 
 body {
-    color: #fff;
-    background: #000;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background:            #000;
     background-attachment: fixed;
-    background-position: center;
-    overflow: hidden;
+    background-position:   center;
+    background-repeat:     no-repeat;
+    background-size:       cover;
+    color:                 #fff;
+    margin:                0;
 
-    margin: 0;
-    transition: background-image .2s;
+    overflow:              hidden;
+    transition:            background-image .2s;
 }
 
 #blind {
     background-color: rgba(0, 0, 0, .6);
-    height: 100%;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
+    height:           100%;
+    left:             0;
+    position:         fixed;
+    top:              0;
+    width:            100%;
+    z-index:          -1;
 }
 
 #timer-area {
@@ -45,7 +45,7 @@ body {
 }
 
 #timer-area:hover #timer-btns {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
@@ -54,14 +54,14 @@ body {
 }
 
 #timer {
+    color:       #fff;
     font-family: 'Inconsolata', 'Bitstream Vera Sans Mono',
-    Monaco, 'Courier New', Courier, monospace;
-    color: #fff;
-    font-size: 6vw;
+                 Monaco, 'Courier New', Courier, monospace;
+    font-size:   6vw;
 }
 
 #timer-btns {
-    opacity: 0;
+    opacity:    0;
     transition: .3s;
 }
 
@@ -86,24 +86,24 @@ body {
 }
 
 .timer-btn:hover {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
 #add-btn {
-    max-width: 59vw;
-    width: 26vw;
-    height: 4vw;
-
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-
-    opacity: .3;
-    transition: .3s;
-
+    background:    none;
+    border:        none;
     border-radius: .5vw;
+
+    color:         #fff;
+    cursor:        pointer;
+    height:        4vw;
+    max-width:     59vw;
+
+    opacity:       .3;
+    transition:    .3s;
+
+    width:         26vw;
 }
 
 #add-btn img {
@@ -111,33 +111,33 @@ body {
 }
 
 #add-btn:hover {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
 .btn {
-    background: none;
-    border: none;
-
-    color: #fff;
-    cursor: pointer;
-
-    transition: .3s;
-
-    opacity: .3;
+    background:    none;
+    border:        none;
 
     border-radius: 100%;
+    color:         #fff;
+
+    cursor:        pointer;
+
+    opacity:       .3;
+
+    transition:    .3s;
 }
 
 .btn:hover {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
 .kp-link {
-    transition: .3s;
-
     border-radius: 100%;
+
+    transition:    .3s;
 }
 
 .kp-link img {
@@ -145,48 +145,48 @@ body {
 }
 
 .flex {
-    max-width: inherit;
-    height: 86vh;
-
-    display: flex;
+    display:        flex;
     flex-direction: column;
-    flex-wrap: wrap;
+
+    flex-wrap:      wrap;
+    height:         86vh;
+    max-width:      inherit;
 }
 
 
 .block {
-    height: 4vw;
-    font-size: 1.7vw;
+    font-size:     1.7vw;
+    height:        4vw;
     margin-bottom: 1vw;
-    opacity: 0;
-    transition: .1s;
+    opacity:       0;
+    transition:    .1s;
 }
 
 .block.visible {
-    opacity: 1;
+    opacity:    1;
     transition: .1s;
 }
 
 .block:hover span {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
 .block-buy {
-    height: 4vw;
-    font-size: 1.7vw;
+    font-size:     1.7vw;
+    height:        4vw;
     margin-bottom: 1vw;
 }
 
 .block-buy span {
-    opacity: 1;
     margin-right: 2.543vw;
+    opacity:      1;
 }
 
 .block-buy .btn {
-    opacity: 0;
-    transition: .3s;
     margin-left: .7vw;
+    opacity:     0;
+    transition:  .3s;
 }
 
 .block-buy:hover .btn {
@@ -198,9 +198,9 @@ body {
 }
 
 span {
-    opacity: 0;
-    transition: .3s;
     margin-right: 1.7vw;
+    opacity:      0;
+    transition:   .3s;
 }
 
 .block label {
@@ -212,12 +212,12 @@ span {
 }
 
 .block a {
-    opacity: .3;
+    opacity:    .3;
     transition: .3s;
 }
 
 .block a:hover {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
@@ -226,10 +226,10 @@ span {
 }
 
 .name {
-    width: 16.2vw;
-    max-width: 49vw;
-    margin-right: .26vw;
+    margin-right:   .26vw;
+    max-width:      49vw;
     text-transform: capitalize;
+    width:          16.2vw;
 }
 
 .cost, .cost-buy {
@@ -237,18 +237,18 @@ span {
 }
 
 .name, .cost, .cost-buy {
-    height: 100%;
+    background:    rgba(255, 255, 255, .3);
 
-    font-size: inherit;
-    background: rgba(255, 255, 255, .3);
-    padding-left: 1.5vw;
-    border: none;
-    color: orange;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-
+    border:        none;
     border-radius: .5vw;
+    color:         orange;
+    font-size:     inherit;
+    height:        100%;
+
+    overflow:      hidden;
+    padding-left:  1.5vw;
+
+    text-overflow: ellipsis;
 }
 
 input {
@@ -256,12 +256,12 @@ input {
 }
 
 input:focus {
-    --accent: #f39727;
-    --shadow: rgba(243, 151, 39, .7);
+    --accent:     #f39727;
+    --shadow:     rgba(243, 151, 39, .7);
 
     border-color: var(--accent);
-    outline: 0;
-    box-shadow: 0 0 0 .3vw var(--shadow);
+    box-shadow:   0 0 0 .3vw var(--shadow);
+    outline:      0;
 }
 
 #add-btn:focus,
@@ -271,7 +271,7 @@ input:focus {
 }
 
 [class*='col-'] {
-    float: left;
+    float:         left;
     padding-right: 3vw;
 }
 
@@ -280,27 +280,27 @@ input:focus {
 }
 
 .col-2-3 {
-    width: 70%;
-    overflow: auto;
     margin-top: 1.3vw;
+    overflow:   auto;
+    width:      70%;
 }
 
 .col-1-3 {
-    width: 30%;
+    height:     calc(90vh - 2vw);
+    position:   relative;
     text-align: center;
-    position: relative;
-    height: calc(90vh - 2vw);
+    width:      30%;
 }
 
 .grid {
     margin-left: 1.5vw;
-    margin-top: 1.5vw;
+    margin-top:  1.5vw;
 }
 
 .grid:after {
+    clear:   both;
     content: "";
     display: table;
-    clear: both;
 }
 
 *, *:after, *:before {
@@ -309,108 +309,108 @@ input:focus {
 
 
 #candidates-area {
-    padding-top: .5vw;
     padding-left: .5vw;
+    padding-top:  .5vw;
 }
 
 #modal {
-    display: flex;
+    align-items:     center;
+    display:         flex;
+    font-size:       4vw;
     justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left:            50%;
+    max-height:      30vw;
+    max-width:       80vw;
 
-    max-width: 80vw;
-    max-height: 30vw;
+    opacity:         1;
+    position:        fixed;
 
-    z-index: 2;
+    text-align:      center;
 
-    font-size: 4vw;
-    text-align: center;
+    top:             50%;
+    transform:       translate(-50%, -50%);
 
-    opacity: 1;
-    visibility: visible;
-    transition: .2s;
+    transition:      .2s;
+    visibility:      visible;
+    z-index:         2;
 }
 
 #modal p {
-    display: -webkit-box;
     -webkit-box-orient: vertical;
+    display:            -webkit-box;
+    display:            -moz-box;
     -webkit-line-clamp: 3;
-    display: -moz-box;
 
-    max-height: 30vw;
-    line-height: 5vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height:        5vw;
+    max-height:         30vw;
+    overflow:           hidden;
+    text-overflow:      ellipsis;
 }
 
 #modal.closed {
-    visibility: hidden;
-    opacity: 0;
+    opacity:    0;
     transition: .2s;
+    visibility: hidden;
 }
 
 #modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background: rgba(0, 0, 0, .7);
-    z-index: 1;
+    cursor:     pointer;
+    height:     100%;
+    left:       0;
+    opacity:    1;
+    position:   fixed;
+    top:        0;
 
-    opacity: 1;
     transition: .2s;
-    cursor: pointer;
+    width:      100%;
+    z-index:    1;
 
 }
 
 #modal-overlay.closed {
-    opacity: 0;
+    opacity:    0;
     transition: .2s;
-    z-index: -2;
+    z-index:    -2;
 }
 
 #settings {
-    visibility: visible;
-    width: 100%;
-    opacity: 1;
-    transition: .3s;
-    padding: 3% 5% 0;
-    background: rgba(0, 0, 0, .5);
+    background:    rgba(0, 0, 0, .5);
     border-radius: .5vw;
-    font-size: 1.1vw;
-    bottom: 0;
-    position: absolute;
+    bottom:        0;
+    font-size:     1.1vw;
+    opacity:       1;
+    padding:       3% 5% 0;
+    position:      absolute;
+    transition:    .3s;
+    visibility:    visible;
+    width:         100%;
 }
 
 #settings div {
-    margin-top: 1.5vw;
     margin-bottom: 1.5vw;
+    margin-top:    1.5vw;
 }
 
 #settings.closed {
-    visibility: collapse;
-    opacity: 0;
+    opacity:    0;
     transition: .3s;
+    visibility: collapse;
 }
 
 .settings-btn, .notification-btn {
-    background: none;
-    border: none;
-
-    color: #fff;
-    cursor: pointer;
-
-    transition: .3s;
-
-    opacity: .3;
-    padding: .3vw;
+    background:    none;
+    border:        none;
 
     border-radius: 100%;
+    color:         #fff;
+
+    cursor:        pointer;
+
+    opacity:       .3;
+    padding:       .3vw;
+
+    transition:    .3s;
 }
 
 .settings-btn img, .notification-btn img {
@@ -418,25 +418,25 @@ input:focus {
 }
 
 .settings-btn:hover, .notification-btn:hover {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
 #bg-url, #da-url {
-    width: 17vw;
-    height: 3vw;
-
-    margin-right: 1.3vw;
-    font-size: 1.3vw;
-    background: rgba(255, 255, 255, .3);
-    padding-left: 1.5vw;
-    border: none;
-    color: orange;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
+    background:    rgba(255, 255, 255, .3);
+    border:        none;
 
     border-radius: .5vw;
+    color:         orange;
+    font-size:     1.3vw;
+    height:        3vw;
+    margin-right:  1.3vw;
+    overflow:      hidden;
+
+    padding-left:  1.5vw;
+    text-overflow: ellipsis;
+
+    width:         17vw;
 }
 
 #settings a:visited, #settings a {
@@ -444,39 +444,39 @@ input:focus {
 }
 
 #settings-icon {
-    position: fixed;
-    bottom: 2vw;
-    right: 2vw;
-    text-align: right;
-    width: 2vw;
-
-    opacity: .3;
-    transition: .3s;
-    cursor: pointer;
-
     border-radius: 100%;
+    bottom:        2vw;
+    cursor:        pointer;
+    opacity:       .3;
+    position:      fixed;
+
+    right:         2vw;
+    text-align:    right;
+    transition:    .3s;
+
+    width:         2vw;
 }
 
 #settings-icon:hover {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
 #reset-icon {
-    position: fixed;
-    bottom: 2vw;
-    right: 5vw;
-    text-align: right;
-    width: 2vw;
-    cursor: pointer;
-    opacity: .3;
-    transition: .3s;
-
     border-radius: 100%;
+    bottom:        2vw;
+    cursor:        pointer;
+    opacity:       .3;
+    position:      fixed;
+    right:         5vw;
+    text-align:    right;
+    transition:    .3s;
+
+    width:         2vw;
 }
 
 #reset-icon:hover {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
@@ -501,22 +501,22 @@ input:focus {
 }
 
 .special-url {
-    text-decoration: none;
-    font-size: 1.7vw;
-    margin-left: .5vw;
+    border-radius:   100%;
+    font-size:       1.7vw;
+    margin-left:     .5vw;
 
-    border-radius: 100%;
+    text-decoration: none;
 }
 
 .special-url img {
-    width: 2vw;
-    height: 2vw;
-    opacity: .3;
+    height:     2vw;
+    opacity:    .3;
     transition: .3s;
+    width:      2vw;
 }
 
 .special-url img:hover {
-    opacity: 1;
+    opacity:    1;
     transition: .3s;
 }
 
@@ -526,44 +526,44 @@ input:focus {
 
 #notifications-area {
     font-size: 1vw;
-    position: fixed;
-    right: 4.1vw;
-    top: 12vw;
-    overflow: auto;
-    width: 22%;
-    height: 11vw;
+    height:    11vw;
+    overflow:  auto;
+    position:  fixed;
+    right:     4.1vw;
+    top:       12vw;
+    width:     22%;
 }
 
 .notification {
-    opacity: 1;
-    transition: .3s;
-    display: flex;
-    align-items: center;
-    margin-bottom: 1.5vw;
-    background: rgba(0, 0, 0, .5);
+    align-items:   center;
+    background:    rgba(0, 0, 0, .5);
     border-radius: .5vw;
-    height: 4vw;
-    padding: .5vw .5vw .5vw 1.5vw;
+    display:       flex;
+    height:        4vw;
+    margin-bottom: 1.5vw;
+    opacity:       1;
+    padding:       .5vw .5vw .5vw 1.5vw;
+    transition:    .3s;
 }
 
 .notification.hidden {
-    opacity: 0;
+    opacity:    0;
     transition: .3s;
 }
 
 .notification p {
-    display: -webkit-box;
     -webkit-box-orient: vertical;
+    display:            -webkit-box;
+    display:            -moz-box;
     -webkit-line-clamp: 3;
-    display: -moz-box;
 
-    width: 71%;
+    line-height:        1.1vw;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin:             0;
+    overflow:           hidden;
 
-    line-height: 1.1vw;
-    margin: 0;
+    text-overflow:      ellipsis;
+    width:              71%;
 }
 
 ::selection {
