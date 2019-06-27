@@ -94,8 +94,6 @@ class Timer {
     this.started = false;
     window.started = false;
 
-    winner.show();
-
     startBtn.style.display = 'initial';
     pauseBtn.style.display = 'none';
   }
@@ -192,7 +190,6 @@ class Timer {
     // minimal rms can't be 0, and it's totally random
     if (( !rm && !rs && 300 > rms ) || this.time < delta) {
       this.stop();
-      winner.show(winner.compile(winnerResult));
     } else {
       rm = 10 > rm ? `0${rm}` : rm;
       rs = 10 > rs ? `0${rs}` : rs;
@@ -239,6 +236,7 @@ stopBtn.onclick = () => {
   } else {
     timer.reset();
   }
+  winner.show();
 };
 minusBtn.onclick = () => timer.minusOne();
 plusBtn.onclick = () => timer.plusOne();
