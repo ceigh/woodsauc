@@ -20,6 +20,7 @@ class Timer {
     this.ms = +arr[2];
     this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
     this.started = false;
+    this.paused = false;
     this.timeStart = new Date();
   }
 
@@ -31,22 +32,31 @@ class Timer {
     const startedTimes = Number(cookie.get('startedTimes'));
     const isSupport = cookie.get('isSupport');
 
-    if (this.started) return;
+    if (!this.paused && this.started) return;
 
-    if (!this.m) {
+    if (!this.paused && !this.m) {
       winner.show();
     } else {
-      this.timeStart = new Date();
-      this.m--;
-      this.started = true;
-      window.started = true;
-      // () => ...() to resolve scope problems
-      requestAnimationFrame(() => this.updateTimer());
+      startBtn.style.display = 'none';
+      pauseBtn.style.display = 'initial';
 
-      cookie.set('startedTimes', startedTimes + 1);
-      if (0 < startedTimes && !( startedTimes % 15 )) cookie.del('isSupport');
-      if (0 < startedTimes && !isSupport && !( startedTimes % 5 )) {
-        setTimeout(promotion.show, 2000);
+      if (!this.paused) {
+        this.timeStart = new Date();
+        this.m--;
+        this.started = true;
+        window.started = true;
+        // () => ...() to resolve scope problems
+        requestAnimationFrame(() => this.updateTimer());
+
+        cookie.set('startedTimes', startedTimes + 1);
+        if (0 < startedTimes && !( startedTimes % 15 )) cookie.del('isSupport');
+        if (0 < startedTimes && !isSupport && !( startedTimes % 5 )) {
+          setTimeout(promotion.show, 2000);
+        }
+      } else {
+        this.paused = false;
+        this.timeStart = new Date();
+        requestAnimationFrame(() => this.updateTimer());
       }
     }
   }
@@ -57,7 +67,10 @@ class Timer {
    */
   pause() {
     if (!this.started) return;
-    console.log('pause');
+    this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
+    this.paused = true;
+    startBtn.style.display = 'initial';
+    pauseBtn.style.display = 'none';
   }
 
   /**
@@ -76,9 +89,15 @@ class Timer {
    */
   stop() {
     this.reset();
+
+    this.paused = false;
     this.started = false;
     window.started = false;
-    cancelAnimationFrame(this.updateTimer);
+
+    winner.show();
+
+    startBtn.style.display = 'initial';
+    pauseBtn.style.display = 'none';
   }
 
   /**
@@ -143,7 +162,6 @@ class Timer {
    *
    */
   updateTimer() {
-    // console.log(`${this.m}:${this.s}`);
     const current = new Date();
     const delta = new Date(current - this.timeStart);
     const result = new Date(this.time - delta);
@@ -153,6 +171,8 @@ class Timer {
     let rms = result.getMilliseconds();  // result milliseconds
     let winnerResult = winner.return();
     let compiled;
+
+    if (this.paused) return;
 
     this.m = rm;
     this.s = rs;
@@ -202,6 +222,8 @@ const plusBtn = timerBtns[4];
 const plusTwoBtn = timerBtns[5];
 
 timerBtns.forEach(btn => btn.addEventListener('click', ripplet));
+
+pauseBtn.style.display = 'none';
 
 startBtn.onclick = () => {
   const mins = timerElement.innerHTML.split(':')[0];
