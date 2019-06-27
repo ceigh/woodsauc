@@ -3,9 +3,9 @@
 import ripplet             from 'ripplet.js';
 import cookie              from './cookie';
 import notifications       from './notifications';
-import winner              from './winner';
 import {selectTxt}         from './settings';
 import {oneSpace, toTitle} from './stringUtilities';
+import winner              from './winner';
 
 export {sortCandidates, changeTitle, checkOnBuy, createBlock};
 
@@ -355,6 +355,7 @@ function createBlock(nameVal = '', costVal = '') {
 
   delIcon.setAttribute('src', 'img/icons/material/delete.svg');
   delIcon.setAttribute('alt', 'Удалить');
+  delIcon.setAttribute('title', 'Удалить');
   link.setAttribute('title', 'Кинопоиск');
 
   if (fromDA) {
