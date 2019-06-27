@@ -52,6 +52,15 @@ class Timer {
   }
 
   /**
+   * Freeze timer until play (or stop) btn pressed
+   *
+   */
+  pause() {
+    if (!this.started) return;
+    console.log('pause');
+  }
+
+  /**
    * It's work when timer didnt started, reset timer to 00:00:00
    *
    */
@@ -186,10 +195,11 @@ const timer = new Timer(timerElement);
 
 const timerBtns = Array.from(document.getElementById('timer-btns').children);
 const startBtn = timerBtns[0];
-const stopBtn = timerBtns[1];
-const minusBtn = timerBtns[2];
-const plusBtn = timerBtns[3];
-const plusTwoBtn = timerBtns[4];
+const pauseBtn = timerBtns[1];
+const stopBtn = timerBtns[2];
+const minusBtn = timerBtns[3];
+const plusBtn = timerBtns[4];
+const plusTwoBtn = timerBtns[5];
 
 timerBtns.forEach(btn => btn.addEventListener('click', ripplet));
 
@@ -198,6 +208,7 @@ startBtn.onclick = () => {
   if (mins && !window.started) cookie.set('previousMinutes', mins);
   timer.start();
 };
+pauseBtn.onclick = () => timer.pause();
 stopBtn.onclick = () => {
   if (timer.started) {
     timer.timeStart = new Date(new Date - timer.time + 300);
