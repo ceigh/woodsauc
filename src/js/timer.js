@@ -3,8 +3,8 @@
 import ripplet       from 'ripplet.js';
 import cookie        from './cookie';
 import notifications from './notifications';
-import winner        from './winner';
 import promotion     from './promotion';
+import winner        from './winner';
 
 
 class Timer {
@@ -93,9 +93,9 @@ class Timer {
     if (this.started) {
       this.timeStart.setMinutes(this.timeStart.getMinutes() - 1);
     } else {
-      this.m = this.m < 0 ? 0 : this.m;
+      this.m = 0 > this.m ? 0 : this.m;
       this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      this.elem.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
+      this.elem.innerHTML = `${10 > this.m ? `0${this.m}` : this.m}:00:00`;
     }
   }
 
@@ -105,15 +105,15 @@ class Timer {
    */
   plusOne() {
     if (this.started) {
-      if (this.m !== 59) {
+      if (59 !== this.m) {
         this.timeStart.setMinutes(this.timeStart.getMinutes() + 1);
         this.m++;
       }
     } else {
       this.m++;
-      this.m = this.m > 59 ? 59 : this.m;
+      this.m = 59 < this.m ? 59 : this.m;
       this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      this.elem.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
+      this.elem.innerHTML = `${10 > this.m ? `0${this.m}` : this.m}:00:00`;
     }
   }
 
@@ -123,18 +123,18 @@ class Timer {
    */
   plusTwo() {
     if (this.started) {
-      if (this.m === 58) {
+      if (58 === this.m) {
         this.timeStart.setMinutes(this.timeStart.getMinutes() + 1);
         this.m++;
-      } else if (this.m < 58) {
+      } else if (58 > this.m) {
         this.timeStart.setMinutes(this.timeStart.getMinutes() + 2);
         this.m += 2;
       }
     } else {
       this.m += 2;
-      this.m = this.m > 59 ? 59 : this.m;
+      this.m = 59 < this.m ? 59 : this.m;
       this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      this.elem.innerHTML = `${this.m < 10 ? `0${this.m}` : this.m}:00:00`;
+      this.elem.innerHTML = `${10 > this.m ? `0${this.m}` : this.m}:00:00`;
     }
   }
 
@@ -158,25 +158,25 @@ class Timer {
     this.s = rs;
     this.ms = rms;
 
-    if (!rm && rs < 31 && !this.elem.classList.contains('danger')) {
+    if (!rm && 31 > rs && !this.elem.classList.contains('danger')) {
       this.elem.classList.add('danger');
-    } else if (this.elem.classList.contains('danger') && ( rm || rs > 31 )) {
+    } else if (this.elem.classList.contains('danger') && ( rm || 31 < rs )) {
       this.elem.classList.remove('danger');
     }
 
     if (winnerResult) {
       compiled = `${winner.decorate(winnerResult)} лидирует!`;
-      if (title !== compiled || title === 'Аукцион') document.title = compiled;
-    } else if (title !== 'Аукцион') document.title = 'Аукцион';
+      if (title !== compiled || 'Аукцион' === title) document.title = compiled;
+    } else if ('Аукцион' !== title) document.title = 'Аукцион';
 
     // minimal rms can't be 0, and it's totally random
-    if (( !rm && !rs && rms < 300 ) || this.time < delta) {
+    if (( !rm && !rs && 300 > rms ) || this.time < delta) {
       this.stop();
       winner.show(winner.compile(winnerResult));
     } else {
-      rm = rm < 10 ? `0${rm}` : rm;
-      rs = rs < 10 ? `0${rs}` : rs;
-      rms = rms < 10 ? `0${rms}` : rms;
+      rm = 10 > rm ? `0${rm}` : rm;
+      rs = 10 > rs ? `0${rs}` : rs;
+      rms = 10 > rms ? `0${rms}` : rms;
       rms = String(rms).substr(0, 2);
 
       this.elem.innerHTML = `${rm}:${rs}:${rms}`;
