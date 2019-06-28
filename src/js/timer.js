@@ -25,6 +25,24 @@ class Timer {
   }
 
   /**
+   * Show timer debug info in console
+   *
+   * @private
+   */
+  debug() {
+    setInterval(() => console.log(
+      'Timer:\n',
+      `   start: ${[this.timeStart.getMinutes(), this.timeStart.getSeconds(),
+                    this.timeStart.getMilliseconds()]}\n\n`,
+      ` started: ${this.started}\n`,
+      `  paused: ${this.paused}\n\n`,
+      `m, s, ms: ${[this.m, this.s, this.ms]}\n`,
+      `    time: ${[this.time.getMinutes(), this.time.getSeconds(),
+                    this.time.getMilliseconds()]}\n`),
+      1000);
+  }
+
+  /**
    * Start timer
    *
    */
@@ -67,8 +85,11 @@ class Timer {
    */
   pause() {
     if (!this.started) return;
-    this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
+
     this.paused = true;
+
+    this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
+
     startBtn.style.display = 'initial';
     pauseBtn.style.display = 'none';
   }
@@ -80,6 +101,8 @@ class Timer {
   reset() {
     this.elem.innerHTML = '00:00:00';
     this.m = 0;
+    this.s = 0;
+    this.ms = 0;
     this.time = new Date(0);
   }
 
@@ -89,6 +112,8 @@ class Timer {
    */
   stop() {
     this.reset();
+
+    if (this.paused) winner.show();
 
     this.paused = false;
     this.started = false;
@@ -103,17 +128,29 @@ class Timer {
    *
    */
   minusOne() {
-    if (!this.m) return;
+    let m = --this.m, s = this.s, ms = this.ms;
 
-    this.m--;
+    this.m = 0 > m ? 0 : m;
 
-    if (this.started) {
-      this.timeStart.setMinutes(this.timeStart.getMinutes() - 1);
-    } else {
-      this.m = 0 > this.m ? 0 : this.m;
-      this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      this.elem.innerHTML = `${10 > this.m ? `0${this.m}` : this.m}:00:00`;
+    if (0 > m) return;
+
+    this.time.setMinutes(this.time.getMinutes() - 1);
+
+    if (!this.paused) {
+      if (!this.started) {
+        m = numToStr(m);
+        this.elem.innerHTML = `${m}:00:00`;
+        return;
+      }
+      return;
     }
+
+    toggleDanger(this.elem, m, s);
+    m = numToStr(m);
+    s = numToStr(s);
+    ms = numToStr(ms);
+    ms = String(ms).substr(0, 2);
+    this.elem.innerHTML = `${m}:${s}:${ms}`;
   }
 
   /**
@@ -121,17 +158,29 @@ class Timer {
    *
    */
   plusOne() {
-    if (this.started) {
-      if (59 !== this.m) {
-        this.timeStart.setMinutes(this.timeStart.getMinutes() + 1);
-        this.m++;
+    let m = ++this.m, s = this.s, ms = this.ms;
+
+    this.m = 59 < m ? 59 : m;
+
+    if (59 < m) return;
+
+    this.time.setMinutes(this.time.getMinutes() + 1);
+
+    if (!this.paused) {
+      if (!this.started) {
+        m = numToStr(m);
+        this.elem.innerHTML = `${m}:00:00`;
+        return;
       }
-    } else {
-      this.m++;
-      this.m = 59 < this.m ? 59 : this.m;
-      this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      this.elem.innerHTML = `${10 > this.m ? `0${this.m}` : this.m}:00:00`;
+      return;
     }
+
+    toggleDanger(this.elem, m, s);
+    m = numToStr(m);
+    s = numToStr(s);
+    ms = numToStr(ms);
+    ms = String(ms).substr(0, 2);
+    this.elem.innerHTML = `${m}:${s}:${ms}`;
   }
 
   /**
@@ -139,20 +188,29 @@ class Timer {
    *
    */
   plusTwo() {
-    if (this.started) {
-      if (58 === this.m) {
-        this.timeStart.setMinutes(this.timeStart.getMinutes() + 1);
-        this.m++;
-      } else if (58 > this.m) {
-        this.timeStart.setMinutes(this.timeStart.getMinutes() + 2);
-        this.m += 2;
+    let m = this.m, s = this.s, ms = this.ms;
+
+    if (59 === m) return;
+
+    this.time.setMinutes(this.time.getMinutes() + ( 58 === m ? 1 : 2 ));
+    m = 59 < m + 2 ? 59 : m + 2;
+    this.m = m;
+
+    if (!this.paused) {
+      if (!this.started) {
+        m = numToStr(m);
+        this.elem.innerHTML = `${m}:00:00`;
+        return;
       }
-    } else {
-      this.m += 2;
-      this.m = 59 < this.m ? 59 : this.m;
-      this.time = new Date(this.m * 60000 + this.s * 1000 + this.ms);
-      this.elem.innerHTML = `${10 > this.m ? `0${this.m}` : this.m}:00:00`;
+      return;
     }
+
+    toggleDanger(this.elem, m, s);
+    m = numToStr(m);
+    s = numToStr(s);
+    ms = numToStr(ms);
+    ms = String(ms).substr(0, 2);
+    this.elem.innerHTML = `${m}:${s}:${ms}`;
   }
 
   /**
@@ -163,44 +221,34 @@ class Timer {
     const current = new Date();
     const delta = new Date(current - this.timeStart);
     const result = new Date(this.time - delta);
-    const title = document.title;
-    let rm = result.getMinutes();  // result minutes
-    let rs = result.getSeconds();  // result seconds
-    let rms = result.getMilliseconds();  // result milliseconds
-    let winnerResult = winner.return();
-    let compiled;
+    let m  = result.getMinutes(),
+        s  = result.getSeconds(),
+        ms = result.getMilliseconds();
 
     if (this.paused) return;
 
-    this.m = rm;
-    this.s = rs;
-    this.ms = rms;
+    this.m = m;
+    this.s = s;
+    this.ms = ms;
 
-    if (!rm && 31 > rs && !this.elem.classList.contains('danger')) {
-      this.elem.classList.add('danger');
-    } else if (this.elem.classList.contains('danger') && ( rm || 31 < rs )) {
-      this.elem.classList.remove('danger');
-    }
+    toggleDanger(this.elem, m, s);
+    toggleTitle();
 
-    if (winnerResult) {
-      compiled = `${winner.decorate(winnerResult)} лидирует!`;
-      if (title !== compiled || 'Аукцион' === title) document.title = compiled;
-    } else if ('Аукцион' !== title) document.title = 'Аукцион';
-
-    // minimal rms can't be 0, and it's totally random
-    if (( !rm && !rs && 300 > rms ) || this.time < delta) {
+    // minimal ms can't be 0, and it's totally random
+    if (( !m && !s && 300 > ms ) || this.time < delta) {
+      winner.show();
       this.stop();
-    } else {
-      rm = 10 > rm ? `0${rm}` : rm;
-      rs = 10 > rs ? `0${rs}` : rs;
-      rms = 10 > rms ? `0${rms}` : rms;
-      rms = String(rms).substr(0, 2);
-
-      this.elem.innerHTML = `${rm}:${rs}:${rms}`;
-
-      // () => ...() to resolve scope problems
-      requestAnimationFrame(() => this.updateTimer());
+      return;
     }
+
+    m = numToStr(m);
+    s = numToStr(s);
+    ms = numToStr(ms);
+    ms = String(ms).substr(0, 2);
+    this.elem.innerHTML = `${m}:${s}:${ms}`;
+
+    // () => ...() to resolve scope problems
+    requestAnimationFrame(() => this.updateTimer());
   };
 }
 
@@ -229,15 +277,58 @@ startBtn.onclick = () => {
 };
 pauseBtn.onclick = () => timer.pause();
 stopBtn.onclick = () => {
-  if (timer.started) {
+  if (!timer.started) {
+    timer.reset();
+  } else {
     timer.timeStart = new Date(new Date - timer.time + 300);
     notifications.clear();
     timer.stop();
-  } else {
-    timer.reset();
   }
-  winner.show();
 };
 minusBtn.onclick = () => timer.minusOne();
 plusBtn.onclick = () => timer.plusOne();
 plusTwoBtn.onclick = () => timer.plusTwo();
+
+// timer.debug();
+
+/**
+ * Convert to '0%d' or %d
+ *
+ * @private
+ * @param {Number} n - number to convert
+ * @return {String} - timer like number string
+ */
+const numToStr = n => 10 > n ? `0${n}` : n;
+
+/**
+ * Toggle timer color on < 30 sec and 0 min
+ *
+ * @private
+ *
+ * @param {Object} e - link on timer element
+ * @param {Number} m - minutes
+ * @param {Number} s - seconds
+ */
+const toggleDanger = (e, m, s) => {
+  if (!e.classList.contains('danger') && 30 > s && !m) {
+    e.classList.add('danger');
+  } else if (e.classList.contains('danger') && ( m || 30 <= s )) {
+    e.classList.remove('danger');
+  }
+};
+
+/**
+ * Put winner name to document title
+ *
+ * @private
+ */
+const toggleTitle = () => {
+  const title = document.title;
+  let winnerResult = winner.return();
+  let compiled;
+
+  if (winnerResult) {
+    compiled = `${winner.decorate(winnerResult)} лидирует!`;
+    if (title !== compiled || 'Аукцион' === title) document.title = compiled;
+  } else if ('Аукцион' !== title) document.title = 'Аукцион';
+};
