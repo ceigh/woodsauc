@@ -8,5 +8,3 @@ import './promotion';
 import './settings';
 import './socketDonationAlerts';
 import './timer';
-
-callTestIssue();
