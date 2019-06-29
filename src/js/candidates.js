@@ -27,8 +27,8 @@ const resetButton = document.getElementById('reset-icon');
 const area = document.getElementById('candidates-area');
 
 const defaultSize = 16.2; // vw
-const defaultMargin = 2.6; // vw
-const highestMargin = 35.25; // vw
+const defaultMargin = 2.96; // vw
+const highestMargin = 35.71; // vw
 let maxSize = defaultSize;
 let maxMargin = defaultMargin;
 

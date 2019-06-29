@@ -277,7 +277,7 @@ input:focus {
 
 [class*='col-'] {
     float:         left;
-    padding-right: 3vw;
+    padding-right: 2vw;
 }
 
 [class*='col-']:last-of-type {
