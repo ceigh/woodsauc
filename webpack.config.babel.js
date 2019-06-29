@@ -13,7 +13,7 @@ export default {
   mode: WEBPACK_MODE,
   watch: isDev,
   watchOptions: {aggregateTimeout: 100},
-  devtool: isDev ? 'eval' : '(none)',
+  devtool: isDev ? 'eval' : 'cheap-source-map',
 
   context: `${__dirname}/src`,
   entry: {
