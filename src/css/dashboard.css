@@ -157,7 +157,7 @@ body {
 .block {
     font-size:     1.7vw;
     height:        4vw;
-    margin-bottom: 1vw;
+    margin-bottom: .7vw;
     opacity:       0;
     transition:    .1s;
 }
@@ -175,11 +175,11 @@ body {
 .block-buy {
     font-size:     1.7vw;
     height:        4vw;
-    margin-bottom: 1vw;
+    margin-bottom: .7vw;
 }
 
 .block-buy span {
-    margin-right: 2.543vw;
+    margin-right: 2.96vw;
     opacity:      1;
 }
 
@@ -226,7 +226,7 @@ span {
 }
 
 .name {
-    margin-right:   .26vw;
+    margin-right:   .7vw;
     max-width:      49vw;
     text-transform: capitalize;
     width:          16.2vw;
