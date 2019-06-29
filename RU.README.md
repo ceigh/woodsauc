@@ -24,6 +24,8 @@
 
 `npm run start`
 
+затем откройте `http://localhost:9000`
+
 Также вы всегда можете использовать [онлайн версию](https://woodsauc.gitlab.io 'WoodsAuc').
 
 ![Preview](demo.png 'WoodsAuc')

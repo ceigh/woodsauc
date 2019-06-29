@@ -24,6 +24,8 @@ You can start browser version by
 
 `npm run start`
 
+then open `http://localhost:9000`
+
 And you always can use [online version](https://woodsauc.gitlab.io 'WoodsAuc').
 
 ![Preview](https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/raw/master/demo.png 'WoodsAuc')
