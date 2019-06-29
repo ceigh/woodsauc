@@ -1,13 +1,10 @@
-'use strict';
-
-import ripplet from 'ripplet.js';
+import ripplet      from 'ripplet.js';
 import notification from './notifications';
-import {toTitle} from './stringUtilities';
+import {toTitle}    from './stringUtilities';
 
 const modal = document.getElementById('modal');
 const modalOverlay = document.getElementById('modal-overlay');
 const timerElement = document.getElementById('timer');
-
 
 modalOverlay.addEventListener('click', ripplet);
 
@@ -17,32 +14,30 @@ document.onkeydown = e => {
   }
 };
 
-
 /**
-  * Return raw position with max cost
-  *
-  * @return {(undefined|?string)} - if !cost - undefined,
-  *                                 if !name - null,
-  *                                 if name && cost - string
-  */
+ * Return raw position with max cost
+ *
+ * @return {(undefined|?string)} - if !cost - undefined,
+ *                                 if !name - null,
+ *                                 if name && cost - string
+ */
 const returnWinner = () => {
   const names = document.getElementsByClassName('name');
   const costs = Array.from(document.getElementsByClassName('cost'))
-                  .map(cost => Number(cost.value));
+    .map(cost => Number(cost.value));
   const maxCost = Math.max.apply(null, costs);
   if (!maxCost) return;
   const winner = names[costs.indexOf(maxCost)].value;
   return !winner ? null : winner;
 };
 
-
 /**
-  * Open modal window with winner result
-  *
-  * @param {string} [result] - ready compiled winner to show
-  */
+ * Open modal window with winner result
+ *
+ * @param {string} [result] - ready compiled winner to show
+ */
 const showWinner = result => {
-  if (!result) result = compileWinner( returnWinner() );
+  if (!result) result = compileWinner(returnWinner());
 
   if (!window.isBuy) {
     modal.querySelector('p').innerText = result;
@@ -68,44 +63,41 @@ const showWinner = result => {
   };
 };
 
-
 /**
-  * Join addEnding call with decorate
-  *
-  * @param {(undefined|?string)} winner - winner name from returnWinner
-  * @see returnWinner
-  * @return {string} - result of winner computing
-  */
+ * Join addEnding call with decorate
+ *
+ * @param {(undefined|?string)} winner - winner name from returnWinner
+ * @see returnWinner
+ * @return {string} - result of winner computing
+ */
 const compileWinner = winner => {
   return addEnding(decorateWinner(winner));
 };
 
-
 /**
-  * Append last word to result phrase
-  *
-  * @private
-  * @param {(undefined|?string)} winner - winner name,
-  *                                       result from decorateWinner
-  * @see decorateWinner
-  * @return {string} - winner name + case ending
-  */
+ * Append last word to result phrase
+ *
+ * @private
+ * @param {(undefined|?string)} winner - winner name,
+ *                                       result from decorateWinner
+ * @see decorateWinner
+ * @return {string} - winner name + case ending
+ */
 const addEnding = winner => {
   const ending = winner ? 'победил' : winner === null ? 'победила' : 'победил';
   return `${humanizeWinner(winner)} ${ending}!`;
 };
 
-
 /**
-  * Add dots if larger than 20 chars and quotes lazy
-  *
-  * @private
-  * @param {(undefined|?string)} winner - winner name
-  * @see returnWinner
-  * @return {(undefined|?string)} - if !cost - undefined,
-  *                                 if !name - null,
-  *                                 if name && cost - string with handsome decoration
-  */
+ * Add dots if larger than 20 chars and quotes lazy
+ *
+ * @private
+ * @param {(undefined|?string)} winner - winner name
+ * @see returnWinner
+ * @return {(undefined|?string)} - if !cost - undefined,
+ *                                 if !name - null,
+ *                                 if name && cost - string with handsome decoration
+ */
 const decorateWinner = winner => {
   if (!winner) return winner;
   winner = toTitle(winner).trim();
@@ -113,19 +105,17 @@ const decorateWinner = winner => {
   return JSON.stringify(winner);
 };
 
-
 /**
-  * Convert winner to human readable string
-  *
-  * @private
-  * @param {(undefined|?string)} winner - winner name
-  * @see returnWinner
-  * @return {string} - human readable result
-  */
+ * Convert winner to human readable string
+ *
+ * @private
+ * @param {(undefined|?string)} winner - winner name
+ * @see returnWinner
+ * @return {string} - human readable result
+ */
 const humanizeWinner = winner => {
   return winner ? winner : winner === null ? 'Пустая позиция' : 'Никто не';
 };
-
 
 const winner = {
   show: showWinner,

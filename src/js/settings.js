@@ -1,30 +1,26 @@
-'use strict';
-
 import ripplet from 'ripplet.js';
 import './background';
 import './settingsDonationAlerts';
 
 const showSettingsBtn = document.getElementById('settings-icon');
 const settingsWindow = document.getElementById('settings');
-const urlsBtns = Array.from( document.getElementsByClassName('special-url') );
+const urlsBtns = Array.from(document.getElementsByClassName('special-url'));
 
 showSettingsBtn.addEventListener('click', ripplet);
 
 showSettingsBtn.onclick = () => settingsWindow.classList.toggle('closed');
 
-urlsBtns.forEach( (item) => item.addEventListener('click', ripplet) );
-
+urlsBtns.forEach((item) => item.addEventListener('click', ripplet));
 
 /**
-  * Select all text in input
-  *
-  * @param {Object} input - input element
-  */
+ * Select all text in input
+ *
+ * @param {Object} input - input element
+ */
 const selectTxt = input => {
   input.focus();
   input.select();
 };
-
 
 /**
  * Check if URL is URL and it's a picture
@@ -38,7 +34,6 @@ const isUrlValid = url => {
   url = encodeURI(url);
   return isImg.test(url) && isUrl.test(url);
 };
-
 
 /**
  * Check is URL loaded

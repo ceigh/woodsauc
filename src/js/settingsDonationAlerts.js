@@ -1,9 +1,7 @@
-'use strict';
-
-import ripplet from 'ripplet.js';
-import cookie from './cookie';
+import ripplet       from 'ripplet.js';
+import cookie        from './cookie';
 import notifications from './notifications';
-import {selectTxt} from './settings';
+import {selectTxt}   from './settings';
 
 const daUrl = document.getElementById('da-url');
 const saveDaUrlBtn = document.getElementById('save-da-url-btn');
@@ -13,7 +11,7 @@ const tokenCookie = cookie.get('token');
 daUrl.value = tokenCookie ? tokenCookie : '';
 
 [daUrl, saveDaUrlBtn, clearDaUrlBtn].forEach(
-item => item.addEventListener('click', ripplet) );
+  item => item.addEventListener('click', ripplet));
 
 daUrl.onclick = function() {
   selectTxt(this);

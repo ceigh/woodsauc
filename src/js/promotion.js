@@ -1,5 +1,3 @@
-'use strict';
-
 import ripplet from 'ripplet.js';
 import cookie  from './cookie';
 

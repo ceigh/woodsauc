@@ -1,5 +1,3 @@
-'use strict';
-
 const style = document.createElement('style');
 const getCookie = name => {
   let matches = document.cookie.match(new RegExp(

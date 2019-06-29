@@ -1,9 +1,7 @@
-'use strict';
-
 import ripplet, {defaultOptions} from 'ripplet.js';
-import notifications from './notifications';
-import cookie from './cookie';
-import {selectTxt, isUrlValid} from './settings';
+import cookie                    from './cookie';
+import notifications             from './notifications';
+import {isUrlValid, selectTxt}   from './settings';
 
 const ff = navigator.userAgent.toLowerCase().includes('firefox');
 const body = document.querySelector('body');
@@ -62,12 +60,12 @@ bgURLInput.addEventListener('click', ripplet);
 clearBGURLBtn.addEventListener('click', ripplet);
 saveBGURLBtn.addEventListener('click', ripplet);
 
-bgURLInput.onclick = function () {
+bgURLInput.onclick = function() {
   selectTxt(this);
 };
 
 clearBGURLBtn.onclick = () => {
-  if ( !bgURLInput.value && !cookie.get('bg-url') ) {
+  if (!bgURLInput.value && !cookie.get('bg-url')) {
     notifications.sendInside('Фон уже сброшен');
   } else {
     changeBG('');
@@ -176,8 +174,8 @@ function changeBG(url) {
 function hexToRgb(hex) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   let r = parseInt(result[1], 16),
-    g = parseInt(result[2], 16),
-    b = parseInt(result[3], 16);
+      g = parseInt(result[2], 16),
+      b = parseInt(result[3], 16);
   return result ? {
     rgb: {r, g, b},
     str: `rgb(${r}, ${g}, ${b}`
@@ -198,7 +196,7 @@ function toRgba(color, alpha) {
   const a = alpha <= 1 ? alpha : alpha / 100;
   let r, g, b;
 
-  if (typeof(color) === 'string') {
+  if (typeof ( color ) === 'string') {
     color = hexToRgb(color).rgb;
     r = color.r;
     g = color.g;

@@ -1,11 +1,9 @@
-'use strict';
-
 import io                                                     from 'socket.io-client';
+import {changeTitle, checkOnBuy, createBlock, sortCandidates} from './candidates';
 import cookie                                                 from './cookie';
 import notifications                                          from './notifications';
-import winner                                                 from './winner';
-import {sortCandidates, changeTitle, checkOnBuy, createBlock} from './candidates';
 import {oneSpace, toTitle}                                    from './stringUtilities';
+import winner                                                 from './winner';
 
 const socketUrl = 'https://socket.donationalerts.ru:443';
 const socketOpt = {'reconnection': true};
