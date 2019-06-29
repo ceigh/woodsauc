@@ -277,12 +277,11 @@ function changeSize(nameEl) {
  */
 function createLink(nameEl) {
   const name = nameEl.value;
-
+  let link;
   if (name) {
-    nameEl.parentElement.parentElement.querySelector('.kp-link').href =
-      encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
-    nameEl.parentElement.parentElement.querySelector('.kp-link')
-      .setAttribute('title', `Искать ${winner.decorate(name)}`);
+    link = nameEl.parentElement.parentElement.querySelector('.kp-link');
+    link.href = encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
+    // link.setAttribute('title', `Искать ${name}`);
     nameEl.setAttribute('title', toTitle(name));
   } else {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
