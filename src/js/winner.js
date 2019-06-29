@@ -26,9 +26,11 @@ const returnWinner = () => {
   const costs = Array.from(document.getElementsByClassName('cost'))
     .map(cost => Number(cost.value));
   const maxCost = Math.max.apply(null, costs);
+  let winner;
+
   if (!maxCost) return;
-  const winner = names[costs.indexOf(maxCost)].value;
-  return !winner ? null : winner;
+  winner = names[costs.indexOf(maxCost)].value;
+  return winner ? winner : null;
 };
 
 /**

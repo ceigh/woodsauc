@@ -322,11 +322,27 @@ const toggleDanger = (e, m, s) => {
  */
 const toggleTitle = () => {
   const title = document.title;
+  const percent = returnRansomPercent();
+  const titleStart = percent ? 99 < percent ? '' : `${percent}%` : '';
+  const titleEnd = percent ? 99 < percent ? 'сейчас выкупят...' : '' : 'лидирует!';
   let winnerResult = winner.return();
   let compiled;
 
   if (winnerResult) {
-    compiled = `${winner.decorate(winnerResult)} лидирует!`;
+    compiled = `${titleStart} ${winner.decorate(winnerResult)} ${titleEnd}`;
     if (title !== compiled || 'Аукцион' === title) document.title = compiled;
   } else if ('Аукцион' !== title) document.title = 'Аукцион';
+};
+
+const returnRansomPercent = () => {
+  const ransom = cookie.get('buyCost');
+  let costs, maxCost;
+
+  if (!ransom) return;
+
+  costs = Array.from(document.getElementsByClassName('cost'))
+    .map(cost => Number(cost.value));
+  maxCost = Math.max.apply(null, costs);
+
+  return Math.round(100 * maxCost / ransom);
 };
