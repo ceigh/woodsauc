@@ -83,7 +83,7 @@ const donationHandler = msg => {
       });
     };
 
-    notificationText = `Добавить ₽${amount} к "${toTitle(name)}"?`;
+    notificationText = `Добавить ${amount} ₽ к "${toTitle(name)}"?`;
 
     if (isIncludes) {
       notifications.sendPrompt(notificationText, addToPosition);
@@ -95,11 +95,11 @@ const donationHandler = msg => {
 
   notifications.sendNotification(
     `Новое пожертвование${msgJSON.username ? ` от ${msgJSON.username}` : ''}!`,
-    `${winner.decorate(oneSpace(message))} с ${amount}₽`);
+    `${winner.decorate(oneSpace(message))} с ${amount} ₽`);
 
   if (inserted) return;
 
-  notificationText = `Создать "${toTitle(message).trim()}" с ₽${amount}?`;
+  notificationText = `Создать "${toTitle(message).trim()}" с ${amount} ₽?`;
   createPosition = () => {
     createBlock(message, amount);
   };

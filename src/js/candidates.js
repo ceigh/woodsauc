@@ -224,7 +224,7 @@ function checkOnBuy(costEl) {
       document.title = 'Аукцион';
     };
 
-    modal.querySelector('p').innerText = `${name} выкупили, аж за ${curr}₽ Pog!`;
+    modal.querySelector('p').innerText = `${name} выкупили, аж за ${curr} ₽ Pog!`;
     modalOverlay.classList.remove('closed');
     modal.classList.remove('closed');
     notifications.playNotificationSound();
