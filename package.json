@@ -51,6 +51,7 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
+    "@sentry/browser": "^5.4.3",
     "ripplet.js": "^0.1.14",
     "socket.io-client": "^2.2.0"
   }

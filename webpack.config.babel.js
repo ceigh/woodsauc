@@ -1,10 +1,10 @@
 'use strict';
 
-import UglifyJsPlugin       from 'uglifyjs-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
 import CopyWebpackPlugin    from 'copy-webpack-plugin';
 import HtmlWebpackPlugin    from 'html-webpack-plugin';
-import {CleanWebpackPlugin} from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import UglifyJsPlugin       from 'uglifyjs-webpack-plugin';
 
 const WEBPACK_MODE = process.env.WEBPACK_MODE || 'development';
 const isDev = 'development' === WEBPACK_MODE;
@@ -17,6 +17,7 @@ export default {
 
   context: `${__dirname}/src`,
   entry: {
+    sentry: './js/sentry',
     preloader: './js/preloader',
     dashboard: './js/dashboard'
   },
