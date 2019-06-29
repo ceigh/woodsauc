@@ -281,6 +281,8 @@ function createLink(nameEl) {
   if (name) {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
       encodeURI(`https://www.kinopoisk.ru/s/type/all/find/${name}/`);
+    nameEl.parentElement.parentElement.querySelector('.kp-link')
+      .setAttribute('title', `Искать ${winner.decorate(name)}`);
     nameEl.setAttribute('title', toTitle(name));
   } else {
     nameEl.parentElement.parentElement.querySelector('.kp-link').href =
