@@ -17,6 +17,7 @@
     border-radius: .5vw;
 }
 
+/*noinspection CssReplaceWithShorthandSafely*/
 body {
     background:            #000;
     background-attachment: fixed;
@@ -58,6 +59,8 @@ body {
     font-family: 'Inconsolata', 'Bitstream Vera Sans Mono',
                  Monaco, 'Courier New', Courier, monospace;
     font-size:   6vw;
+
+    transition:  color ease-out .3s;
 }
 
 #timer-btns {
@@ -241,7 +244,7 @@ span {
 
     border:        none;
     border-radius: .5vw;
-    color:         orange;
+    color:         #ffa500;
     font-size:     inherit;
     height:        100%;
 
@@ -249,10 +252,12 @@ span {
     padding-left:  1.5vw;
 
     text-overflow: ellipsis;
+
+    /*transition: color ease-in-out .3s;*/
 }
 
 input {
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition: .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 input:focus {
@@ -427,7 +432,7 @@ input:focus {
     border:        none;
 
     border-radius: .5vw;
-    color:         orange;
+    color:         #ffa500;
     font-size:     1.3vw;
     height:        3vw;
     margin-right:  1.3vw;
