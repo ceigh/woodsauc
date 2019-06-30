@@ -1,3 +1,4 @@
+import * as Vibrant              from 'node-vibrant';
 import ripplet, {defaultOptions} from 'ripplet.js';
 import cookie                    from './cookie';
 import notifications             from './notifications';
@@ -19,7 +20,7 @@ let color;
 bgURLInput.value = bgURL ? bgURL : '';
 changeBG(bgURL);
 
-color = !colorCookie ? 'rgba(243, 151, 39, .6)' : toRgba(colorCookie, 60).str;
+color = colorCookie ? toRgba(colorCookie, 60).str : 'rgba(243, 151, 39, .6)';
 defaultOptions.color = color;
 defaultOptions.clearingDuration = '.3s';
 defaultOptions.spreadingDuration = '.3s';
@@ -120,30 +121,31 @@ saveBGURLBtn.onclick = () => {
     'src', `https://cors-anywhere.herokuapp.com/${url}`);
 
   colorExtractor.addEventListener('load', function() {
-    const vibrant = new Vibrant(this);
-    const swatches = vibrant.swatches();
-    const dominant = swatches['Vibrant'].getHex();
-    let shadow = toRgba(hexToRgb(dominant), 60).str;
+    Vibrant.from(this)
+      .getPalette((err, palette) => {
+        const dominant = palette.Vibrant.getHex();
+        const shadow = toRgba(hexToRgb(dominant), 60).str;
 
-    defaultOptions.color = shadow;
+        defaultOptions.color = shadow;
 
-    style.innerText = '';
-    style.innerText += `#bg-url {color: ${dominant}}`;
-    style.innerText += `#da-url {color: ${dominant}}`;
-    style.innerText += `.danger {color: ${dominant} !important}`;
-    style.innerText += `.name {color: ${dominant}}`;
-    style.innerText += `.cost {color: ${dominant}}`;
-    style.innerText += `.cost-buy {color: ${dominant}}`;
+        style.innerText = '';
+        style.innerText += `#bg-url {color: ${dominant}}`;
+        style.innerText += `#da-url {color: ${dominant}}`;
+        style.innerText += `.danger {color: ${dominant} !important}`;
+        style.innerText += `.name {color: ${dominant}}`;
+        style.innerText += `.cost {color: ${dominant}}`;
+        style.innerText += `.cost-buy {color: ${dominant}}`;
 
-    style.innerText += `input:focus {--accent: ${dominant}; --shadow: ${shadow}}`;
+        style.innerText += `input:focus {--accent: ${dominant}; --shadow: ${shadow}}`;
 
-    style.innerText += `::selection {background: ${dominant}}`;
-    style.innerText += `::-moz-selection {background: ${dominant}}`;
+        style.innerText += `::selection {background: ${dominant}}`;
+        style.innerText += `::-moz-selection {background: ${dominant}}`;
 
-    document.head.appendChild(style);
+        document.head.appendChild(style);
 
-    cookie.set('bg-url', url);
-    cookie.set('accent', dominant);
+        cookie.set('bg-url', url);
+        cookie.set('accent', dominant);
+      });
   });
 };
 
@@ -193,10 +195,10 @@ function hexToRgb(hex) {
  * @see hexToRgb
  */
 function toRgba(color, alpha) {
-  const a = alpha <= 1 ? alpha : alpha / 100;
+  const a = 1 >= alpha ? alpha : alpha / 100;
   let r, g, b;
 
-  if (typeof ( color ) === 'string') {
+  if ('string' === typeof ( color )) {
     color = hexToRgb(color).rgb;
     r = color.r;
     g = color.g;
