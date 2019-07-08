@@ -1,6 +1,7 @@
 # WoodsAuc
 
-[README](RU.README.md) для русскоговорящих. 
+[README](https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/blob/master/RU.README.md 'Русские вперед!') 
+для русскоговорящих. 
 
 Simple auction tool, primarily for streamers.
 
@@ -24,7 +25,9 @@ You can start browser version by
 
 `npm run start`
 
-then open `http://localhost:9000`
+then open 
+
+`http://localhost:9000`
 
 And you always can use [online version](https://woodsauc.gitlab.io 'WoodsAuc').
 
@@ -38,7 +41,7 @@ You can use [documentation](https://woodsauc.gitlab.io/dev/).
 
 Developer: [@ceigh](https://gitlab.com/ceigh 'Artjom Löbsack').
 
-If you want to help the project, please [donate](https://www.donationalerts.com/r/hecig 'Hecig DonationAlerts').
+If you want to help the project, please [donate](https://www.donationalerts.com/r/hecig 'Hecigs DonationAlerts').
 
 Or if you're developer, please fork, send merge request or mark an issue.
 
