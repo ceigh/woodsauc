@@ -1,6 +1,9 @@
-import {createBlock} from './candidates';
-import cookie        from './cookie';
+// Imports
+import { createBlock } from './candidates';
+import cookie from './cookie';
 
+
+// Functions
 /**
  * Save all candidates in cookie if timer started
  *
@@ -20,7 +23,7 @@ const restoreCandidates = () => {
   let data = cookie.get('candidates');
   if (!data) return;
   data = JSON.parse(data);
-  data.forEach(e => e.some(Boolean) ? createBlock(...e) : null);
+  data.forEach(e => (e.some(Boolean) ? createBlock(...e) : null));
   cookie.del('candidates');
 };
 
@@ -34,9 +37,12 @@ const focusLastName = () => {
   lastName.focus();
 };
 
+
+// Exec
 window.onbeforeunload = () => {
   backupCandidates();
   if (window.started) return 'Таймер будет сброшен. Позиции останутся.';
+  return null;
 };
 
 restoreCandidates();

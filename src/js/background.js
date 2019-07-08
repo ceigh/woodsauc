@@ -1,10 +1,16 @@
-import * as Vibrant              from 'node-vibrant';
-import ripplet, {defaultOptions} from 'ripplet.js';
-import cookie                    from './cookie';
-import notifications             from './notifications';
-import {isUrlValid, selectTxt}   from './settings';
+// Imports
+import * as Vibrant from 'node-vibrant';
+import { defaultOptions } from 'ripplet.js';
+import cookie from './cookie';
+import notifications from './notifications';
+import addRipplet from './tools';
+// eslint-disable-next-line import/no-cycle
+import { isUrlValid, selectTxt } from './settings';
 
-const ff = navigator.userAgent.toLowerCase().includes('firefox');
+
+// Variables
+const ff = navigator.userAgent.toLowerCase()
+  .includes('firefox');
 const body = document.querySelector('body');
 
 const bgURL = cookie.get('bg-url');
@@ -15,13 +21,86 @@ const clearBGURLBtn = document.getElementById('clear-bg-url-btn');
 const colorExtractor = document.getElementById('color-extractor');
 const colorCookie = cookie.get('accent');
 const style = document.createElement('style');
-let color;
 
-bgURLInput.value = bgURL ? bgURL : '';
+
+// Functions
+/**
+ * Add background image to body
+ *
+ * @param {Object} img - picture to add
+ */
+function applyBg(img) {
+  body.style.backgroundImage = `url('${img.src}')`;
+}
+
+/**
+ * Change page background
+ *
+ * @param {string} url - picture URL
+ */
+function changeBG(url) {
+  const bgImg = new Image();
+  if (url) {
+    bgImg.src = url;
+    bgImg.onload = () => applyBg(bgImg);
+    return;
+  }
+  body.style.backgroundImage = `url('img/bg/tree.${ff ? 'jpg' : 'webp'}')`;
+}
+
+/**
+ * Convert HEX color to RGB
+ *
+ * @private
+ * @param {string} hex - color in hex (#XXXXXX)
+ * @return {Object} - (r: XXX, g: XXX, b: XXX) Object or css string
+ */
+function hexToRgb(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const r = parseInt(result[1], 16);
+  const g = parseInt(result[2], 16);
+  const b = parseInt(result[3], 16);
+  return result ? {
+    rgb: {
+      r,
+      g,
+      b,
+    },
+    str: `rgb(${r}, ${g}, ${b}`,
+  } : null;
+}
+
+/**
+ * Convert HEX color to RGB
+ *
+ * @private
+ * @param {string|Object} color - HEX string or RGB Object
+ * @param {Number} alpha - alpha parameter in % (0-100) or float 0-1
+ * @return {Object} - (r: XXX, g: XXX, b: XXX, a: XXX) Object or css string
+ * @see hexToRgb
+ */
+function toRgba(color, alpha) {
+  const a = alpha <= 1 ? alpha : alpha / 100;
+  const { r, g, b } = typeof color === 'string' ? hexToRgb(color).rgb : color.rgb;
+
+  return color ? {
+    rgba: {
+      r,
+      g,
+      b,
+      a,
+    },
+    str: `rgba(${r}, ${g}, ${b}, ${a})`,
+  } : null;
+}
+
+
+// Exec
+bgURLInput.value = bgURL || '';
 changeBG(bgURL);
 
-color = colorCookie ? toRgba(colorCookie, 60).str : 'rgba(243, 151, 39, .6)';
-defaultOptions.color = color;
+const rippleColor = colorCookie ? toRgba(colorCookie, 60).str : 'rgba(243, 151, 39, .6)';
+defaultOptions.color = rippleColor;
 defaultOptions.clearingDuration = '.3s';
 defaultOptions.spreadingDuration = '.3s';
 
@@ -35,35 +114,32 @@ if (colorCookie) {
   style.innerText += `.cost {color: ${colorCookie}}`;
   style.innerText += `.cost-buy {color: ${colorCookie}}`;
 
-  style.innerText += `input:focus {--accent: ${colorCookie} !important; --shadow: ${accentShadow}}`;
+  style.innerText
+    += `input:focus {--accent: ${colorCookie} !important; --shadow: ${accentShadow}}`;
 
   style.innerText += `::selection {background: ${accentShadow}}`;
   style.innerText += `::-moz-selection {background: ${accentShadow}}`;
 
   document.head.appendChild(style);
 } else {
-  const style = document.createElement('style');
   style.innerText = '';
-  style.innerText += `#bg-url {color: #f39727}`;
-  style.innerText += `#da-url {color: #f39727}`;
-  style.innerText += `.danger {color: #f39727} !important`;
-  style.innerText += `.name {color: #f39727}`;
-  style.innerText += `.cost {color: #f39727}`;
-  style.innerText += `.cost-buy {color: #f39727}`;
+  style.innerText += '#bg-url {color: #f39727}';
+  style.innerText += '#da-url {color: #f39727}';
+  style.innerText += '.danger {color: #f39727} !important';
+  style.innerText += '.name {color: #f39727}';
+  style.innerText += '.cost {color: #f39727}';
+  style.innerText += '.cost-buy {color: #f39727}';
 
-  style.innerText += `input:focus {--accent: #f39727; --shadow: rgba(243, 151, 39, .7)}`;
+  style.innerText
+    += 'input:focus {--accent: #f39727; --shadow: rgba(243, 151, 39, .7)}';
 
-  style.innerText += `::selection {background: rgba(243, 151, 39, .7)}`;
-  style.innerText += `::-moz-selection {background: rgba(243, 151, 39, .7)}`;
+  style.innerText += '::selection {background: rgba(243, 151, 39, .7)}';
+  style.innerText += '::-moz-selection {background: rgba(243, 151, 39, .7)}';
 }
 
-bgURLInput.addEventListener('click', ripplet);
-clearBGURLBtn.addEventListener('click', ripplet);
-saveBGURLBtn.addEventListener('click', ripplet);
+addRipplet([bgURLInput, clearBGURLBtn, saveBGURLBtn]);
 
-bgURLInput.onclick = function() {
-  selectTxt(this);
-};
+bgURLInput.addEventListener('click', () => selectTxt(bgURLInput));
 
 clearBGURLBtn.onclick = () => {
   if (!bgURLInput.value && !cookie.get('bg-url')) {
@@ -74,17 +150,18 @@ clearBGURLBtn.onclick = () => {
     defaultOptions.color = 'rgba(243, 151, 39, .6)';
 
     style.innerText = '';
-    style.innerText += `#bg-url {color: #f39727}`;
-    style.innerText += `#da-url {color: #f39727}`;
-    style.innerText += `.danger {color: #f39727 !important}`;
-    style.innerText += `.name {color: #f39727}`;
-    style.innerText += `.cost {color: #f39727}`;
-    style.innerText += `.cost-buy {color: #f39727}`;
+    style.innerText += '#bg-url {color: #f39727}';
+    style.innerText += '#da-url {color: #f39727}';
+    style.innerText += '.danger {color: #f39727 !important}';
+    style.innerText += '.name {color: #f39727}';
+    style.innerText += '.cost {color: #f39727}';
+    style.innerText += '.cost-buy {color: #f39727}';
 
-    style.innerText += `input:focus {--accent: #f39727; --shadow: rgba(243, 151, 39, .7)}`;
+    style.innerText
+      += 'input:focus {--accent: #f39727; --shadow: rgba(243, 151, 39, .7)}';
 
-    style.innerText += `::selection {background: rgba(243, 151, 39, .7)}`;
-    style.innerText += `::-moz-selection {background: rgba(243, 151, 39, .7)}`;
+    style.innerText += '::selection {background: rgba(243, 151, 39, .7)}';
+    style.innerText += '::-moz-selection {background: rgba(243, 151, 39, .7)}';
 
     document.head.appendChild(style);
 
@@ -118,10 +195,11 @@ saveBGURLBtn.onclick = () => {
 
   // Change Accent color
   colorExtractor.setAttribute(
-    'src', `https://cors-anywhere.herokuapp.com/${url}`);
+    'src', `https://cors-anywhere.herokuapp.com/${url}`,
+  );
 
-  colorExtractor.addEventListener('load', function() {
-    Vibrant.from(this)
+  colorExtractor.addEventListener('load', () => {
+    Vibrant.from(colorExtractor)
       .getPalette((err, palette) => {
         const dominant = palette.Vibrant.getHex();
         const shadow = toRgba(hexToRgb(dominant), 60).str;
@@ -136,7 +214,8 @@ saveBGURLBtn.onclick = () => {
         style.innerText += `.cost {color: ${dominant}}`;
         style.innerText += `.cost-buy {color: ${dominant}}`;
 
-        style.innerText += `input:focus {--accent: ${dominant}; --shadow: ${shadow}}`;
+        style.innerText
+          += `input:focus {--accent: ${dominant}; --shadow: ${shadow}}`;
 
         style.innerText += `::selection {background: ${dominant}}`;
         style.innerText += `::-moz-selection {background: ${dominant}}`;
@@ -148,69 +227,3 @@ saveBGURLBtn.onclick = () => {
       });
   });
 };
-
-
-/**
- * Change page background
- *
- * @param {string} url - picture URL
- */
-function changeBG(url) {
-  const bgImg = new Image();
-  if (url) {
-    bgImg.src = url;
-    bgImg.onload = () => body.style.backgroundImage = `url('${bgImg.src}')`;
-    return;
-  }
-  body.style.backgroundImage = `url('img/bg/tree.${ff ? 'jpg' : 'webp'}')`;
-}
-
-
-/**
- * Convert HEX color to RGB
- *
- * @private
- * @param {string} hex - color in hex (#XXXXXX)
- * @return {Object} - (r: XXX, g: XXX, b: XXX) Object or css string
- */
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  let r = parseInt(result[1], 16),
-      g = parseInt(result[2], 16),
-      b = parseInt(result[3], 16);
-  return result ? {
-    rgb: {r, g, b},
-    str: `rgb(${r}, ${g}, ${b}`
-  } : null;
-}
-
-
-/**
- * Convert HEX color to RGB
- *
- * @private
- * @param {string|Object} color - HEX string or RGB Object
- * @param {Number} alpha - alpha parameter in % (0-100) or float 0-1
- * @return {Object} - (r: XXX, g: XXX, b: XXX, a: XXX) Object or css string
- * @see hexToRgb
- */
-function toRgba(color, alpha) {
-  const a = 1 >= alpha ? alpha : alpha / 100;
-  let r, g, b;
-
-  if ('string' === typeof ( color )) {
-    color = hexToRgb(color).rgb;
-    r = color.r;
-    g = color.g;
-    b = color.b;
-  } else {
-    r = color.rgb.r;
-    g = color.rgb.g;
-    b = color.rgb.b;
-  }
-
-  return color ? {
-    rgba: {r, g, b, a},
-    str: `rgba(${r}, ${g}, ${b}, ${a})`
-  } : null;
-}

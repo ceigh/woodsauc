@@ -1,10 +1,13 @@
-import ripplet    from 'ripplet.js';
-import {oneSpace} from './stringUtilities';
+// Imports
+import ripplet from 'ripplet.js';
+import { oneSpace } from './stringUtilities';
 
+
+// Variables
 const area = document.getElementById('notifications-area');
 
-if ('default' === Notification.permission) Notification.requestPermission();
 
+// Functions
 /**
  * Play light.mp3 sound
  *
@@ -21,7 +24,7 @@ const playNotificationSound = () => {
  *
  */
 const clear = () => {
-  while (0 < area.children.length) {
+  while (area.children.length > 0) {
     area.removeChild(area.firstChild);
   }
 };
@@ -51,15 +54,13 @@ const createNotification = (title, options) => {
  * @param {string} title - title of notification
  * @param {string} body - notification body
  */
-const makeNotificationOptions = (title, body) => {
-  return {
-    title: title,
-    body: body,
-    dir: 'ltr',
-    lang: 'ru',
-    icon: 'img/favicons/apple-touch-icon-72x72-precomposed.png'
-  };
-};
+const makeNotificationOptions = (title, body) => ({
+  title,
+  body,
+  dir: 'ltr',
+  lang: 'ru',
+  icon: 'img/favicons/apple-touch-icon-72x72-precomposed.png',
+});
 
 /**
  * Send ready notification
@@ -68,24 +69,21 @@ const makeNotificationOptions = (title, body) => {
  * @param {string} body - notification body
  */
 const sendNotification = (title, body) => {
-  const permission = Notification.permission;
+  const { permission } = Notification;
   const options = makeNotificationOptions(title, body);
 
-  // Проверим, поддерживает ли браузер HTML5 Notifications
-  if (!( 'Notification' in window )) return;
+  // Check support for HTML5 Notifications
+  if (!('Notification' in window)) return;
 
-  // Проверим, есть ли права на отправку уведомлений
-  if ('granted' === permission) {
-
+  // Check rights on notify
+  if (permission === 'granted') {
     // Если права есть, отправим уведомление
     createNotification(title, options);
 
     // Если прав нет, пытаемся их получить
-  } else if ('denied' !== permission) {
-    Notification.requestPermission(permission => {
-
-      // Если права успешно получены, отправляем уведомление
-      if ('granted' === permission) createNotification(title, options);
+  } else if (permission !== 'denied') {
+    Notification.requestPermission((perm) => {
+      if (perm === 'granted') createNotification(title, options);
     });
   }
 };
@@ -95,7 +93,7 @@ const sendNotification = (title, body) => {
  *
  * @param {string} text - text of notification
  */
-const sendInside = text => {
+const sendInside = (text) => {
   const notification = document.createElement('div');
   const p = document.createElement('p');
 
@@ -104,7 +102,7 @@ const sendInside = text => {
   notification.appendChild(p);
   notification.className = 'notification';
   area.insertBefore(notification, area.firstElementChild);
-  notifications.playNotificationSound();
+  playNotificationSound();
 
   setTimeout(() => {
     notification.classList.add('hidden');
@@ -127,19 +125,19 @@ const sendPrompt = (text, acceptCallback) => {
   const cancelBtn = document.createElement('button');
   const acceptIcon = document.createElement('img');
   const cancelIcon = document.createElement('img');
+  const formattedText = oneSpace(text);
 
   notification.className = 'notification';
 
-  text = oneSpace(text);
-  p.innerText = text;
-  p.setAttribute('title', text);
+  p.innerText = formattedText;
+  p.setAttribute('title', formattedText);
 
   acceptIcon.setAttribute('src', 'img/icons/material/done.svg');
   cancelIcon.setAttribute('src', 'img/icons/material/clear.svg');
   acceptIcon.setAttribute('alt', 'Подтвердить');
   cancelIcon.setAttribute('alt', 'Отклонить');
 
-  [acceptBtn, cancelBtn].forEach(item => {
+  [acceptBtn, cancelBtn].forEach((item) => {
     item.className = 'notification-btn';
     item.setAttribute('type', 'button');
   });
@@ -168,12 +166,17 @@ const sendPrompt = (text, acceptCallback) => {
   playNotificationSound();
 };
 
+
+// Exec
+if (Notification.permission === 'default') Notification.requestPermission();
+
+
+// Exports
 const notifications = {
   playNotificationSound,
   sendNotification,
   sendInside,
   sendPrompt,
-  clear
+  clear,
 };
-
 export default notifications;

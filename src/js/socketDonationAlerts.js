@@ -1,35 +1,50 @@
-import io                                                     from 'socket.io-client';
-import {changeTitle, checkOnBuy, createBlock, sortCandidates} from './candidates';
-import cookie                                                 from './cookie';
-import notifications                                          from './notifications';
-import {oneSpace, toTitle}                                    from './stringUtilities';
-import winner                                                 from './winner';
+// Imports
+import io from 'socket.io-client';
+import cookie from './cookie';
+import notifications from './notifications';
+import winner from './winner';
 
+import { oneSpace, toTitle } from './stringUtilities';
+
+import { changeTitle, checkOnBuy, createBlock, sortCandidates, } from './candidates';
+
+
+// Variables
 const socketUrl = 'https://socket.donationalerts.ru:443';
-const socketOpt = {'reconnection': true};
-
-try {
-  connect();
-} catch (e) {
-  console.log(e);
-  notifications.sendInside('Нет подключения, к DonationAlerts.');
-}
+const socketCfg = { reconnection: true };
 
 
+// Functions
 /**
- * Connect to DonationAlerts socket and create listeners
+ * Add donation value on needed position
  *
  * @private
+ * @param {string} message - donation message
+ * @param {Number} amount - donation value
+ *
  */
-function connect() {
-  const token = cookie.get('token');
-  let socket;
-  if (!token) return;
-  socket = io(socketUrl, socketOpt);
-  socket.emit('add-user', {'token': token, 'type': 'minor'});
-  socket.on('donation', msg => donationHandler(msg));
-}
+const addToPosition = (message, amount) => {
+  const names = Array.from(document.getElementsByClassName('name'));
+  const costs = Array.from(document.getElementsByClassName('cost'));
 
+  costs.some((cost, i) => {
+    const nameVal = names[i].value;
+    const costVal = Number(cost.value);
+
+    const isIncludes = nameVal && message.toLowerCase()
+      .includes(nameVal.toLowerCase());
+
+    if (isIncludes) {
+      cost.value = costVal + amount;
+
+      checkOnBuy(cost);
+      changeTitle(cost);
+      sortCandidates();
+      return true;
+    }
+    return false;
+  });
+};
 
 /**
  * Create notification on donation
@@ -37,56 +52,32 @@ function connect() {
  * @param {string} msg - JSON string from DonationAlerts
  *                       with information about donation
  */
-const donationHandler = msg => {
-  let createPosition;
+const donationHandler = (msg) => {
+  const msgJSON = JSON.parse(msg);
+  const message = oneSpace(msgJSON.message);
+  const amount = Number(msgJSON.amount);
+  const names = Array.from(document.getElementsByClassName('name'));
+  const costs = Array.from(document.getElementsByClassName('cost'));
   let inserted = false;
-  let amount,
-      message,
-      msgJSON,
-      names,
-      costs,
-      notificationText;
+  let notificationText;
 
+  // noinspection JSUnresolvedVariable
+  if (msgJSON.alert_type !== 1) return;
   if (!window.started) return;
 
-  msgJSON = JSON.parse(msg);
+  costs.some((cost, i) => {
+    const nameVal = names[i].value;
+    const isIncludes = nameVal && message.trim()
+      .toLowerCase()
+      .includes(nameVal.trim()
+        .toLowerCase());
 
-  // noinspection EqualityComparisonWithCoercionJS,JSUnresolvedVariable
-  if (1 != msgJSON.alert_type) return;
 
-  message = oneSpace(msgJSON.message);
-  amount = Number(msgJSON.amount);
-
-  names = Array.from(document.getElementsByClassName('name'));
-  costs = Array.from(document.getElementsByClassName('cost'));
-
-  costs.some((item, i) => {
-    const name = names[i].value;
-    const isIncludes = name && message.trim().toLowerCase()
-      .includes(name.trim().toLowerCase());
-    const addToPosition = () => {
-      const names = Array.from(document.getElementsByClassName('name'));
-      const costs = Array.from(document.getElementsByClassName('cost'));
-      costs.some((item, i) => {
-        const name = names[i].value;
-        const cost = Number(item.value);
-        const isIncludes = name && message.toLowerCase().includes(name.toLowerCase());
-
-        if (isIncludes) {
-          item.value = amount + cost;
-          checkOnBuy(item);
-          changeTitle(item);
-          sortCandidates();
-          return true;
-        }
-        return false;
-      });
-    };
-
-    notificationText = `Добавить ${amount} ₽ к "${toTitle(name)}"?`;
+    notificationText = `Добавить ${amount} ₽ к "${toTitle(nameVal)}"?`;
 
     if (isIncludes) {
-      notifications.sendPrompt(notificationText, addToPosition);
+      notifications.sendPrompt(notificationText,
+        () => addToPosition(message, amount));
       inserted = true;
       return true;
     }
@@ -95,13 +86,40 @@ const donationHandler = msg => {
 
   notifications.sendNotification(
     `Новое пожертвование${msgJSON.username ? ` от ${msgJSON.username}` : ''}!`,
-    `${winner.decorate(oneSpace(message))} с ${amount} ₽`);
+    `${winner.decorate(oneSpace(message))} с ${amount} ₽`,
+  );
 
   if (inserted) return;
 
-  notificationText = `Создать "${toTitle(message).trim()}" с ${amount} ₽?`;
-  createPosition = () => {
-    createBlock(message, amount);
-  };
-  notifications.sendPrompt(notificationText, createPosition);
+  notificationText = `Создать "${toTitle(message)
+    .trim()}" с ${amount} ₽?`;
+
+  notifications.sendPrompt(notificationText,
+    () => createBlock(message, amount));
 };
+
+/**
+ * Connect to DonationAlerts socket and create listeners
+ *
+ * @private
+ */
+const connect = () => {
+  const token = cookie.get('token');
+  const socket = io(socketUrl, socketCfg);
+
+  if (!token) return;
+
+  socket.emit('add-user', {
+    token,
+    type: 'minor',
+  });
+  socket.on('donation', msg => donationHandler(msg));
+};
+
+
+// Exec
+try {
+  connect();
+} catch {
+  notifications.sendInside('Нет подключения, к DonationAlerts.');
+}

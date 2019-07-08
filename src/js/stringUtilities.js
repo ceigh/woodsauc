@@ -1,5 +1,4 @@
-export {toTitle, oneSpace};
-
+// Functions
 /**
  * Make String Title Cased
  *
@@ -15,3 +14,7 @@ const toTitle = s => s.replace(/(^|\s)\S/g, t => t.toUpperCase());
  * @param {string} s - string to change
  */
 const oneSpace = s => s.replace(/\s+/g, ' ');
+
+
+// Exports
+export { toTitle, oneSpace };

@@ -1,14 +1,20 @@
-const style = document.createElement('style');
-const getCookie = name => {
-  let matches = document.cookie.match(new RegExp(
-    `(?:^|; )${name.replace(/([.$?*|{}()\[\]\\\/+^])/g, '\\$1')}=([^;]*)`
-  ));
-  return matches ? decodeURIComponent(matches[1]) : undefined;
-};
-let accent = getCookie('accent');
+// Imports
+import cookie from './cookie';
 
-accent = accent ? accent : '#f39727';
+
+// Variables
+const style = document.createElement('style');
+const preloader = document.getElementById('preloader');
+
+
+// Functions
+const hidePreloader = () => preloader.classList.add('hidden');
+
+
+// Exec
+const accent = cookie.get('accent') || '#f39727';
+
+window.onload = hidePreloader;
+
 style.innerText = `.hand {--skin-color: ${accent} !important}`;
 document.head.appendChild(style);
-window.onload = () =>
-  document.getElementById('preloader').classList.add('hidden');

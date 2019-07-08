@@ -1,79 +1,78 @@
-'use strict';
-
-import {CleanWebpackPlugin} from 'clean-webpack-plugin';
-import CopyWebpackPlugin    from 'copy-webpack-plugin';
-import HtmlWebpackPlugin    from 'html-webpack-plugin';
+// Imports
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import UglifyJsPlugin       from 'uglifyjs-webpack-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
+
+// Variables
 const WEBPACK_MODE = process.env.WEBPACK_MODE || 'development';
-const isDev = 'development' === WEBPACK_MODE;
+const isDev = WEBPACK_MODE === 'development';
 
-export default {
+
+// Exports
+module.exports = {
   mode: WEBPACK_MODE,
   watch: isDev,
-  watchOptions: {aggregateTimeout: 100},
+  watchOptions: { aggregateTimeout: 100 },
   devtool: isDev ? 'eval' : 'cheap-source-map',
 
   context: `${__dirname}/src`,
   entry: {
     sentry: './js/sentry',
     preloader: './js/preloader',
-    dashboard: './js/dashboard'
+    dashboard: './js/dashboard',
   },
 
   output: {
     library: 'WoodsAuc',
     publicPath: '/',
-    filename: isDev ?
-              './js/[name].[hash].js' :
-              './js/[name].[hash].min.js'
+    filename: isDev
+      ? './js/[name].[hash].js'
+      : './js/[name].[hash].min.js',
   },
 
   plugins: [
     new CleanWebpackPlugin(),
 
     new MiniCssExtractPlugin({
-      filename: isDev ?
-                './css/[name].[hash].css' :
-                './css/[name].[hash].min.css'
+      filename: isDev
+        ? './css/[name].[hash].css'
+        : './css/[name].[hash].min.css',
     }),
 
     new HtmlWebpackPlugin({
-      template: 'html/dashboard.pug'
+      template: 'html/dashboard.pug',
     }),
 
     new CopyWebpackPlugin([
       {
         from: './img',
-        to: './img'
+        to: './img',
       },
       {
         from: './light.mp3',
-        to: './light.mp3'
+        to: './light.mp3',
       },
       {
         from: './manifest.json',
-        to: './manifest.json'
+        to: './manifest.json',
       },
       {
         from: './browserconfig.xml',
-        to: './browserconfig.xml'
-      }
-    ])
+        to: './browserconfig.xml',
+      },
+    ]),
   ],
 
-  optimization: {
-    minimizer: isDev ?
-      [() => {}] :
-      [new UglifyJsPlugin({parallel: true})]
-  },
+  optimization: isDev ? {} : { minimizer: [new UglifyJsPlugin({ parallel: true })] },
 
   module: {
     rules: [{
       test: /\.js$/,
       exclude: /node_modules/,
-      use: ['babel-loader']
+      use: ['babel-loader'],
     }, {
       test: /\.css$/,
       exclude: /node_modules/,
@@ -81,17 +80,17 @@ export default {
         'style-loader',
         MiniCssExtractPlugin.loader,
         'css-loader',
-        'postcss-loader'
-      ]
+        'postcss-loader',
+      ],
     }, {
       test: /\.pug$/,
-      use: ['pug-loader']
-    }]
+      use: ['pug-loader'],
+    }],
   },
 
   devServer: {
     contentBase: `${__dirname}/dist`,
     compress: true,
-    port: 9000
-  }
+    port: 9000,
+  },
 };

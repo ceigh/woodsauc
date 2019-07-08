@@ -1,21 +1,23 @@
-import ripplet       from 'ripplet.js';
-import cookie        from './cookie';
+// Imports
+// eslint-disable-next-line import/no-cycle
+import { selectTxt } from './settings';
+import cookie from './cookie';
 import notifications from './notifications';
-import {selectTxt}   from './settings';
+import addRipplet from './tools';
 
+
+// Variables
 const daUrl = document.getElementById('da-url');
 const saveDaUrlBtn = document.getElementById('save-da-url-btn');
 const clearDaUrlBtn = document.getElementById('clear-da-url-btn');
 const tokenCookie = cookie.get('token');
 
-daUrl.value = tokenCookie ? tokenCookie : '';
 
-[daUrl, saveDaUrlBtn, clearDaUrlBtn].forEach(
-  item => item.addEventListener('click', ripplet));
+// Exec
+addRipplet([daUrl, saveDaUrlBtn, clearDaUrlBtn]);
 
-daUrl.onclick = function() {
-  selectTxt(this);
-};
+daUrl.value = tokenCookie || '';
+daUrl.onclick = () => selectTxt(daUrl);
 
 saveDaUrlBtn.onclick = () => {
   const token = daUrl.value;
@@ -34,9 +36,8 @@ saveDaUrlBtn.onclick = () => {
   }
   cookie.set('token', token);
   notifications.sendInside('Токен сохранен');
-  location.reload();
+  window.location.reload();
 };
-
 clearDaUrlBtn.onclick = () => {
   if (!daUrl.value) {
     notifications.sendInside('Токен уже удален');
@@ -45,5 +46,5 @@ clearDaUrlBtn.onclick = () => {
   daUrl.value = '';
   cookie.del('token');
   notifications.sendInside('Токен удален');
-  location.reload();
+  window.location.reload();
 };
