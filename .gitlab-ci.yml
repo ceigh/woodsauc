@@ -8,19 +8,22 @@ cache:
     - node_modules/
 
 stages:
+  - lint
   - test
   - build
   - docs
   - deploy
 
 
-# Test
+# Lint
 eslint:
-  stage: test
+  stage: lint
   script:
     - npm run lint
     - echo 'Lint passed!'
 
+
+# Test
 unit tests:
   stage: test
   script:
