@@ -7,14 +7,18 @@ cache:
   paths:
     - node_modules/
 
-docs:
-  stage: build
+
+lint:
+  stage: test
   script:
-    # Run jsdoc with config
-    - npm run docs
-  artifacts:
-    paths:
-      - dev
+    - npm run lint
+
+unit-tests:
+  stage: test
+  script:
+    # TODO: tests
+    - echo 'Tests are passed!'
+
 
 webpack:
   stage: build
@@ -24,11 +28,15 @@ webpack:
     paths:
       - dist
 
-test:
-  stage: test
+
+docs:
+  stage: deploy
   script:
-    # TODO: tests
-    - echo 'Tests are passed!'
+    # Run jsdoc with config
+    - npm run docs
+  artifacts:
+    paths:
+      - dev
 
 pages:
   stage: deploy

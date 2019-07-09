@@ -72,7 +72,9 @@ module.exports = {
     rules: [{
       test: /\.js$/,
       exclude: /node_modules/,
-      use: ['babel-loader', 'eslint-loader'],
+      use: isDev
+        ? ['babel-loader', 'eslint-loader']
+        : ['babel-loader'],
     }, {
       test: /\.css$/,
       exclude: /node_modules/,
