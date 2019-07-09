@@ -6,7 +6,9 @@ import winner from './winner';
 
 import { oneSpace, toTitle } from './stringUtilities';
 
-import { changeTitle, checkOnBuy, createBlock, sortCandidates, } from './candidates';
+import {
+  changeTitle, checkOnBuy, createBlock, sortCandidates,
+} from './candidates';
 
 
 // Variables
