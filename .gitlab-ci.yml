@@ -11,7 +11,6 @@ stages:
   - lint
   - test
   - build
-  - docs
   - deploy
 
 
@@ -27,6 +26,7 @@ eslint:
 unit tests:
   stage: test
   script:
+    # TODO: Add tests
     - echo 'Tests are passed!'
 
 
@@ -39,10 +39,8 @@ webpack:
     paths:
       - dist
 
-
-# Docs
 jsdoc:
-  stage: docs
+  stage: build
   script:
     # Run jsdoc with config
     - npm run docs
@@ -65,3 +63,12 @@ pages:
       - public
   only:
     - master
+
+npm:
+  stage: deploy
+  only:
+    - tags
+    - triggers
+  script:
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
+    - npm publish
