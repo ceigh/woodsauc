@@ -1,3 +1,5 @@
+/** @module candidates */
+
 // Imports
 import ripplet from 'ripplet.js';
 import addRipplet from './tools';

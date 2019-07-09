@@ -1,3 +1,5 @@
+/** @module stringUtilities */
+
 // Functions
 /**
  * Make String Title Cased

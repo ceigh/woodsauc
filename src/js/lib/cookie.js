@@ -1,3 +1,5 @@
+/** @module cookie */
+
 // Variables
 const year = 31622400; // sec
 

@@ -1,3 +1,5 @@
+/** @module settings */
+
 // Imports
 import addRipplet from './tools';
 // eslint-disable-next-line import/no-cycle

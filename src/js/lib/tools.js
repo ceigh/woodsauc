@@ -1,3 +1,5 @@
+/** @module tools */
+
 // Imports
 import ripplet from 'ripplet.js';
 
@@ -6,7 +8,6 @@ import ripplet from 'ripplet.js';
 /**
  * Add onclick ripplet effect to array of elements
  *
- * @private
  * @param {Array} elements - elements to add event
  */
 const addRipplet = (elements) => {

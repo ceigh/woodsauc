@@ -1,3 +1,5 @@
+/** @module notifications */
+
 // Imports
 import ripplet from 'ripplet.js';
 import { oneSpace } from './stringUtilities';

@@ -1,3 +1,5 @@
+/** @module winner */
+
 // Imports
 import ripplet from 'ripplet.js';
 import notification from './notifications';
