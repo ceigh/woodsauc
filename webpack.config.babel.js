@@ -16,7 +16,7 @@ module.exports = {
   mode: WEBPACK_MODE,
   watch: isDev,
   watchOptions: { aggregateTimeout: 100 },
-  devtool: isDev ? 'eval' : 'cheap-source-map',
+  devtool: isDev ? 'eval' : 'source-map',
 
   context: `${__dirname}/src`,
   entry: {
