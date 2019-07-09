@@ -5,9 +5,9 @@ import '../css/default.css';
 import '../css/preloader.css';
 import '../css/promotion.css';
 // JS
-import './backupRestore';
-import './candidates';
-import './promotion';
-import './settings';
-import './socketDonationAlerts';
-import './timer';
+import './lib/backupRestore';
+import './lib/candidates';
+import './lib/promotion';
+import './lib/settings';
+import './lib/socketDonationAlerts';
+import './lib/timer';

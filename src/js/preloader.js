@@ -1,5 +1,5 @@
 // Imports
-import cookie from './cookie';
+import cookie from './lib/cookie';
 
 
 // Variables
