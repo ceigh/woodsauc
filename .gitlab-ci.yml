@@ -14,7 +14,7 @@ docs:
     - npm run docs
   artifacts:
     paths:
-      - docs
+      - dev
 
 webpack:
   stage: build
@@ -37,9 +37,7 @@ pages:
     # Dashboard
     - mv dist/* public
     # Documentation folder
-    - mv docs public
-    # Rename it for /dev/ path
-    - mv public/docs public/dev
+    - mv dev public
   artifacts:
     paths:
       - public

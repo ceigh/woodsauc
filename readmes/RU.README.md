@@ -1,6 +1,6 @@
 # Woodsauc
 
-[README](README.md) for English speakers. 
+[README](../README.md) for English speakers. 
 
 Простой инструмент для аукционов, в основном для стримеров.
 
@@ -28,7 +28,7 @@
 
 Также вы всегда можете использовать [онлайн версию](https://woodsauc.gitlab.io 'WoodsAuc').
 
-![Preview](demo.png 'WoodsAuc')
+![Preview](../demo.png 'WoodsAuc')
 
 # Документация
 

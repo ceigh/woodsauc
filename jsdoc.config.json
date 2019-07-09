@@ -12,8 +12,8 @@
   "opts": {
     "encoding": "utf8",
     "recurse": true,
-    "destination": "./docs",
-    "readme": "JSDOC.md"
+    "destination": "./dev",
+    "readme": "readmes/JSDOC.md"
   },
   "templates": {
     "default": {

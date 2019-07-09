@@ -1,6 +1,6 @@
 # WoodsAuc
 
-[README](https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/blob/master/RU.README.md 'Русские вперед!') 
+[README](https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/blob/master/readmes/RU.README.md 'Русские вперед!') 
 для русскоговорящих. 
 
 Simple auction tool, primarily for streamers.

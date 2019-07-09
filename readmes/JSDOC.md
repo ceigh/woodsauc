@@ -32,7 +32,7 @@ Generate docs:
 
 And you always can use [online version](https://woodsauc.gitlab.io 'WoodsAuc').
 
-![Preview](demo.png 'WoodsAuc')
+![Preview](../demo.png 'WoodsAuc')
 
 # Info
 
