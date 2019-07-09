@@ -124,7 +124,7 @@ const showWinner = (result) => {
 
 // Exec
 modalOverlay.addEventListener('click', ripplet);
-document.onkeydown = (e) => {
+document.onkeyup = (e) => {
   if (!modalOverlay.classList.contains('closed') && e.key === 'Escape') {
     modalOverlay.click();
   }

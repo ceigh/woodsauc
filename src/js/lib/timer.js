@@ -381,6 +381,26 @@ minusBtn.onclick = () => timer.minusOne();
 plusBtn.onclick = () => timer.plusOne();
 plusTwoBtn.onclick = () => timer.plusTwo();
 
+document.onkeydown = (e) => {
+  // noinspection JSUnresolvedVariable
+  const targetTag = e.target.tagName;
+
+  if (!targetTag) return;
+  if (targetTag.toUpperCase() === 'INPUT') return;
+
+  if (e.key === 'Insert') {
+    startBtn.click();
+  } else if (e.key === 'Pause') {
+    pauseBtn.click();
+  } else if (e.key === 'End') {
+    stopBtn.click();
+  } else if (e.key === 'PageDown') {
+    minusBtn.click();
+  } else if (e.key === 'PageUp') {
+    plusBtn.click();
+  }
+};
+
 addRipplet(timerBtns);
 
 pauseBtn.style.display = 'none';
