@@ -126,8 +126,8 @@ function changeSize(nameEl) {
   let margin;
 
   if (delta > 0) {
-    width = Number((defaultSize + delta * factor).toFixed(2));
-    margin = Number((defaultMargin + delta * factor).toFixed(2));
+    width = defaultSize + delta * factor;
+    margin = defaultMargin + delta * factor;
     margin = margin > highestMargin ? highestMargin : margin;
   } else if (names.length === 1) {
     maxSize = defaultSize;
