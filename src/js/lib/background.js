@@ -109,7 +109,7 @@ if (colorCookie) {
   style.innerText = '';
   style.innerText += `#bg-url {color: ${colorCookie}}`;
   style.innerText += `#da-url {color: ${colorCookie}}`;
-  style.innerText += `.danger {color: ${colorCookie} !important}`;
+  style.innerText += `@keyframes danger-flickering{0%{color:${colorCookie}}100%{color:#fff}}`;
   style.innerText += `.name {color: ${colorCookie}}`;
   style.innerText += `.cost {color: ${colorCookie}}`;
   style.innerText += `.cost-buy {color: ${colorCookie}}`;
@@ -125,7 +125,7 @@ if (colorCookie) {
   style.innerText = '';
   style.innerText += '#bg-url {color: #f39727}';
   style.innerText += '#da-url {color: #f39727}';
-  style.innerText += '.danger {color: #f39727} !important';
+  style.innerText += '@keyframes danger-flickering{0%{color:#f39727}100%{color:#fff}}';
   style.innerText += '.name {color: #f39727}';
   style.innerText += '.cost {color: #f39727}';
   style.innerText += '.cost-buy {color: #f39727}';
@@ -152,7 +152,7 @@ clearBGURLBtn.onclick = () => {
     style.innerText = '';
     style.innerText += '#bg-url {color: #f39727}';
     style.innerText += '#da-url {color: #f39727}';
-    style.innerText += '.danger {color: #f39727 !important}';
+    style.innerText += '@keyframes danger-flickering{0%{color:#f39727}100%{color:#fff}}';
     style.innerText += '.name {color: #f39727}';
     style.innerText += '.cost {color: #f39727}';
     style.innerText += '.cost-buy {color: #f39727}';
@@ -209,7 +209,7 @@ saveBGURLBtn.onclick = () => {
         style.innerText = '';
         style.innerText += `#bg-url {color: ${dominant}}`;
         style.innerText += `#da-url {color: ${dominant}}`;
-        style.innerText += `.danger {color: ${dominant} !important}`;
+        style.innerText += `@keyframes danger-flickering{0%{color:${dominant}}100%{color:#fff}}`;
         style.innerText += `.name {color: ${dominant}}`;
         style.innerText += `.cost {color: ${dominant}}`;
         style.innerText += `.cost-buy {color: ${dominant}}`;

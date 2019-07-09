@@ -69,7 +69,16 @@ body {
 }
 
 .danger {
-    color: #f39727 !important;
+    animation: danger-flickering infinite 1s linear;
+}
+
+@keyframes danger-flickering {
+    0% {
+        color: #f39727;
+    }
+    100% {
+        color: #fff;
+    }
 }
 
 .timer-btn {
