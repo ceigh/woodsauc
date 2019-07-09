@@ -1,46 +1,46 @@
 #promotion {
-    align-items:             center;
-    background-color:        rgba(0, 0, 0, .7);
+  align-items:             center;
+  background-color:        rgba(0, 0, 0, .7);
 
-    border-top-left-radius:  .5vw;
-    border-top-right-radius: .5vw;
-    bottom:                  -10vw;
+  border-top-left-radius:  .5vw;
+  border-top-right-radius: .5vw;
+  bottom:                  -10vw;
 
-    box-shadow:              0 0 1vw rgba(0, 0, 0, 0.5);
-    color:                   #fff;
-    display:                 flex;
-    font-size:               1vw;
+  box-shadow:              0 0 1vw rgba(0, 0, 0, 0.5);
+  color:                   #fff;
+  display:                 flex;
+  font-size:               1vw;
 
-    height:                  3vw;
-    justify-content:         center;
-    left:                    0;
-    margin-left:             auto;
+  height:                  3vw;
+  justify-content:         center;
+  left:                    0;
+  margin-left:             auto;
 
-    margin-right:            auto;
-    padding-left:            2vw;
+  margin-right:            auto;
+  padding-left:            2vw;
 
-    padding-right:           2vw;
-    position:                absolute;
+  padding-right:           2vw;
+  position:                absolute;
 
-    right:                   0;
-    text-align:              center;
-    transition:              bottom cubic-bezier(.7, -.5, .3, 1.6) .3s;
+  right:                   0;
+  text-align:              center;
+  transition:              bottom cubic-bezier(.7, -.5, .3, 1.6) .3s;
 
-    user-select:             none;
+  user-select:             none;
 
-    visibility:              hidden;
+  visibility:              hidden;
 
-    width:                   65vw;
+  width:                   65vw;
 }
 
 #promotion span {
-    opacity:       1;
-    overflow:      hidden;
-    text-overflow: ellipsis;
-    white-space:   nowrap;
+  opacity:       1;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+  white-space:   nowrap;
 }
 
 #promotion button {
-    margin-left: 2vw;
-    font-size:   1vw;
+  margin-left: 2vw;
+  font-size:   1vw;
 }
