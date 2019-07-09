@@ -9,6 +9,29 @@
   z-index:    1;
 }
 
+#preloader noscript {
+  position:   absolute;
+  left:       0;
+  right:      0;
+  margin:     auto;
+  text-align: center;
+  top:        70%;
+}
+
+#preloader noscript span {
+  opacity: 1;
+}
+
+#preloader noscript span:nth-child(even) {
+  background:  #f7df1e;
+  color:       #000;
+  user-select: none;
+}
+
+#preloader noscript span {
+  opacity: 1;
+}
+
 .contpre {
   position: absolute;
   left:     40%;
