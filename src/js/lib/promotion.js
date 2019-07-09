@@ -48,7 +48,7 @@ cookie.set('startedTimes', startedTimes);
 addRipplet(promotionBtns);
 
 acceptBtn.onclick = () => {
-  hidePromotion();
+  hidePromotionDelayed();
   cookie.set('isSupport', 1);
 };
 cancelBtn.onclick = hidePromotionDelayed;
