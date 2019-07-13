@@ -104,14 +104,6 @@ body {
   transition: .3s;
 }
 
-#plus-btn, #plus-two-btn {
-  cursor: n-resize;
-}
-
-#minus-btn {
-  cursor: s-resize;
-}
-
 #add-btn {
   background:    none;
   border:        none;
