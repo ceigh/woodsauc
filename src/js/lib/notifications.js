@@ -18,6 +18,7 @@ const playNotificationSound = () => {
   const audio = new Audio();
 
   audio.src = 'light.mp3';
+  audio.volume = 0.1;
   audio.autoplay = true;
 };
 
