@@ -208,8 +208,8 @@ function checksum(costEl) {
     if (Number.isNaN(result) || !Number.isFinite(result)) {
       costEl.value = '';
     } else {
-      result = result <= 0 ? '' : Number(result)
-        .toFixed(2);
+      result = result <= 0 ? '' : Number(Number(result)
+        .toFixed(2));
       costEl.value = result;
       costEl.blur();
     }
