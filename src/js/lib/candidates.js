@@ -198,18 +198,20 @@ function changeTitle(costEl) {
  * @param {Object} costEl - cost input
  */
 function checksum(costEl) {
-  let calc = costEl.value.replace(/[^\d+*/,.-]/g, '')
+  const calc = costEl.value.replace(/[^\d+*/,.()-]/g, '')
     .replace(/,/, '.');
 
   try {
     // eslint-disable-next-line no-eval
-    calc = eval(calc);
-    if (Number.isNaN(calc) || !Number.isFinite(calc)) {
+    let result = eval(calc);
+
+    if (Number.isNaN(result) || !Number.isFinite(result)) {
       costEl.value = '';
     } else {
-      calc = calc <= 0 ? '' : Number(Number(calc)
-        .toFixed(2));
-      costEl.value = calc;
+      result = result <= 0 ? '' : Number(result)
+        .toFixed(2);
+      costEl.value = result;
+      costEl.blur();
     }
   } catch {
     costEl.value = '';
