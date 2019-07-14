@@ -11,3 +11,4 @@ import './lib/promotion';
 import './lib/settings';
 import './lib/socketDonationAlerts';
 import './lib/timer';
+import './lib/colorPicker';

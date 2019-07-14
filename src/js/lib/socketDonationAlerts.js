@@ -63,8 +63,8 @@ const donationHandler = (msg) => {
   let inserted = false;
   let notificationText;
 
-  // noinspection JSUnresolvedVariable
-  if (msgJSON.alert_type !== 1) return;
+  // eslint-disable-next-line eqeqeq
+  if (msgJSON.alert_type != 1) return;
   if (!window.started) return;
 
   costs.some((cost, i) => {

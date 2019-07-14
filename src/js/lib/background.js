@@ -94,6 +94,31 @@ function toRgba(color, alpha) {
   } : null;
 }
 
+function changeAccent(hex) {
+  const shadow = toRgba(hexToRgb(hex), 60).str;
+  const accentText = document.querySelector('#accent span');
+
+  accentText.innerText = hex;
+  defaultOptions.color = shadow;
+
+  style.innerText = '';
+  style.innerText += `#bg-url {color: ${hex}}`;
+  style.innerText += `#da-url {color: ${hex}}`;
+  style.innerText += `@keyframes danger-flickering{0%{color:${hex}}100%{color:#fff}}`;
+  style.innerText += `.name {color: ${hex}}`;
+  style.innerText += `.cost {color: ${hex}}`;
+  style.innerText += `.cost-buy {color: ${hex}}`;
+  style.innerText += `#accent {background: ${hex} !important}`;
+
+  style.innerText
+    += `input:focus {--accent: ${hex}; --shadow: ${shadow}}`;
+
+  style.innerText += `::selection {background: ${hex}}`;
+  style.innerText += `::-moz-selection {background: ${hex}}`;
+
+  document.head.appendChild(style);
+}
+
 
 // Exec
 bgURLInput.value = bgURL || '';
@@ -156,6 +181,7 @@ clearBGURLBtn.onclick = () => {
     style.innerText += '.name {color: #f39727}';
     style.innerText += '.cost {color: #f39727}';
     style.innerText += '.cost-buy {color: #f39727}';
+    style.innerText += '#accent {background: #f39727 !important}';
 
     style.innerText
       += 'input:focus {--accent: #f39727; --shadow: rgba(243, 151, 39, .7)}';
@@ -202,28 +228,14 @@ saveBGURLBtn.onclick = () => {
     Vibrant.from(colorExtractor)
       .getPalette((err, palette) => {
         const dominant = palette.Vibrant.getHex();
-        const shadow = toRgba(hexToRgb(dominant), 60).str;
-
-        defaultOptions.color = shadow;
-
-        style.innerText = '';
-        style.innerText += `#bg-url {color: ${dominant}}`;
-        style.innerText += `#da-url {color: ${dominant}}`;
-        style.innerText += `@keyframes danger-flickering{0%{color:${dominant}}100%{color:#fff}}`;
-        style.innerText += `.name {color: ${dominant}}`;
-        style.innerText += `.cost {color: ${dominant}}`;
-        style.innerText += `.cost-buy {color: ${dominant}}`;
-
-        style.innerText
-          += `input:focus {--accent: ${dominant}; --shadow: ${shadow}}`;
-
-        style.innerText += `::selection {background: ${dominant}}`;
-        style.innerText += `::-moz-selection {background: ${dominant}}`;
-
-        document.head.appendChild(style);
-
+        changeAccent(dominant);
         cookie.set('bg-url', url);
         cookie.set('accent', dominant);
       });
   });
 };
+
+
+// Exports
+// eslint-disable-next-line import/prefer-default-export
+export { changeAccent };

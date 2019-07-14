@@ -352,7 +352,7 @@ input:focus {
 
   transition:      .2s;
   visibility:      visible;
-  z-index:         2;
+  z-index:         4;
 }
 
 #modal p {
@@ -384,8 +384,7 @@ input:focus {
 
   transition: .2s;
   width:      100%;
-  z-index:    1;
-
+  z-index:    3;
 }
 
 #modal-overlay.closed {
@@ -405,6 +404,8 @@ input:focus {
   transition:    .3s;
   visibility:    visible;
   width:         100%;
+  height:        24vw;
+  overflow:      auto;
 }
 
 #settings label {
@@ -444,6 +445,52 @@ input:focus {
 .settings-btn:hover, .notification-btn:hover {
   opacity:    1;
   transition: .3s;
+}
+
+#accent {
+  font-size:       1.3vw;
+
+  background:      #f39727;
+
+  border:          none;
+  border-radius:   .5vw;
+
+  width:           87%;
+  height:          3vw;
+
+  margin:          0 0 0 1.5vw !important;
+  padding-left:    1.5vw;
+
+  cursor:          pointer !important;
+
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
+}
+
+#accent span {
+  opacity: 1;
+  filter:  invert(1) grayscale(1) contrast(9);
+  color:   #f39727;
+}
+
+.picker_wrapper {
+  width:         20vw !important;
+  border-radius: .5vw;
+}
+
+.picker_editor input {
+  border:     none;
+  background: rgba(0, 0, 0, .3);
+  color:      #fff;
+}
+
+.picker_done button, .picker_cancel button {
+  color: #535353;
+}
+
+.picker_sample {
+  border-radius: .5vw;
 }
 
 #bg-url, #da-url {
