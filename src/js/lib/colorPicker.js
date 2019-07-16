@@ -50,6 +50,11 @@ picker.onChange = (color) => {
   changeAccent(hex);
 };
 picker.onDone = (color) => {
-  notification.sendInside('Цвет установлен');
-  cookie.set('accent', color.hex.substr(0, 7));
+  const hex = color.hex.substr(0, 7);
+  if (accent === hex) {
+    notification.sendInside('Этот цвет уже установлен');
+  } else {
+    notification.sendInside('Цвет установлен');
+    cookie.set('accent', hex);
+  }
 };
