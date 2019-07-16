@@ -1,6 +1,6 @@
 {
   "name": "woodsauc",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Auction tool for streamers",
   "main": "webpack.config.babel.js",
   "scripts": {
@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/issues"
   },
-  "homepage": "https://gitlab.com/WoodsAuc/woodsauc.gitlab.io#readme",
+  "homepage": "https://woodsauc.gitlab.io",
   "devDependencies": {
     "@babel/core": "^7.5.4",
     "@babel/preset-env": "^7.5.4",
