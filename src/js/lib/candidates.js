@@ -5,6 +5,7 @@ import ripplet from 'ripplet.js';
 import addRipplet from './tools';
 import cookie from './cookie';
 import notifications from './notifications';
+// eslint-disable-next-line import/no-cycle
 import { selectTxt } from './settings';
 import { oneSpace, toTitle } from './stringUtilities';
 import winner from './winner';
@@ -22,6 +23,8 @@ const buyText = document.querySelector('.block-buy span');
 const buyInput = buyBlock.querySelector('.cost-buy');
 const buyClear = buyBlock.querySelector('.btn');
 const buyCookie = cookie.get('buyCost');
+const buyDisableCookie = cookie.get('buyDisable');
+const buyCheckbox = document.querySelector('#switch1');
 
 const modalOverlay = document.getElementById('modal-overlay');
 const modal = document.getElementById('modal');
@@ -225,6 +228,7 @@ function checksum(costEl) {
  * @see firstCost
  */
 function checkOnBuy(costEl) {
+  if (!buyCheckbox.checked) return;
   const need = Number(buyInput.value);
   const curr = Number(costEl.value);
   const name = winner.decorate(toTitle(costEl.previousElementSibling.value));
@@ -353,6 +357,26 @@ function addBtnClick(...args) {
   ripplet(args[0]);
 }
 
+/**
+ * Disable ransom on page
+ *
+ */
+function disableRansom() {
+  buyBlock.value = '';
+  buyBlock.style.display = 'none';
+  cookie.del('buyCost');
+  cookie.set('buyDisable', true);
+}
+
+/**
+ * Enable ransom on page
+ *
+ */
+function enableRansom() {
+  buyBlock.removeAttribute('style');
+  cookie.del('buyDisable');
+}
+
 
 // Exec
 addRipplet([firstName, firstCost, firstKpLink,
@@ -405,8 +429,13 @@ buyInput.onchange = () => {
 };
 buyInput.onclick = () => selectTxt(buyInput);
 
+if (buyDisableCookie) {
+  disableRansom();
+  buyCheckbox.checked = false;
+}
 
 // Exports
 export {
   sortCandidates, changeTitle, checkOnBuy, createBlock,
+  enableRansom, disableRansom,
 };

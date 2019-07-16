@@ -6,12 +6,16 @@ import addRipplet from './tools';
 import './background';
 // eslint-disable-next-line import/no-cycle
 import './settingsDonationAlerts';
+// eslint-disable-next-line import/no-cycle
+import { enableRansom, disableRansom } from './candidates';
 
 
 // Variables
 const showSettingsBtn = document.getElementById('settings-icon');
 const settingsWindow = document.getElementById('settings');
 const urlsBtns = Array.from(document.getElementsByClassName('special-url'));
+
+const ransomCheckbox = document.querySelector('#switch1');
 
 
 // Functions
@@ -40,9 +44,13 @@ const isUrlValid = (url) => {
 
 
 // Exec
-addRipplet([...urlsBtns, showSettingsBtn]);
+addRipplet([...urlsBtns, showSettingsBtn, ransomCheckbox]);
 
 showSettingsBtn.onclick = () => settingsWindow.classList.toggle('closed');
+
+ransomCheckbox.onchange = () => {
+  if (ransomCheckbox.checked) enableRansom(); else disableRansom();
+};
 
 
 // Exports

@@ -1,0 +1,15 @@
+input.switch {
+  /*noinspection CssBrowserCompatibilityForProperties*/
+  appearance:       none;
+  background-color: rgba(255, 255, 255, .3);
+  border-radius:    .5vw;
+  width:            2vw;
+  height:           2vw;
+  cursor:           pointer;
+}
+
+input.switch:checked {
+  /*noinspection CssUnknownTarget*/
+  background-image: url("/img/icons/material/done.svg");
+  background-color: rgba(255, 255, 255, .3);
+}

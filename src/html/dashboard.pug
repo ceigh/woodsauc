@@ -16,14 +16,14 @@ html(lang='ru')
           header.block-buy
             label(title='Обозначить сумму выкупа')
               span Выкуп нынче...
-              input.cost-buy(autocomplete='off' min='0' placeholder='₽' step='10' title='Сумма выкупа' type='text')
+              input.cost-buy(autocomplete='off' placeholder='₽' title='Сумма выкупа' type='text')
             button.btn(title='Очистить' type='button')
               img(alt='Очистить' src='img/icons/material/delete-outline.svg')
 
           section.block.visible
             label
-              input.name(autocomplete='off' autofocus='' placeholder='Позиция' spellcheck='false' title='Фильм, игра, etc' type='text')
-              input.cost(autocomplete='off' min='0' placeholder='₽' step='10' title='Сумма' type='text')
+              input.name(autocomplete='off' autofocus placeholder='Позиция' spellcheck='false' title='Фильм, игра, etc' type='text')
+              input.cost(autocomplete='off' placeholder='₽' title='Сумма' type='text')
             span
               a.kp-link(href='https://www.kinopoisk.ru' target='_blank' title='Кинопоиск')
                 img(src='img/icons/material/video-library.svg' alt='Кинопоиск')
@@ -77,6 +77,12 @@ html(lang='ru')
             br
             #accent(title='Выберите цвет')
               span #f39727
+
+          div
+            label(for='switch1') Выкуп:
+            br
+            br
+            input#switch1.switch(type='checkbox' checked='true' title='Определяет, включен ли выкуп')
 
           div
             a.special-url(title='Написать о проблеме' href='mailto:incoming+woodsauc-woodsauc-gitlab-io-12984291-issue-@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы')

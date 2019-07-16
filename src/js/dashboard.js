@@ -4,6 +4,7 @@ import '../css/dashboard.css';
 import '../css/default.css';
 import '../css/preloader.css';
 import '../css/promotion.css';
+import '../css/switcher.css';
 // JS
 import './lib/backupRestore';
 import './lib/candidates';
