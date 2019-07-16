@@ -3,7 +3,7 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 
 
 // Variables
@@ -36,6 +36,13 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
 
+    isDev ? () => {} : new TerserPlugin({
+      parallel: true,
+      terserOptions: {
+        ecma: 6,
+      },
+    }),
+
     new MiniCssExtractPlugin({
       filename: isDev
         ? './css/[name].[hash].css'
@@ -65,8 +72,6 @@ module.exports = {
       },
     ]),
   ],
-
-  optimization: isDev ? {} : { minimizer: [new UglifyJsPlugin({ parallel: true })] },
 
   module: {
     rules: [{
