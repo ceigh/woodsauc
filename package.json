@@ -1,6 +1,6 @@
 {
   "name": "woodsauc",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Auction tool for streamers",
   "main": "webpack.config.babel.js",
   "scripts": {

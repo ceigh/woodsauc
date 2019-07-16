@@ -615,6 +615,7 @@ input:focus {
   opacity:       1;
   padding:       .5vw .5vw .5vw 1.5vw;
   transition:    .3s;
+  user-select:   none;
 }
 
 .notification.hidden {
