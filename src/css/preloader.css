@@ -10,12 +10,13 @@
 }
 
 #preloader noscript {
-  position:   absolute;
-  left:       0;
-  right:      0;
-  margin:     auto;
-  text-align: center;
-  top:        70%;
+  position:    absolute;
+  left:        0;
+  right:       0;
+  margin:      auto;
+  text-align:  center;
+  top:         70%;
+  user-select: none;
 }
 
 #preloader noscript span {
