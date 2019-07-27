@@ -485,8 +485,11 @@ input:focus {
   color:      #fff;
 }
 
-.picker_done button, .picker_cancel button {
-  color: #535353;
+.picker_wrapper button {
+  color:            #535353;
+  background-color: #f2f2f2 !important;
+  background-image: none !important;
+  box-shadow:       none !important;
 }
 
 .picker_sample {
