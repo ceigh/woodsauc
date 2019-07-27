@@ -35,6 +35,8 @@ webpack:
   stage: build
   script:
     - npm run build
+    # Compress to gzip
+    - find dist \( -name '*.html' -o -name '*.css' -o -name '*.js' \) -print0 | xargs -0 gzip -9 -kv
   artifacts:
     paths:
       - dist
