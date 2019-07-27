@@ -1,6 +1,6 @@
 {
   "name": "woodsauc",
-  "version": "1.8.7",
+  "version": "1.9.0",
   "description": "Auction tool for streamers",
   "scripts": {
     "lint": "eslint src/js",
@@ -53,6 +53,7 @@
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2",
+    "workbox-webpack-plugin": "^4.3.1",
     "worker-loader": "^2.0.0"
   },
   "dependencies": {

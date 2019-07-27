@@ -25,6 +25,7 @@
       <w>mstile</w>
       <w>noninfringement</w>
       <w>npmignore</w>
+      <w>precache</w>
       <w>preconnect</w>
       <w>prerender</w>
       <w>quantizer</w>
@@ -32,6 +33,7 @@
       <w>ripplet</w>
       <w>webp</w>
       <w>woodsauc</w>
+      <w>workbox</w>
     </words>
   </dictionary>
 </component>

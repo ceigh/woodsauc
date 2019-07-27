@@ -4,6 +4,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+import WorkboxPlugin from 'workbox-webpack-plugin';
 
 
 // Variables
@@ -36,7 +37,8 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
 
-    isDev ? () => {} : new TerserPlugin({
+    isDev ? () => {
+    } : new TerserPlugin({
       parallel: true,
       terserOptions: {
         ecma: 6,
@@ -71,6 +73,30 @@ module.exports = {
         to: './browserconfig.xml',
       },
     ]),
+
+    new WorkboxPlugin.GenerateSW({
+      // Do not precache images
+      exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+
+      // Define runtime caching rules.
+      runtimeCaching: [{
+        // Match any request that ends with .png, .jpg, .jpeg or .svg.
+        urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+
+        // Apply a cache-first strategy.
+        handler: 'CacheFirst',
+
+        options: {
+          // Use a custom cache name.
+          cacheName: 'images',
+
+          // Only cache 50 images.
+          expiration: {
+            maxEntries: 50,
+          },
+        },
+      }],
+    }),
   ],
 
   module: {

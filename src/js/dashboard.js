@@ -13,3 +13,4 @@ import './lib/settings';
 import './lib/socketDonationAlerts';
 import './lib/timer';
 import './lib/colorPicker';
+import './lib/sw';
