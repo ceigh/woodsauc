@@ -24,6 +24,7 @@
       <w>msapplication</w>
       <w>mstile</w>
       <w>noninfringement</w>
+      <w>noopener</w>
       <w>npmignore</w>
       <w>precache</w>
       <w>preconnect</w>

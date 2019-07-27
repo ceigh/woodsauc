@@ -25,7 +25,7 @@ html(lang='ru')
               input.name(autocomplete='off' autofocus placeholder='Позиция' spellcheck='false' title='Фильм, игра, etc' type='text')
               input.cost(autocomplete='off' placeholder='₽' title='Сумма' type='text')
             span
-              a.kp-link(href='https://www.kinopoisk.ru' target='_blank' title='Кинопоиск')
+              a.kp-link(href='https://www.kinopoisk.ru' target='_blank' title='Кинопоиск' rel='noopener')
                 img(src='img/icons/material/video-library.svg' alt='Кинопоиск')
               button.btn(title='Очистить' type='button')
                 img(src='img/icons/material/delete-outline.svg' alt='Очистить')
@@ -89,13 +89,13 @@ html(lang='ru')
           div
             a.special-url(title='Написать о проблеме' href='mailto:incoming+woodsauc-woodsauc-gitlab-io-12984291-issue-@incoming.gitlab.com?body=Введите%20описание%20проблемы&subject=Введите%20заголовок%20проблемы')
               img(src='img/icons/material/bug-report.svg' alt='Багрепорт')
-            a.special-url(href='https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/-/tags' title='Новости' target='_blank')
+            a.special-url(href='https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/-/tags' title='Новости' target='_blank' rel='noopener')
               img(src='img/icons/material/new-releases.svg' alt='Новости')
-            a.special-url(href='https://gitlab.com/WoodsAuc/woodsauc.gitlab.io' title='Исходный код' target='_blank')
+            a.special-url(href='https://gitlab.com/WoodsAuc/woodsauc.gitlab.io' title='Исходный код' target='_blank' rel='noopener')
               img(src='img/icons/material/code.svg' alt='Код')
-            a.special-url(href='https://discord.gg/pa4qbtk' title='Сообщество Discord' target='_blank')
+            a.special-url(href='https://discord.gg/pa4qbtk' title='Сообщество Discord' target='_blank' rel='noopener')
               img(src='img/icons/discord-logo.svg' alt='Discord')
-            a.special-url(href='https://www.donationalerts.com/r/hecig' title='Поддержать' target='_blank')
+            a.special-url(href='https://www.donationalerts.com/r/hecig' title='Поддержать' target='_blank' rel='noopener')
               img(src='img/icons/material/attach-money.svg' alt='DonationAlerts')
 
     #notifications-area
@@ -114,5 +114,5 @@ html(lang='ru')
     #promotion
       span 100 или 300 рублей — не важно, мы благодарны за вашу помощь!
       a(class='btn' title='Перейти на DonationAlerts'
-        href='https://www.donationalerts.com/r/hecig' target='_blank') Поддержать
+        href='https://www.donationalerts.com/r/hecig' target='_blank' rel='noopener') Поддержать
       button(class='btn' title='Закрыть') Позже
