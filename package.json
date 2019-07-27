@@ -1,8 +1,7 @@
 {
   "name": "woodsauc",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "description": "Auction tool for streamers",
-  "main": "webpack.config.babel.js",
   "scripts": {
     "lint": "eslint src/js",
     "dev": "webpack",
@@ -10,13 +9,11 @@
     "start": "webpack-dev-server",
     "docs": "jsdoc -c jsdoc.config.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/WoodsAuc/woodsauc.gitlab.io.git"
-  },
+  "repository": "gitlab:WoodsAuc/woodsauc.gitlab.io",
   "keywords": [
-    "woodsauc",
     "auction",
+    "tool",
+    "live",
     "stream",
     "twitch",
     "goodgame"
@@ -24,7 +21,8 @@
   "author": "Artjom Löbsack",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/issues"
+    "url": "https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/issues",
+    "email": "ceigh@pm.me"
   },
   "homepage": "https://woodsauc.gitlab.io",
   "devDependencies": {
