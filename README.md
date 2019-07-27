@@ -15,7 +15,11 @@ To run locally you need:
 
 # Setup
 
-First you need to install dependencies:
+Download this repository:
+
+`git clone https://gitlab.com/WoodsAuc/woodsauc.gitlab.io`
+
+Then you need to install dependencies:
 
 `npm i`
 
