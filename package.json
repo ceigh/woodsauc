@@ -1,6 +1,6 @@
 {
   "name": "woodsauc",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "description": "Auction tool for streamers",
   "scripts": {
     "lint": "eslint src/js",
