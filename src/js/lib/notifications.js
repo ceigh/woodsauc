@@ -75,22 +75,27 @@ const makeNotificationOptions = (title, body) => ({
  * @param {string} body - notification body
  */
 const sendNotification = (title, body) => {
-  const { permission } = Notification;
-  const options = makeNotificationOptions(title, body);
+  try {
+    const { permission } = Notification;
+    const options = makeNotificationOptions(title, body);
 
-  // Check support for HTML5 Notifications
-  if (!('Notification' in window)) return;
+    // Check support for HTML5 Notifications
+    if (!('Notification' in window)) return;
 
-  // Check rights on notify
-  if (permission === 'granted') {
-    // Если права есть, отправим уведомление
-    createNotification(title, options);
+    // Check rights on notify
+    if (permission === 'granted') {
+      // Если права есть, отправим уведомление
+      createNotification(title, options);
 
-    // Если прав нет, пытаемся их получить
-  } else if (permission !== 'denied') {
-    Notification.requestPermission((perm) => {
-      if (perm === 'granted') createNotification(title, options);
-    });
+      // Если прав нет, пытаемся их получить
+    } else if (permission !== 'denied') {
+      Notification.requestPermission((perm) => {
+        if (perm === 'granted') createNotification(title, options);
+      });
+    }
+  } catch {
+    // eslint-disable-next-line no-console
+    console.log('No notifications on this device');
   }
 };
 
