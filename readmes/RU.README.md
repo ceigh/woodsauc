@@ -32,7 +32,7 @@
 
 Также вы всегда можете использовать [онлайн версию](https://woodsauc.gitlab.io 'WoodsAuc').
 
-![Preview](../demo.png 'WoodsAuc')
+![Preview](https://gitlab.com/WoodsAuc/woodsauc.gitlab.io/raw/master/demo.png 'WoodsAuc')
 
 # Документация
 

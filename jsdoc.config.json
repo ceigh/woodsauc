@@ -18,12 +18,7 @@
   "templates": {
     "default": {
       "includeDate": false,
-      "useLongnameInNav": true,
-      "staticFiles": {
-        "include": [
-          "./demo.png"
-        ]
-      }
+      "useLongnameInNav": true
     }
   }
 }
