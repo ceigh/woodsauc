@@ -45,10 +45,13 @@ const focusWindow = () => window.focus();
  * @param {Object} options - notification settings
  */
 const createNotification = (title, options) => {
-  const notification = new Notification(title, options);
-
-  notification.onclick = focusWindow;
-  return notification;
+  try {
+    const notification = new Notification(title, options);
+    notification.onclick = focusWindow;
+  } catch {
+    // eslint-disable-next-line no-console
+    console.log('No notifications on this device');
+  }
 };
 
 /**
@@ -171,7 +174,12 @@ const sendPrompt = (text, acceptCallback) => {
 
 
 // Exec
-if (Notification.permission === 'default') Notification.requestPermission();
+try {
+  if (Notification.permission === 'default') Notification.requestPermission();
+} catch {
+  // eslint-disable-next-line no-console
+  console.log('No notifications on this device');
+}
 
 
 // Exports
